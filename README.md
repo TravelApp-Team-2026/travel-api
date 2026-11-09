@@ -32,3 +32,16 @@ The database listens on `127.0.0.1:5432` by default; change `POSTGRES_PORT` in `
 docker compose down      # stop, data stays
 docker compose down -v   # stop and delete all data
 ```
+
+## Backend
+
+Java 21, Spring Boot 4.1.2, Gradle 9.8.2 (Kotlin DSL, wrapper in `backend/`), SpringDoc OpenAPI 3.2.0. Base package: `pl.travelapi`.
+
+Run (the database must be running and `.env` created as above):
+
+```bash
+cd backend
+./gradlew bootRun
+```
+
+Swagger UI: `http://localhost:8080/swagger-ui.html`
