@@ -1,0 +1,35 @@
+# Secrets
+.env
+!.env.example
+
+# Java / Gradle
+backend/build/
+backend/bin/
+.gradle/
+*.class
+*.log
+hs_err_pid*
+
+# Flutter / Dart
+mobile/build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+local.properties
+key.properties
+*.jks
+**/ios/Pods/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
