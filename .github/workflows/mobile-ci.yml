@@ -64,6 +64,12 @@ jobs:
         with:
           channel: stable
           cache: true
+      - name: Cache pub packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('mobile/pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
       - name: Install dependencies
         run: flutter pub get
       - name: Analyze
