@@ -1,0 +1,95 @@
+name: Mobile
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: Detect mobile changes
+    runs-on: ubuntu-latest
+    outputs:
+      mobile: ${{ steps.filter.outputs.mobile }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Compare changed files
+        id: filter
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
+          PUSH_AFTER_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            RANGE="$PR_BASE_SHA...$PR_HEAD_SHA"
+          else
+            if [ "$PUSH_BEFORE_SHA" = "0000000000000000000000000000000000000000" ] \
+              || ! git cat-file -e "$PUSH_BEFORE_SHA^{commit}" 2>/dev/null; then
+              echo "No previous commit to compare with, building."
+              echo "mobile=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            RANGE="$PUSH_BEFORE_SHA..$PUSH_AFTER_SHA"
+          fi
+          CHANGED="$(git diff --name-only "$RANGE")"
+          echo "Changed files:"
+          echo "$CHANGED"
+          if grep -qE '^(mobile/|\.github/workflows/mobile-ci\.yml$)' <<< "$CHANGED"; then
+            echo "mobile=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "mobile=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  analyze:
+    name: Analyze and test
+    needs: changes
+    if: needs.changes.outputs.mobile == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.41.2'
+          cache: true
+      - name: Cache pub packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('mobile/pubspec.lock') }}
+          restore-keys: pub-${{ runner.os }}-
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Analyze
+        run: flutter analyze
+      - name: Test
+        run: flutter test
+
+  mobile-ci:
+    # Required status check: always runs, green when analyze passed or was not needed.
+    name: Mobile CI
+    needs: [changes, analyze]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify results
+        env:
+          CHANGES_RESULT: ${{ needs.changes.result }}
+          ANALYZE_RESULT: ${{ needs.analyze.result }}
+        run: |
+          echo "changes: $CHANGES_RESULT, analyze: $ANALYZE_RESULT"
+          if [ "$CHANGES_RESULT" != "success" ]; then exit 1; fi
+          if [ "$ANALYZE_RESULT" != "success" ] && [ "$ANALYZE_RESULT" != "skipped" ]; then exit 1; fi
