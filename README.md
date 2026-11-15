@@ -7,6 +7,7 @@ A personal travel diary app: a Spring Boot backend and a Flutter mobile app.
 - `backend/` - Spring Boot API
 - `mobile/` - Flutter app
 - `docker-compose.yml` - local PostgreSQL database
+- `docs/mockups/` - UI mockups, color palette and navigation map
 
 ## Requirements
 
@@ -45,3 +46,7 @@ cd backend
 ```
 
 Swagger UI: `http://localhost:8080/swagger-ui.html`
+
+## UI mockups
+
+Mockups of the main screens, the color palette, the component sheet and the navigation map: [docs/mockups](docs/mockups/README.md).

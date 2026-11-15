@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 800" width="360" height="800" font-family="Inter, Roboto, 'Helvetica Neue', Arial, sans-serif">
+<rect width="360" height="800" fill="#FBF1C7"/>
+<text x="24" y="22" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >9:41</text>
+<rect x="262" y="18" width="3" height="4" rx="1" fill="#3C3836"/>
+<rect x="267" y="16" width="3" height="6" rx="1" fill="#3C3836"/>
+<rect x="272" y="14" width="3" height="8" rx="1" fill="#3C3836"/>
+<rect x="277" y="12" width="3" height="10" rx="1" fill="#3C3836"/>
+<rect x="300" y="11" width="24" height="12" rx="3.5" fill="none" stroke="#3C3836" stroke-width="1.4"/>
+<rect x="302.5" y="13.5" width="16" height="7" rx="1.8" fill="#3C3836"/>
+<rect x="325.5" y="14.5" width="2" height="5" rx="1" fill="#3C3836"/>
+<text x="24" y="80" font-size="24" font-weight="700" fill="#3C3836" text-anchor="start" >Statystyki</text>
+<text x="24" y="102" font-size="13" font-weight="400" fill="#665C54" text-anchor="start" >Cała historia podróży</text>
+<rect x="16" y="116" width="92" height="36" rx="18" fill="#087F75"/>
+<text x="62.0" y="139" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle" >Wszystko</text>
+<rect x="116" y="116" width="66" height="36" rx="18" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="149.0" y="139" font-size="13" font-weight="600" fill="#3C3836" text-anchor="middle" >2026</text>
+<rect x="190" y="116" width="66" height="36" rx="18" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="223.0" y="139" font-size="13" font-weight="600" fill="#3C3836" text-anchor="middle" >2025</text>
+<rect x="264" y="116" width="66" height="36" rx="18" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="297.0" y="139" font-size="13" font-weight="600" fill="#3C3836" text-anchor="middle" >2024</text>
+<text x="16" y="190" font-size="16" font-weight="700" fill="#3C3836" text-anchor="start" >Odwiedzone kraje</text>
+<text x="344" y="190" font-size="14" font-weight="700" fill="#066A62" text-anchor="end" >8</text>
+<clipPath id="flPL16214"><rect x="16" y="214" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flPL16214)">
+<rect x="16" y="214" width="28" height="10" fill="#FFFFFF"/>
+<rect x="16" y="224" width="28" height="10" fill="#DC143C"/>
+</g>
+<rect x="16" y="214" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="223" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Polska</text>
+<text x="56" y="238" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >3 podróże</text>
+<line x1="56" y1="249" x2="344" y2="249" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<clipPath id="flCZ16262"><rect x="16" y="262" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flCZ16262)">
+<rect x="16" y="262" width="28" height="10" fill="#FFFFFF"/>
+<rect x="16" y="272" width="28" height="10" fill="#D7141A"/>
+<path d="M16 262 L30 272 L16 282Z" fill="#11457E"/>
+</g>
+<rect x="16" y="262" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="271" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Czechy</text>
+<text x="56" y="286" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >2 podróże</text>
+<line x1="56" y1="297" x2="344" y2="297" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<clipPath id="flAT16310"><rect x="16" y="310" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flAT16310)">
+<rect x="16" y="310" width="28" height="6.7" fill="#ED2939"/>
+<rect x="16" y="316.7" width="28" height="6.6" fill="#FFFFFF"/>
+<rect x="16" y="323.3" width="28" height="6.7" fill="#ED2939"/>
+</g>
+<rect x="16" y="310" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="319" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Austria</text>
+<text x="56" y="334" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >1 podróż</text>
+<line x1="56" y1="345" x2="344" y2="345" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<clipPath id="flHR16358"><rect x="16" y="358" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flHR16358)">
+<rect x="16" y="358" width="28" height="6.7" fill="#FF0000"/>
+<rect x="16" y="364.7" width="28" height="6.6" fill="#FFFFFF"/>
+<rect x="16" y="371.3" width="28" height="6.7" fill="#171796"/>
+<path d="M27 363 h6 v5 q0 3 -3 4 q-3 -1 -3 -4z" fill="#FF0000" stroke="#FFFFFF" stroke-width="0.8"/>
+</g>
+<rect x="16" y="358" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="367" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Chorwacja</text>
+<text x="56" y="382" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >1 podróż</text>
+<line x1="56" y1="393" x2="344" y2="393" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<clipPath id="flES16406"><rect x="16" y="406" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flES16406)">
+<rect x="16" y="406" width="28" height="5" fill="#AA151B"/>
+<rect x="16" y="411" width="28" height="10" fill="#F1BF00"/>
+<rect x="16" y="421" width="28" height="5" fill="#AA151B"/>
+</g>
+<rect x="16" y="406" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="415" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Hiszpania</text>
+<text x="56" y="430" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >1 podróż</text>
+<line x1="56" y1="441" x2="344" y2="441" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<clipPath id="flDE16454"><rect x="16" y="454" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flDE16454)">
+<rect x="16" y="454" width="28" height="7" fill="#000000"/>
+<rect x="16" y="461" width="28" height="6.7" fill="#DD0000"/>
+<rect x="16" y="467.4" width="28" height="6.6" fill="#FFCE00"/>
+</g>
+<rect x="16" y="454" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="463" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Niemcy</text>
+<text x="56" y="478" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >1 podróż</text>
+<line x1="56" y1="489" x2="344" y2="489" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<clipPath id="flPT16502"><rect x="16" y="502" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flPT16502)">
+<rect x="16" y="502" width="11" height="20" fill="#006600"/>
+<rect x="27" y="502" width="17" height="20" fill="#FF0000"/>
+</g>
+<rect x="16" y="502" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="511" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Portugalia</text>
+<text x="56" y="526" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >1 podróż</text>
+<line x1="56" y1="537" x2="344" y2="537" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<clipPath id="flSI16550"><rect x="16" y="550" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flSI16550)">
+<rect x="16" y="550" width="28" height="6.7" fill="#FFFFFF"/>
+<rect x="16" y="556.7" width="28" height="6.6" fill="#005DA4"/>
+<rect x="16" y="563.3" width="28" height="6.7" fill="#ED1C24"/>
+<path d="M20 553 h6 v5 q0 3 -3 4 q-3 -1 -3 -4z" fill="#005DA4" stroke="#FFFFFF" stroke-width="0.8"/>
+</g>
+<rect x="16" y="550" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="559" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Słowenia</text>
+<text x="56" y="574" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >1 podróż</text>
+<rect x="16" y="602" width="328" height="52" rx="14" fill="none" stroke="#066A62" stroke-width="1.8"/>
+<g transform="translate(98,617) scale(0.9166666666666666)" fill="none" stroke="#066A62" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/></g>
+<text x="130" y="633" font-size="15" font-weight="700" fill="#066A62" text-anchor="start" >Pokaż na mapie</text>
+<rect x="0" y="728" width="360" height="72" fill="#FFFBEA"/>
+<line x1="0" y1="728.5" x2="360" y2="728.5" stroke="#D5C4A1" stroke-width="1"/>
+<g transform="translate(33,739) scale(1.0)" fill="none" stroke="#665C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 012-2h2a2 2 0 012 2v1.5M3.5 13h17"/></g>
+<text x="45" y="783" font-size="11" font-weight="500" fill="#665C54" text-anchor="middle" >Podróże</text>
+<g transform="translate(123,739) scale(1.0)" fill="none" stroke="#665C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/></g>
+<text x="135" y="783" font-size="11" font-weight="500" fill="#665C54" text-anchor="middle" >Mapa</text>
+<rect x="197" y="736" width="56" height="30" rx="15" fill="#D4E8E1"/>
+<g transform="translate(213,739) scale(1.0)" fill="none" stroke="#066A62" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V11M12 20V4M19 20v-7" stroke-width="2.6"/></g>
+<text x="225" y="783" font-size="11" font-weight="700" fill="#066A62" text-anchor="middle" >Statystyki</text>
+<g transform="translate(303,739) scale(1.0)" fill="none" stroke="#665C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></g>
+<text x="315" y="783" font-size="11" font-weight="500" fill="#665C54" text-anchor="middle" >Profil</text>
+</svg>
