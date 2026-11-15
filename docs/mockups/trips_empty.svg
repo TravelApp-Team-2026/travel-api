@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 800" width="360" height="800" font-family="Inter, Roboto, 'Helvetica Neue', Arial, sans-serif">
+<rect width="360" height="800" fill="#FBF1C7"/>
+<text x="24" y="22" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >9:41</text>
+<rect x="262" y="18" width="3" height="4" rx="1" fill="#3C3836"/>
+<rect x="267" y="16" width="3" height="6" rx="1" fill="#3C3836"/>
+<rect x="272" y="14" width="3" height="8" rx="1" fill="#3C3836"/>
+<rect x="277" y="12" width="3" height="10" rx="1" fill="#3C3836"/>
+<rect x="300" y="11" width="24" height="12" rx="3.5" fill="none" stroke="#3C3836" stroke-width="1.4"/>
+<rect x="302.5" y="13.5" width="16" height="7" rx="1.8" fill="#3C3836"/>
+<rect x="325.5" y="14.5" width="2" height="5" rx="1" fill="#3C3836"/>
+<text x="24" y="80" font-size="24" font-weight="700" fill="#3C3836" text-anchor="start" >Moje podróże</text>
+<text x="24" y="102" font-size="13" font-weight="400" fill="#665C54" text-anchor="start" >Brak zapisanych podróży</text>
+<circle cx="324" cy="66" r="20" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<g transform="translate(313,55) scale(0.9166666666666666)" fill="none" stroke="#3C3836" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.3"/><path d="M3 20c.6-3.6 3-5.5 6-5.5s5.4 1.9 6 5.5"/><circle cx="17" cy="9.5" r="2.6"/><path d="M16 14.7c2.7-.2 4.7 1.4 5.2 4.8"/></g>
+<circle cx="180" cy="262" r="76" fill="#D4E8E1"/>
+<circle cx="180" cy="262" r="56" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<g transform="translate(150,232) scale(2.5)" fill="none" stroke="#087F75" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 012-2h2a2 2 0 012 2v1.5M3.5 13h17"/></g>
+<path d="M110 372 Q180 322 250 372" fill="none" stroke="#D5C4A1" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="1 9"/>
+<circle cx="110" cy="372" r="5" fill="#D5C4A1"/><circle cx="250" cy="372" r="5" fill="#D5C4A1"/>
+<text x="180" y="428" font-size="20" font-weight="700" fill="#3C3836" text-anchor="middle" >Nie masz jeszcze podróży</text>
+<text x="180" y="454" font-size="14" font-weight="400" fill="#665C54" text-anchor="middle" >Dodaj pierwszą podróż, aby zobaczyć ją na mapie</text>
+<text x="180" y="474" font-size="14" font-weight="400" fill="#665C54" text-anchor="middle" >i zacząć budować swoje statystyki.</text>
+<rect x="48" y="504" width="264" height="52" rx="14" fill="#087F75"/>
+<g transform="translate(70,518) scale(1.0)" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" stroke-width="2.4"/></g>
+<text x="106" y="536" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="start" >Dodaj pierwszą podróż</text>
+<rect x="0" y="728" width="360" height="72" fill="#FFFBEA"/>
+<line x1="0" y1="728.5" x2="360" y2="728.5" stroke="#D5C4A1" stroke-width="1"/>
+<rect x="17" y="736" width="56" height="30" rx="15" fill="#D4E8E1"/>
+<g transform="translate(33,739) scale(1.0)" fill="none" stroke="#066A62" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 012-2h2a2 2 0 012 2v1.5M3.5 13h17"/></g>
+<text x="45" y="783" font-size="11" font-weight="700" fill="#066A62" text-anchor="middle" >Podróże</text>
+<g transform="translate(123,739) scale(1.0)" fill="none" stroke="#665C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/></g>
+<text x="135" y="783" font-size="11" font-weight="500" fill="#665C54" text-anchor="middle" >Mapa</text>
+<g transform="translate(213,739) scale(1.0)" fill="none" stroke="#665C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V11M12 20V4M19 20v-7" stroke-width="2.6"/></g>
+<text x="225" y="783" font-size="11" font-weight="500" fill="#665C54" text-anchor="middle" >Statystyki</text>
+<g transform="translate(303,739) scale(1.0)" fill="none" stroke="#665C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></g>
+<text x="315" y="783" font-size="11" font-weight="500" fill="#665C54" text-anchor="middle" >Profil</text>
+</svg>

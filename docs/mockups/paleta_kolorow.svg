@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 1050" width="880" height="1050" font-family="Inter, Roboto, 'Helvetica Neue', Arial, sans-serif">
+<rect width="880" height="1050" fill="#EFEAD6"/>
+<text x="40" y="52" font-size="24" font-weight="700" fill="#3C3836" text-anchor="start" >Travel Api — paleta kolorów</text>
+<text x="40" y="76" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >v2 · baza: Gruvbox light · primary: turkus · kontrasty liczone względem tła #FBF1C7 / kart #FFFBEA</text>
+<text x="40" y="110" font-size="12" font-weight="700" fill="#665C54" text-anchor="start" letter-spacing="1.2">1 · MARKA I AKCJE</text>
+<rect x="40" y="124" width="200" height="88" rx="14" fill="#087F75"/>
+<text x="54" y="152" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Primary</text>
+<text x="54" y="172" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#087F75</text>
+<text x="54" y="196" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">przyciski, linki, aktywna ikona</text>
+<rect x="256" y="124" width="200" height="88" rx="14" fill="#066A62"/>
+<text x="270" y="152" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Primary pressed</text>
+<text x="270" y="172" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#066A62</text>
+<text x="270" y="196" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">wciśnięty; tekst-link na kremie</text>
+<rect x="472" y="124" width="200" height="88" rx="14" fill="#D4E8E1"/>
+<text x="486" y="152" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Primary tint</text>
+<text x="486" y="172" font-size="12" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.85">#D4E8E1</text>
+<text x="486" y="196" font-size="11" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.75">tło chipów, zaznaczenie</text>
+<rect x="688" y="124" width="152" height="88" rx="14" fill="#FFFFFF" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="702" y="152" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >On primary</text>
+<text x="702" y="172" font-size="12" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.85">#FFFFFF</text>
+<text x="702" y="196" font-size="11" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.75">tekst na primary</text>
+<text x="40" y="242" font-size="12" font-weight="700" fill="#665C54" text-anchor="start" letter-spacing="1.2">2 · TŁA I POWIERZCHNIE</text>
+<rect x="40" y="256" width="200" height="88" rx="14" fill="#FBF1C7" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="54" y="284" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Background</text>
+<text x="54" y="304" font-size="12" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.85">#FBF1C7</text>
+<text x="54" y="328" font-size="11" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.75">tło ekranu</text>
+<rect x="256" y="256" width="200" height="88" rx="14" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="270" y="284" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Surface</text>
+<text x="270" y="304" font-size="12" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.85">#FFFBEA</text>
+<text x="270" y="328" font-size="11" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.75">karty, pola formularzy</text>
+<rect x="472" y="256" width="200" height="88" rx="14" fill="#EBDBB2"/>
+<text x="486" y="284" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Surface variant</text>
+<text x="486" y="304" font-size="12" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.85">#EBDBB2</text>
+<text x="486" y="328" font-size="11" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.75">tło map, chipy, paski</text>
+<rect x="688" y="256" width="152" height="88" rx="14" fill="#D5C4A1"/>
+<text x="702" y="284" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Border</text>
+<text x="702" y="304" font-size="12" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.85">#D5C4A1</text>
+<text x="702" y="328" font-size="11" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.75">ramki, separatory</text>
+<text x="40" y="374" font-size="12" font-weight="700" fill="#665C54" text-anchor="start" letter-spacing="1.2">3 · TEKST</text>
+<rect x="40" y="388" width="200" height="88" rx="14" fill="#3C3836"/>
+<text x="54" y="416" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Text</text>
+<text x="54" y="436" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#3C3836</text>
+<text x="54" y="460" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">10,2:1 · treść, nagłówki</text>
+<rect x="256" y="388" width="200" height="88" rx="14" fill="#665C54"/>
+<text x="270" y="416" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Text secondary</text>
+<text x="270" y="436" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#665C54</text>
+<text x="270" y="460" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">5,7:1 · etykiety, opisy</text>
+<rect x="472" y="388" width="200" height="88" rx="14" fill="#7C6F64"/>
+<text x="486" y="416" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Placeholder</text>
+<text x="486" y="436" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#7C6F64</text>
+<text x="486" y="460" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">4,7:1 na kartach</text>
+<rect x="688" y="388" width="152" height="88" rx="14" fill="#D5C4A1"/>
+<text x="702" y="416" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Disabled</text>
+<text x="702" y="436" font-size="12" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.85">#D5C4A1</text>
+<text x="702" y="460" font-size="11" font-weight="400" fill="#3C3836" text-anchor="start" opacity="0.75">tło + tekst #7C6F64</text>
+<text x="40" y="506" font-size="12" font-weight="700" fill="#665C54" text-anchor="start" letter-spacing="1.2">4 · TRANSPORT (KOLOR + WARIANT DO TEKSTU + STYL LINII + IKONA)</text>
+<rect x="40" y="520" width="190" height="172" rx="14" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<rect x="40" y="520" width="190" height="64" rx="14" fill="#458588"/>
+<rect x="40" y="560" width="190" height="24" fill="#458588"/>
+<text x="54" y="546" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >CAR · Samochód</text>
+<text x="54" y="566" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.9">#458588</text>
+<rect x="54" y="596" width="26" height="26" rx="8" fill="#2E6A6D"/>
+<text x="90" y="612" font-size="12" font-weight="700" fill="#2E6A6D" text-anchor="start" >#2E6A6D · tekst</text>
+<path d="M54 654 L100 642 L150 654 L216 644" fill="none" stroke="#458588" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="54" y="680" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >ciągła linia po drogach</text>
+<rect x="242" y="520" width="190" height="172" rx="14" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<rect x="242" y="520" width="190" height="64" rx="14" fill="#98971A"/>
+<rect x="242" y="560" width="190" height="24" fill="#98971A"/>
+<text x="256" y="546" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >PLANE · Samolot</text>
+<text x="256" y="566" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.9">#98971A</text>
+<rect x="256" y="596" width="26" height="26" rx="8" fill="#6B6A0F"/>
+<text x="292" y="612" font-size="12" font-weight="700" fill="#6B6A0F" text-anchor="start" >#6B6A0F · tekst</text>
+<path d="M256 656 Q337 624 418 656" fill="none" stroke="#98971A" stroke-width="4" stroke-linecap="round"/>
+<text x="256" y="680" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >łuk (krzywa) między punktami</text>
+<rect x="444" y="520" width="190" height="172" rx="14" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<rect x="444" y="520" width="190" height="64" rx="14" fill="#D79921"/>
+<rect x="444" y="560" width="190" height="24" fill="#D79921"/>
+<text x="458" y="546" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >TRAIN · Pociąg</text>
+<text x="458" y="566" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.9">#D79921</text>
+<rect x="458" y="596" width="26" height="26" rx="8" fill="#8A5A00"/>
+<text x="494" y="612" font-size="12" font-weight="700" fill="#8A5A00" text-anchor="start" >#8A5A00 · tekst</text>
+<line x1="458" y1="648" x2="620" y2="648" stroke="#D79921" stroke-width="4" stroke-linecap="round"/>
+<line x1="466" y1="643" x2="466" y2="653" stroke="#D79921" stroke-width="2"/>
+<line x1="482" y1="643" x2="482" y2="653" stroke="#D79921" stroke-width="2"/>
+<line x1="498" y1="643" x2="498" y2="653" stroke="#D79921" stroke-width="2"/>
+<line x1="514" y1="643" x2="514" y2="653" stroke="#D79921" stroke-width="2"/>
+<line x1="530" y1="643" x2="530" y2="653" stroke="#D79921" stroke-width="2"/>
+<line x1="546" y1="643" x2="546" y2="653" stroke="#D79921" stroke-width="2"/>
+<line x1="562" y1="643" x2="562" y2="653" stroke="#D79921" stroke-width="2"/>
+<line x1="578" y1="643" x2="578" y2="653" stroke="#D79921" stroke-width="2"/>
+<line x1="594" y1="643" x2="594" y2="653" stroke="#D79921" stroke-width="2"/>
+<line x1="610" y1="643" x2="610" y2="653" stroke="#D79921" stroke-width="2"/>
+<text x="458" y="680" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >prosta linia z poprzeczkami</text>
+<rect x="646" y="520" width="190" height="172" rx="14" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<rect x="646" y="520" width="190" height="64" rx="14" fill="#B16286"/>
+<rect x="646" y="560" width="190" height="24" fill="#B16286"/>
+<text x="660" y="546" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >OTHER · Inne</text>
+<text x="660" y="566" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.9">#B16286</text>
+<rect x="660" y="596" width="26" height="26" rx="8" fill="#8F3F68"/>
+<text x="696" y="612" font-size="12" font-weight="700" fill="#8F3F68" text-anchor="start" >#8F3F68 · tekst</text>
+<line x1="660" y1="648" x2="822" y2="648" stroke="#B16286" stroke-width="4" stroke-dasharray="3 9" stroke-linecap="round"/>
+<text x="660" y="680" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >linia przerywana</text>
+<text x="40" y="720" font-size="12" font-weight="700" fill="#665C54" text-anchor="start" letter-spacing="1.2">5 · STANY</text>
+<rect x="40" y="734" width="156" height="88" rx="14" fill="#6F6B0D"/>
+<text x="54" y="762" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Success</text>
+<text x="54" y="782" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#6F6B0D</text>
+<text x="54" y="806" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">zapisano, OK</text>
+<rect x="208" y="734" width="156" height="88" rx="14" fill="#9A5F0A"/>
+<text x="222" y="762" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Warning</text>
+<text x="222" y="782" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#9A5F0A</text>
+<text x="222" y="806" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">uwaga, brak sieci</text>
+<rect x="376" y="734" width="156" height="88" rx="14" fill="#9D0006"/>
+<text x="390" y="762" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Error</text>
+<text x="390" y="782" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#9D0006</text>
+<text x="390" y="806" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">błędy pól i formularzy</text>
+<rect x="544" y="734" width="156" height="88" rx="14" fill="#076678"/>
+<text x="558" y="762" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Info</text>
+<text x="558" y="782" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#076678</text>
+<text x="558" y="806" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">podpowiedzi</text>
+<rect x="712" y="734" width="128" height="88" rx="14" fill="#CC241D"/>
+<text x="726" y="762" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="start" >Danger</text>
+<text x="726" y="782" font-size="12" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.85">#CC241D</text>
+<text x="726" y="806" font-size="11" font-weight="400" fill="#FFFFFF" text-anchor="start" opacity="0.75">usuń, wyloguj</text>
+<text x="40" y="852" font-size="12" font-weight="700" fill="#665C54" text-anchor="start" letter-spacing="1.2">6 · MAPA</text>
+<rect x="40" y="866" width="200" height="88" rx="14" fill="#EBDBB2"/>
+<rect x="56" y="886" width="168" height="48" rx="8" fill="#087F75" fill-opacity="0.25" stroke="#087F75" stroke-width="1.5"/>
+<text x="70" y="915" font-size="12" font-weight="700" fill="#066A62" text-anchor="start" >Odwiedzony kraj</text>
+<text x="40" y="974" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >primary 25% + obrys primary</text>
+<rect x="256" y="866" width="200" height="88" rx="14" fill="#EBDBB2"/>
+<line x1="272" y1="910" x2="440" y2="910" stroke="#FFFBEA" stroke-width="9" stroke-linecap="round"/>
+<line x1="272" y1="910" x2="440" y2="910" stroke="#458588" stroke-width="4" stroke-linecap="round"/>
+<text x="256" y="974" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >halo #FFFBEA 9px pod każdą trasą</text>
+<rect x="472" y="866" width="200" height="88" rx="14" fill="#EBDBB2"/>
+<circle cx="540" cy="910" r="14" fill="#3C3836" stroke="#FBF1C7" stroke-width="3"/>
+<text x="540" y="915" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle" >1</text>
+<circle cx="604" cy="910" r="14" fill="#087F75" stroke="#FBF1C7" stroke-width="3"/>
+<text x="604" y="915" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle" >2</text>
+<text x="472" y="974" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >marker #3C3836 · wybrany: primary</text>
+<rect x="688" y="866" width="152" height="88" rx="14" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="702" y="902" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Cień kart</text>
+<text x="702" y="922" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >#3C3836 · 8%</text>
+<text x="688" y="974" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >blur 12, y 4</text>
+<text x="40" y="1026" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >Zasada: kolor transportu = linia, ikona i segment wykresu. Tekst o tym kolorze zawsze w wariancie „tekst” (kontrast ≥ 4,5:1).</text>
+</svg>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 800" width="360" height="800" font-family="Inter, Roboto, 'Helvetica Neue', Arial, sans-serif">
+<rect width="360" height="800" fill="#FBF1C7"/>
+<text x="24" y="22" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >9:41</text>
+<rect x="262" y="18" width="3" height="4" rx="1" fill="#3C3836"/>
+<rect x="267" y="16" width="3" height="6" rx="1" fill="#3C3836"/>
+<rect x="272" y="14" width="3" height="8" rx="1" fill="#3C3836"/>
+<rect x="277" y="12" width="3" height="10" rx="1" fill="#3C3836"/>
+<rect x="300" y="11" width="24" height="12" rx="3.5" fill="none" stroke="#3C3836" stroke-width="1.4"/>
+<rect x="302.5" y="13.5" width="16" height="7" rx="1.8" fill="#3C3836"/>
+<rect x="325.5" y="14.5" width="2" height="5" rx="1" fill="#3C3836"/>
+<g transform="translate(14,54) scale(1.0)" fill="none" stroke="#3C3836" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></g>
+<rect x="48" y="46" width="296" height="48" rx="14" fill="#FFFBEA" stroke="#087F75" stroke-width="2"/>
+<g transform="translate(60,58) scale(1.0)" fill="none" stroke="#066A62" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></g>
+<text x="92" y="76" font-size="15" font-weight="400" fill="#3C3836" text-anchor="start" >Berlin</text>
+<circle cx="320" cy="70" r="8" fill="none" stroke="#D5C4A1" stroke-width="2.6"/>
+<path d="M320 62 A8 8 0 0 1 328 70" fill="none" stroke="#087F75" stroke-width="2.6" stroke-linecap="round"/>
+<text x="16" y="128" font-size="11" font-weight="700" fill="#665C54" text-anchor="start" letter-spacing="1">SZUKAM…</text>
+<circle cx="40" cy="174" r="20" fill="#EBDBB2"/>
+<rect x="76" y="160" width="150" height="14" rx="7" fill="#EBDBB2"/>
+<rect x="76" y="182" width="90" height="10" rx="5" fill="#EBDBB2"/>
+<circle cx="40" cy="240" r="20" fill="#EBDBB2"/>
+<rect x="76" y="226" width="190" height="14" rx="7" fill="#EBDBB2"/>
+<rect x="76" y="248" width="110" height="10" rx="5" fill="#EBDBB2"/>
+<circle cx="40" cy="306" r="20" fill="#EBDBB2"/>
+<rect x="76" y="292" width="170" height="14" rx="7" fill="#EBDBB2"/>
+<rect x="76" y="314" width="80" height="10" rx="5" fill="#EBDBB2"/>
+<circle cx="40" cy="372" r="20" fill="#EBDBB2"/>
+<rect x="76" y="358" width="140" height="14" rx="7" fill="#EBDBB2"/>
+<rect x="76" y="380" width="100" height="10" rx="5" fill="#EBDBB2"/>
+<text x="180" y="782" font-size="11" font-weight="400" fill="#665C54" text-anchor="middle" >Dane: © współtwórcy OpenStreetMap</text>
+</svg>

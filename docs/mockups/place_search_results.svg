@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 800" width="360" height="800" font-family="Inter, Roboto, 'Helvetica Neue', Arial, sans-serif">
+<rect width="360" height="800" fill="#FBF1C7"/>
+<text x="24" y="22" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >9:41</text>
+<rect x="262" y="18" width="3" height="4" rx="1" fill="#3C3836"/>
+<rect x="267" y="16" width="3" height="6" rx="1" fill="#3C3836"/>
+<rect x="272" y="14" width="3" height="8" rx="1" fill="#3C3836"/>
+<rect x="277" y="12" width="3" height="10" rx="1" fill="#3C3836"/>
+<rect x="300" y="11" width="24" height="12" rx="3.5" fill="none" stroke="#3C3836" stroke-width="1.4"/>
+<rect x="302.5" y="13.5" width="16" height="7" rx="1.8" fill="#3C3836"/>
+<rect x="325.5" y="14.5" width="2" height="5" rx="1" fill="#3C3836"/>
+<g transform="translate(14,54) scale(1.0)" fill="none" stroke="#3C3836" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></g>
+<rect x="48" y="46" width="296" height="48" rx="14" fill="#FFFBEA" stroke="#087F75" stroke-width="2"/>
+<g transform="translate(60,58) scale(1.0)" fill="none" stroke="#066A62" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></g>
+<text x="92" y="76" font-size="15" font-weight="400" fill="#3C3836" text-anchor="start" >Berlin</text>
+<circle cx="320" cy="70" r="10" fill="#EBDBB2"/>
+<g transform="translate(314,64) scale(0.5)" fill="none" stroke="#665C54" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></g>
+<text x="16" y="128" font-size="11" font-weight="700" fill="#665C54" text-anchor="start" letter-spacing="1">WYNIKI DLA „BERLIN”</text>
+<circle cx="40" cy="174" r="20" fill="#D4E8E1"/>
+<g transform="translate(28,162) scale(1.0)" fill="none" stroke="#066A62" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g>
+<text x="76" y="172" font-size="15" font-weight="700" fill="#3C3836" text-anchor="start" >Berlin</text>
+<text x="76" y="191" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >Niemcy</text>
+<line x1="76" y1="206" x2="344" y2="206" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<circle cx="40" cy="240" r="20" fill="#D4E8E1"/>
+<g transform="translate(28,228) scale(1.0)"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="#066A62"/></g>
+<text x="76" y="238" font-size="15" font-weight="700" fill="#3C3836" text-anchor="start" >Berlin Brandenburg (BER)</text>
+<text x="76" y="257" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >Lotnisko · Niemcy</text>
+<line x1="76" y1="272" x2="344" y2="272" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<circle cx="40" cy="306" r="20" fill="#D4E8E1"/>
+<g transform="translate(28,294) scale(1.0)" fill="none" stroke="#066A62" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="13" rx="3"/><rect x="8.2" y="6" width="7.6" height="4.5" rx="1"/><path d="M8.5 21l2-5M15.5 21l-2-5"/><circle cx="9.5" cy="13.2" r=".6"/><circle cx="14.5" cy="13.2" r=".6"/></g>
+<text x="76" y="304" font-size="15" font-weight="700" fill="#3C3836" text-anchor="start" >Berlin Hauptbahnhof</text>
+<text x="76" y="323" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >Dworzec · Niemcy</text>
+<line x1="76" y1="338" x2="344" y2="338" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<circle cx="40" cy="372" r="20" fill="#D4E8E1"/>
+<g transform="translate(28,360) scale(1.0)" fill="none" stroke="#066A62" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g>
+<text x="76" y="370" font-size="15" font-weight="700" fill="#3C3836" text-anchor="start" >Barlinek (Berlinchen)</text>
+<text x="76" y="389" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >Polska</text>
+<line x1="76" y1="404" x2="344" y2="404" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<circle cx="40" cy="438" r="20" fill="#D4E8E1"/>
+<g transform="translate(28,426) scale(1.0)" fill="none" stroke="#066A62" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g>
+<text x="76" y="436" font-size="15" font-weight="700" fill="#3C3836" text-anchor="start" >Berlin, New Hampshire</text>
+<text x="76" y="455" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >Stany Zjednoczone</text>
+<line x1="76" y1="470" x2="344" y2="470" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<text x="180" y="782" font-size="11" font-weight="400" fill="#665C54" text-anchor="middle" >Dane: © współtwórcy OpenStreetMap</text>
+</svg>

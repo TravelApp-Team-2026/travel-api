@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 800" width="360" height="800" font-family="Inter, Roboto, 'Helvetica Neue', Arial, sans-serif">
+<rect width="360" height="800" fill="#FBF1C7"/>
+<text x="24" y="22" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >9:41</text>
+<rect x="262" y="18" width="3" height="4" rx="1" fill="#3C3836"/>
+<rect x="267" y="16" width="3" height="6" rx="1" fill="#3C3836"/>
+<rect x="272" y="14" width="3" height="8" rx="1" fill="#3C3836"/>
+<rect x="277" y="12" width="3" height="10" rx="1" fill="#3C3836"/>
+<rect x="300" y="11" width="24" height="12" rx="3.5" fill="none" stroke="#3C3836" stroke-width="1.4"/>
+<rect x="302.5" y="13.5" width="16" height="7" rx="1.8" fill="#3C3836"/>
+<rect x="325.5" y="14.5" width="2" height="5" rx="1" fill="#3C3836"/>
+<g transform="translate(16,40) scale(1.0)" fill="none" stroke="#3C3836" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></g>
+<text x="56" y="59" font-size="18" font-weight="700" fill="#3C3836" text-anchor="start" >Nowa podróż</text>
+<text x="16" y="122" font-size="12" font-weight="600" fill="#665C54" text-anchor="start" >Nazwa podróży</text>
+<rect x="16" y="130" width="328" height="44" rx="12" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="32" y="157.0" font-size="15" font-weight="400" fill="#3C3836" text-anchor="start" >Majorka — lato 2026</text>
+<text x="16" y="200" font-size="12" font-weight="600" fill="#665C54" text-anchor="start" >Od</text>
+<rect x="16" y="208" width="158" height="44" rx="12" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<g transform="translate(28,220.0) scale(0.8333333333333334)" fill="none" stroke="#7C6F64" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g>
+<text x="56" y="235.0" font-size="15" font-weight="400" fill="#3C3836" text-anchor="start" >12 sie 2026</text>
+<text x="186" y="200" font-size="12" font-weight="600" fill="#665C54" text-anchor="start" >Do (opcjonalnie)</text>
+<rect x="186" y="208" width="158" height="44" rx="12" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<g transform="translate(198,220.0) scale(0.8333333333333334)" fill="none" stroke="#7C6F64" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g>
+<text x="226" y="235.0" font-size="15" font-weight="400" fill="#3C3836" text-anchor="start" >19 sie 2026</text>
+<g transform="translate(16,262) scale(0.6666666666666666)" fill="none" stroke="#066A62" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" stroke-width="2.4"/></g>
+<text x="38" y="275" font-size="13" font-weight="700" fill="#066A62" text-anchor="start" >Dodaj opis (opcjonalnie)</text>
+<text x="16" y="316" font-size="16" font-weight="700" fill="#3C3836" text-anchor="start" >Trasa</text>
+<text x="344" y="316" font-size="12" font-weight="600" fill="#665C54" text-anchor="end" >6 przystanków</text>
+<rect x="16" y="330" width="328" height="40" rx="12" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="40" cy="350" r="11" fill="#3C3836"/>
+<text x="40" y="354" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >1</text>
+<text x="60" y="347" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Legnica</text>
+<text x="60" y="361" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Polska</text>
+<g transform="translate(288,342) scale(0.6666666666666666)" fill="none" stroke="#7C6F64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></g>
+<circle cx="318" cy="343" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="350" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="357" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="343" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="350" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="357" r="1.4" fill="#7C6F64"/>
+<line x1="40" y1="370" x2="40" y2="402" stroke="#458588" stroke-width="3.5" stroke-linecap="round"/>
+<rect x="60" y="374" width="118" height="24" rx="12" fill="#458588" fill-opacity="0.18" stroke="#458588" stroke-width="1.2"/>
+<g transform="translate(68,378) scale(0.6666666666666666)" fill="none" stroke="#2E6A6D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l1.7-4.4A2 2 0 018.6 6.3h6.8a2 2 0 011.9 1.3L19 12"/><rect x="3.5" y="12" width="17" height="5.5" rx="2"/><circle cx="7.8" cy="17.5" r="1.4"/><circle cx="16.2" cy="17.5" r="1.4"/></g>
+<text x="88" y="390" font-size="12" font-weight="700" fill="#2E6A6D" text-anchor="start" >Samochód</text>
+<g transform="translate(156,380) scale(0.5833333333333334)" fill="none" stroke="#2E6A6D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></g>
+<rect x="16" y="402" width="328" height="40" rx="12" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="40" cy="422" r="11" fill="#3C3836"/>
+<text x="40" y="426" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >2</text>
+<text x="60" y="419" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Berlin</text>
+<text x="60" y="433" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Niemcy</text>
+<g transform="translate(288,414) scale(0.6666666666666666)" fill="none" stroke="#7C6F64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></g>
+<circle cx="318" cy="415" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="422" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="429" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="415" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="422" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="429" r="1.4" fill="#7C6F64"/>
+<line x1="40" y1="442" x2="40" y2="474" stroke="#98971A" stroke-width="3.5" stroke-linecap="round"/>
+<rect x="60" y="446" width="110" height="24" rx="12" fill="#98971A" fill-opacity="0.18" stroke="#98971A" stroke-width="1.2"/>
+<g transform="translate(68,450) scale(0.6666666666666666)"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="#6B6A0F"/></g>
+<text x="88" y="462" font-size="12" font-weight="700" fill="#6B6A0F" text-anchor="start" >Samolot</text>
+<g transform="translate(148,452) scale(0.5833333333333334)" fill="none" stroke="#6B6A0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></g>
+<rect x="16" y="474" width="328" height="40" rx="12" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="40" cy="494" r="11" fill="#3C3836"/>
+<text x="40" y="498" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >3</text>
+<text x="60" y="491" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Palma de Mallorca</text>
+<text x="60" y="505" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Hiszpania</text>
+<g transform="translate(288,486) scale(0.6666666666666666)" fill="none" stroke="#7C6F64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></g>
+<circle cx="318" cy="487" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="494" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="501" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="487" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="494" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="501" r="1.4" fill="#7C6F64"/>
+<line x1="40" y1="514" x2="40" y2="546" stroke="#458588" stroke-width="3.5" stroke-linecap="round"/>
+<rect x="60" y="518" width="118" height="24" rx="12" fill="#458588" fill-opacity="0.18" stroke="#458588" stroke-width="1.2"/>
+<g transform="translate(68,522) scale(0.6666666666666666)" fill="none" stroke="#2E6A6D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l1.7-4.4A2 2 0 018.6 6.3h6.8a2 2 0 011.9 1.3L19 12"/><rect x="3.5" y="12" width="17" height="5.5" rx="2"/><circle cx="7.8" cy="17.5" r="1.4"/><circle cx="16.2" cy="17.5" r="1.4"/></g>
+<text x="88" y="534" font-size="12" font-weight="700" fill="#2E6A6D" text-anchor="start" >Samochód</text>
+<g transform="translate(156,524) scale(0.5833333333333334)" fill="none" stroke="#2E6A6D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></g>
+<rect x="16" y="546" width="328" height="40" rx="12" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="40" cy="566" r="11" fill="#3C3836"/>
+<text x="40" y="570" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >4</text>
+<text x="60" y="563" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Valldemossa</text>
+<text x="60" y="577" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Hiszpania</text>
+<g transform="translate(288,558) scale(0.6666666666666666)" fill="none" stroke="#7C6F64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></g>
+<circle cx="318" cy="559" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="566" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="573" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="559" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="566" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="573" r="1.4" fill="#7C6F64"/>
+<line x1="40" y1="586" x2="40" y2="618" stroke="#98971A" stroke-width="3.5" stroke-linecap="round"/>
+<rect x="60" y="590" width="110" height="24" rx="12" fill="#98971A" fill-opacity="0.18" stroke="#98971A" stroke-width="1.2"/>
+<g transform="translate(68,594) scale(0.6666666666666666)"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="#6B6A0F"/></g>
+<text x="88" y="606" font-size="12" font-weight="700" fill="#6B6A0F" text-anchor="start" >Samolot</text>
+<g transform="translate(148,596) scale(0.5833333333333334)" fill="none" stroke="#6B6A0F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></g>
+<rect x="16" y="618" width="328" height="40" rx="12" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="40" cy="638" r="11" fill="#3C3836"/>
+<text x="40" y="642" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >5</text>
+<text x="60" y="635" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Berlin</text>
+<text x="60" y="649" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Niemcy</text>
+<g transform="translate(288,630) scale(0.6666666666666666)" fill="none" stroke="#7C6F64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></g>
+<circle cx="318" cy="631" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="638" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="645" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="631" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="638" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="645" r="1.4" fill="#7C6F64"/>
+<line x1="40" y1="658" x2="40" y2="690" stroke="#458588" stroke-width="3.5" stroke-linecap="round"/>
+<rect x="60" y="662" width="118" height="24" rx="12" fill="#458588" fill-opacity="0.18" stroke="#458588" stroke-width="1.2"/>
+<g transform="translate(68,666) scale(0.6666666666666666)" fill="none" stroke="#2E6A6D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l1.7-4.4A2 2 0 018.6 6.3h6.8a2 2 0 011.9 1.3L19 12"/><rect x="3.5" y="12" width="17" height="5.5" rx="2"/><circle cx="7.8" cy="17.5" r="1.4"/><circle cx="16.2" cy="17.5" r="1.4"/></g>
+<text x="88" y="678" font-size="12" font-weight="700" fill="#2E6A6D" text-anchor="start" >Samochód</text>
+<g transform="translate(156,668) scale(0.5833333333333334)" fill="none" stroke="#2E6A6D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></g>
+<rect x="16" y="690" width="328" height="40" rx="12" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="40" cy="710" r="11" fill="#3C3836"/>
+<text x="40" y="714" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle" >6</text>
+<text x="60" y="707" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >Legnica</text>
+<text x="60" y="721" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Polska</text>
+<g transform="translate(288,702) scale(0.6666666666666666)" fill="none" stroke="#7C6F64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></g>
+<circle cx="318" cy="703" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="710" r="1.4" fill="#7C6F64"/>
+<circle cx="318" cy="717" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="703" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="710" r="1.4" fill="#7C6F64"/>
+<circle cx="324" cy="717" r="1.4" fill="#7C6F64"/>
+<rect x="0" y="704" width="360" height="96" fill="#FFFBEA"/>
+<line x1="0" y1="704.5" x2="360" y2="704.5" stroke="#D5C4A1" stroke-width="1"/>
+<rect x="16" y="722" width="156" height="48" rx="14" fill="none" stroke="#066A62" stroke-width="1.8"/>
+<text x="94" y="751" font-size="14" font-weight="700" fill="#066A62" text-anchor="middle" >+ Dodaj przystanek</text>
+<rect x="184" y="722" width="160" height="48" rx="14" fill="#087F75"/>
+<text x="264" y="751" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle" >Zapisz podróż</text>
+<rect x="0" y="0" width="360" height="800" fill="#3C3836" fill-opacity="0.55"/>
+<rect x="0" y="430" width="360" height="400" rx="24" fill="#FBF1C7"/>
+<rect x="162" y="440" width="36" height="4" rx="2" fill="#D5C4A1"/>
+<text x="16" y="478" font-size="18" font-weight="700" fill="#3C3836" text-anchor="start" >Środek transportu</text>
+<text x="16" y="498" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >Odcinek: Berlin → Palma de Mallorca</text>
+<rect x="16" y="514" width="328" height="56" rx="16" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="46" cy="542" r="18" fill="#458588" fill-opacity="0.22"/>
+<g transform="translate(36,532) scale(0.8333333333333334)" fill="none" stroke="#2E6A6D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l1.7-4.4A2 2 0 018.6 6.3h6.8a2 2 0 011.9 1.3L19 12"/><rect x="3.5" y="12" width="17" height="5.5" rx="2"/><circle cx="7.8" cy="17.5" r="1.4"/><circle cx="16.2" cy="17.5" r="1.4"/></g>
+<text x="76" y="539" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Samochód</text>
+<text x="76" y="556" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Trasa po rzeczywistej sieci dróg</text>
+<circle cx="318" cy="542" r="10" fill="none" stroke="#D5C4A1" stroke-width="2"/>
+<rect x="16" y="578" width="328" height="56" rx="16" fill="#D4E8E1" stroke="#087F75" stroke-width="1.8"/>
+<circle cx="46" cy="606" r="18" fill="#98971A" fill-opacity="0.22"/>
+<g transform="translate(36,596) scale(0.8333333333333334)"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="#6B6A0F"/></g>
+<text x="76" y="603" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Samolot</text>
+<text x="76" y="620" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Połączenie jako łuk na mapie</text>
+<circle cx="318" cy="606" r="10" fill="#087F75"/>
+<g transform="translate(312,600) scale(0.5)" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" stroke-width="2.6"/></g>
+<rect x="16" y="642" width="328" height="56" rx="16" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="46" cy="670" r="18" fill="#D79921" fill-opacity="0.22"/>
+<g transform="translate(36,660) scale(0.8333333333333334)" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="13" rx="3"/><rect x="8.2" y="6" width="7.6" height="4.5" rx="1"/><path d="M8.5 21l2-5M15.5 21l-2-5"/><circle cx="9.5" cy="13.2" r=".6"/><circle cx="14.5" cy="13.2" r=".6"/></g>
+<text x="76" y="667" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Pociąg</text>
+<text x="76" y="684" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Prosta linia między miejscami</text>
+<circle cx="318" cy="670" r="10" fill="none" stroke="#D5C4A1" stroke-width="2"/>
+<rect x="16" y="706" width="328" height="56" rx="16" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="46" cy="734" r="18" fill="#B16286" fill-opacity="0.22"/>
+<g transform="translate(36,724) scale(0.8333333333333334)" fill="none" stroke="#8F3F68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13.5 6l6 6-6 6"/></g>
+<text x="76" y="731" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Inne</text>
+<text x="76" y="748" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >Uproszczone, przerywane połączenie</text>
+<circle cx="318" cy="734" r="10" fill="none" stroke="#D5C4A1" stroke-width="2"/>
+</svg>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 800" width="360" height="800" font-family="Inter, Roboto, 'Helvetica Neue', Arial, sans-serif">
+<rect width="360" height="800" fill="#FBF1C7"/>
+<text x="24" y="22" font-size="13" font-weight="700" fill="#3C3836" text-anchor="start" >9:41</text>
+<rect x="262" y="18" width="3" height="4" rx="1" fill="#3C3836"/>
+<rect x="267" y="16" width="3" height="6" rx="1" fill="#3C3836"/>
+<rect x="272" y="14" width="3" height="8" rx="1" fill="#3C3836"/>
+<rect x="277" y="12" width="3" height="10" rx="1" fill="#3C3836"/>
+<rect x="300" y="11" width="24" height="12" rx="3.5" fill="none" stroke="#3C3836" stroke-width="1.4"/>
+<rect x="302.5" y="13.5" width="16" height="7" rx="1.8" fill="#3C3836"/>
+<rect x="325.5" y="14.5" width="2" height="5" rx="1" fill="#3C3836"/>
+<text x="24" y="80" font-size="24" font-weight="700" fill="#3C3836" text-anchor="start" >Statystyki</text>
+<text x="24" y="102" font-size="13" font-weight="400" fill="#665C54" text-anchor="start" >Cała historia podróży</text>
+<rect x="16" y="116" width="92" height="36" rx="18" fill="#087F75"/>
+<text x="62.0" y="139" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle" >Wszystko</text>
+<rect x="116" y="116" width="66" height="36" rx="18" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="149.0" y="139" font-size="13" font-weight="600" fill="#3C3836" text-anchor="middle" >2026</text>
+<rect x="190" y="116" width="66" height="36" rx="18" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="223.0" y="139" font-size="13" font-weight="600" fill="#3C3836" text-anchor="middle" >2025</text>
+<rect x="264" y="116" width="66" height="36" rx="18" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<text x="297.0" y="139" font-size="13" font-weight="600" fill="#3C3836" text-anchor="middle" >2024</text>
+<rect x="16" y="168" width="160" height="92" rx="16" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="46" cy="195" r="14" fill="#D4E8E1"/>
+<g transform="translate(36,185) scale(0.8333333333333334)" fill="none" stroke="#066A62" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 012-2h2a2 2 0 012 2v1.5M3.5 13h17"/></g>
+<text x="32" y="236" font-size="22" font-weight="700" fill="#066A62" text-anchor="start" >4</text>
+<text x="32" y="252" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >podróże</text>
+<rect x="184" y="168" width="160" height="92" rx="16" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="214" cy="195" r="14" fill="#D4E8E1"/>
+<g transform="translate(204,185) scale(0.8333333333333334)" fill="none" stroke="#066A62" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/></g>
+<text x="200" y="236" font-size="22" font-weight="700" fill="#066A62" text-anchor="start" >8</text>
+<text x="200" y="252" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >krajów</text>
+<rect x="16" y="268" width="160" height="92" rx="16" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="46" cy="295" r="14" fill="#D4E8E1"/>
+<g transform="translate(36,285) scale(0.8333333333333334)" fill="none" stroke="#066A62" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2.2"/><circle cx="17.2" cy="6" r="2.2"/><path d="M8.2 18H15a3 3 0 000-6H9a3 3 0 010-6h6"/></g>
+<text x="32" y="336" font-size="22" font-weight="700" fill="#066A62" text-anchor="start" >11 628 km</text>
+<text x="32" y="352" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >łączny dystans</text>
+<rect x="184" y="268" width="160" height="92" rx="16" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="214" cy="295" r="14" fill="#D4E8E1"/>
+<g transform="translate(204,285) scale(0.8333333333333334)" fill="none" stroke="#066A62" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g>
+<text x="200" y="336" font-size="22" font-weight="700" fill="#066A62" text-anchor="start" >12</text>
+<text x="200" y="352" font-size="12" font-weight="400" fill="#665C54" text-anchor="start" >odwiedzonych miejsc</text>
+<text x="16" y="392" font-size="16" font-weight="700" fill="#3C3836" text-anchor="start" >Dystans wg transportu</text>
+<rect x="16" y="406" width="328" height="168" rx="18" fill="#FFFBEA" stroke="#D5C4A1" stroke-width="1.5"/>
+<circle cx="92" cy="490" r="48" fill="none" stroke="#98971A" stroke-width="22" stroke-dasharray="233.04 68.55" stroke-dashoffset="-0.00" transform="rotate(-90 92 490)"/>
+<circle cx="92" cy="490" r="48" fill="none" stroke="#D79921" stroke-width="22" stroke-dasharray="37.61 263.99" stroke-dashoffset="-234.64" transform="rotate(-90 92 490)"/>
+<circle cx="92" cy="490" r="48" fill="none" stroke="#458588" stroke-width="22" stroke-dasharray="24.94 276.65" stroke-dashoffset="-273.85" transform="rotate(-90 92 490)"/>
+<circle cx="92" cy="490" r="48" fill="none" stroke="#B16286" stroke-width="22" stroke-dasharray="0.80 300.79" stroke-dashoffset="-300.39" transform="rotate(-90 92 490)"/>
+<text x="92" y="488" font-size="17" font-weight="700" fill="#3C3836" text-anchor="middle" >11 628</text>
+<text x="92" y="505" font-size="11" font-weight="400" fill="#665C54" text-anchor="middle" >km łącznie</text>
+<circle cx="190" cy="440" r="12" fill="#98971A" fill-opacity="0.2"/>
+<g transform="translate(182,432) scale(0.6666666666666666)"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" fill="#6B6A0F"/></g>
+<text x="212" y="439" font-size="12" font-weight="700" fill="#3C3836" text-anchor="start" >Samolot</text>
+<text x="212" y="454" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >9 043 km · 77,8%</text>
+<circle cx="190" cy="474" r="12" fill="#D79921" fill-opacity="0.2"/>
+<g transform="translate(182,466) scale(0.6666666666666666)" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="13" rx="3"/><rect x="8.2" y="6" width="7.6" height="4.5" rx="1"/><path d="M8.5 21l2-5M15.5 21l-2-5"/><circle cx="9.5" cy="13.2" r=".6"/><circle cx="14.5" cy="13.2" r=".6"/></g>
+<text x="212" y="473" font-size="12" font-weight="700" fill="#3C3836" text-anchor="start" >Pociąg</text>
+<text x="212" y="488" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >1 510 km · 13,0%</text>
+<circle cx="190" cy="508" r="12" fill="#458588" fill-opacity="0.2"/>
+<g transform="translate(182,500) scale(0.6666666666666666)" fill="none" stroke="#2E6A6D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l1.7-4.4A2 2 0 018.6 6.3h6.8a2 2 0 011.9 1.3L19 12"/><rect x="3.5" y="12" width="17" height="5.5" rx="2"/><circle cx="7.8" cy="17.5" r="1.4"/><circle cx="16.2" cy="17.5" r="1.4"/></g>
+<text x="212" y="507" font-size="12" font-weight="700" fill="#3C3836" text-anchor="start" >Samochód</text>
+<text x="212" y="522" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >1 030 km · 8,8%</text>
+<circle cx="190" cy="542" r="12" fill="#B16286" fill-opacity="0.2"/>
+<g transform="translate(182,534) scale(0.6666666666666666)" fill="none" stroke="#8F3F68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13.5 6l6 6-6 6"/></g>
+<text x="212" y="541" font-size="12" font-weight="700" fill="#3C3836" text-anchor="start" >Inne</text>
+<text x="212" y="556" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >45 km · 0,4%</text>
+<text x="16" y="614" font-size="16" font-weight="700" fill="#3C3836" text-anchor="start" >Odwiedzone kraje</text>
+<text x="344" y="614" font-size="14" font-weight="700" fill="#066A62" text-anchor="end" >8</text>
+<clipPath id="flPL16638"><rect x="16" y="638" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flPL16638)">
+<rect x="16" y="638" width="28" height="10" fill="#FFFFFF"/>
+<rect x="16" y="648" width="28" height="10" fill="#DC143C"/>
+</g>
+<rect x="16" y="638" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="647" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Polska</text>
+<text x="56" y="662" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >3 podróże</text>
+<line x1="56" y1="673" x2="344" y2="673" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<clipPath id="flCZ16686"><rect x="16" y="686" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flCZ16686)">
+<rect x="16" y="686" width="28" height="10" fill="#FFFFFF"/>
+<rect x="16" y="696" width="28" height="10" fill="#D7141A"/>
+<path d="M16 686 L30 696 L16 706Z" fill="#11457E"/>
+</g>
+<rect x="16" y="686" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="695" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Czechy</text>
+<text x="56" y="710" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >2 podróże</text>
+<line x1="56" y1="721" x2="344" y2="721" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<clipPath id="flAT16734"><rect x="16" y="734" width="28" height="20" rx="4"/></clipPath>
+<g clip-path="url(#flAT16734)">
+<rect x="16" y="734" width="28" height="6.7" fill="#ED2939"/>
+<rect x="16" y="740.7" width="28" height="6.6" fill="#FFFFFF"/>
+<rect x="16" y="747.3" width="28" height="6.7" fill="#ED2939"/>
+</g>
+<rect x="16" y="734" width="28" height="20" rx="4" fill="none" stroke="#3C3836" stroke-opacity="0.18" stroke-width="1"/>
+<text x="56" y="743" font-size="14" font-weight="700" fill="#3C3836" text-anchor="start" >Austria</text>
+<text x="56" y="758" font-size="11" font-weight="400" fill="#665C54" text-anchor="start" >1 podróż</text>
+<line x1="56" y1="769" x2="344" y2="769" stroke="#D5C4A1" stroke-width="1" opacity="0.8"/>
+<rect x="0" y="728" width="360" height="72" fill="#FFFBEA"/>
+<line x1="0" y1="728.5" x2="360" y2="728.5" stroke="#D5C4A1" stroke-width="1"/>
+<g transform="translate(33,739) scale(1.0)" fill="none" stroke="#665C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="3"/><path d="M9 7.5V6a2 2 0 012-2h2a2 2 0 012 2v1.5M3.5 13h17"/></g>
+<text x="45" y="783" font-size="11" font-weight="500" fill="#665C54" text-anchor="middle" >Podróże</text>
+<g transform="translate(123,739) scale(1.0)" fill="none" stroke="#665C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/></g>
+<text x="135" y="783" font-size="11" font-weight="500" fill="#665C54" text-anchor="middle" >Mapa</text>
+<rect x="197" y="736" width="56" height="30" rx="15" fill="#D4E8E1"/>
+<g transform="translate(213,739) scale(1.0)" fill="none" stroke="#066A62" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20V11M12 20V4M19 20v-7" stroke-width="2.6"/></g>
+<text x="225" y="783" font-size="11" font-weight="700" fill="#066A62" text-anchor="middle" >Statystyki</text>
+<g transform="translate(303,739) scale(1.0)" fill="none" stroke="#665C54" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></g>
+<text x="315" y="783" font-size="11" font-weight="500" fill="#665C54" text-anchor="middle" >Profil</text>
+</svg>
