@@ -1,5 +1,6 @@
 package pl.travelapi.auth.application;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.util.Locale;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -16,10 +17,12 @@ public class AuthService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final Clock clock;
 
-	public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, Clock clock) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.clock = clock;
 	}
 
 	/**
@@ -35,7 +38,7 @@ public class AuthService {
 		}
 
 		User user = User.create(normalizedEmail, passwordEncoder.encode(rawPassword), displayName.trim(),
-				Instant.now());
+				Instant.now(clock));
 		try {
 			return userRepository.saveAndFlush(user);
 		}

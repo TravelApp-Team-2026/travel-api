@@ -13,8 +13,9 @@ public record RegisterRequest(
 		String email,
 
 		@NotBlank(message = "Hasło jest wymagane.")
-		@Size(min = 8, message = "Hasło musi mieć co najmniej 8 znaków.")
-		@MaxUtf8Bytes(value = 72, message = "Hasło jest zbyt długie.")
+		@Size(min = 8, max = 64, message = "Hasło musi mieć od 8 do 64 znaków.")
+		// BCrypt hashes at most 72 bytes (UTF-8); polish letters and emoji take more than one byte per character
+		@MaxUtf8Bytes(value = 72, message = "Hasło jest zbyt długie. Skróć je lub użyj mniej znaków specjalnych i polskich liter.")
 		String password,
 
 		@NotBlank(message = "Nazwa wyświetlana jest wymagana.")

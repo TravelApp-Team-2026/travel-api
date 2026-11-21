@@ -1,6 +1,7 @@
 package pl.travelapi.auth.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,7 +63,7 @@ class AuthRegistrationIntegrationTest {
 			.andExpect(jsonPath("$.passwordHash").doesNotExist());
 
 		User saved = userRepository.findByEmail("anna@example.com").orElseThrow();
-		assertThat(saved.getPasswordHash()).startsWith("$2").isNotEqualTo("secret-password");
+		assertThat(saved.getPasswordHash()).startsWith("$2a$12$").isNotEqualTo("secret-password");
 		assertThat(passwordEncoder.matches("secret-password", saved.getPasswordHash())).isTrue();
 		assertThat(saved.isPublicProfile()).isFalse();
 	}
@@ -77,5 +78,15 @@ class AuthRegistrationIntegrationTest {
 			.andExpect(jsonPath("$.detail").value("Konto z tym adresem e-mail już istnieje."));
 
 		assertThat(userRepository.count()).isEqualTo(1);
+	}
+
+	@Test
+	void shouldDocumentRegisterEndpointInOpenApi() throws Exception {
+		mockMvc.perform(get("/v3/api-docs"))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.paths['/api/v1/auth/register'].post.summary").exists())
+			.andExpect(jsonPath("$.paths['/api/v1/auth/register'].post.responses['201']").exists())
+			.andExpect(jsonPath("$.paths['/api/v1/auth/register'].post.responses['400']").exists())
+			.andExpect(jsonPath("$.paths['/api/v1/auth/register'].post.responses['409']").exists());
 	}
 }

@@ -89,7 +89,7 @@ class AuthControllerTest {
 				.content(body("nie-email", "krotkie", " ")))
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.fieldErrors.email").value("Podaj poprawny adres e-mail."))
-			.andExpect(jsonPath("$.fieldErrors.password").value("Hasło musi mieć co najmniej 8 znaków."))
+			.andExpect(jsonPath("$.fieldErrors.password").value("Hasło musi mieć od 8 do 64 znaków."))
 			.andExpect(jsonPath("$.fieldErrors.displayName").value("Nazwa wyświetlana jest wymagana."));
 
 		verifyNoInteractions(authService);
@@ -121,30 +121,46 @@ class AuthControllerTest {
 	}
 
 	@Test
-	void shouldAcceptPasswordOfExactly72Bytes() throws Exception {
+	void shouldAcceptPasswordOfExactly64Characters() throws Exception {
 		when(authService.register(anyString(), anyString(), anyString())).thenReturn(savedUser());
 
 		mockMvc.perform(post(REGISTER_URL)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(body("anna@example.com", "a".repeat(72), "Anna")))
+				.content(body("anna@example.com", "a".repeat(64), "Anna")))
+			.andExpect(status().isCreated());
+	}
+
+	@Test
+	void shouldRejectPasswordLongerThan64Characters() throws Exception {
+		mockMvc.perform(post(REGISTER_URL)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(body("anna@example.com", "a".repeat(65), "Anna")))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.fieldErrors.password").value("Hasło musi mieć od 8 do 64 znaków."));
+
+		verifyNoInteractions(authService);
+	}
+
+	@Test
+	void shouldAcceptPasswordOfExactly72BytesEvenWithPolishLetters() throws Exception {
+		when(authService.register(anyString(), anyString(), anyString())).thenReturn(savedUser());
+
+		// 36 characters x 2 bytes = 72 bytes in UTF-8
+		mockMvc.perform(post(REGISTER_URL)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(body("anna@example.com", "ą".repeat(36), "Anna")))
 			.andExpect(status().isCreated());
 	}
 
 	@Test
 	void shouldRejectPasswordOver72BytesInsteadOfFailingInBcrypt() throws Exception {
-		// 73 ASCII characters
+		// 37 characters (within the 64 limit) but 74 bytes in UTF-8
 		mockMvc.perform(post(REGISTER_URL)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(body("anna@example.com", "a".repeat(73), "Anna")))
+				.content(body("anna@example.com", "ą".repeat(37), "Anna")))
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.fieldErrors.password").value("Hasło jest zbyt długie."));
-
-		// 40 characters but 80 bytes in UTF-8 (Polish letters take 2 bytes)
-		mockMvc.perform(post(REGISTER_URL)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(body("anna@example.com", "ą".repeat(40), "Anna")))
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.fieldErrors.password").value("Hasło jest zbyt długie."));
+			.andExpect(jsonPath("$.fieldErrors.password")
+				.value("Hasło jest zbyt długie. Skróć je lub użyj mniej znaków specjalnych i polskich liter."));
 
 		verifyNoInteractions(authService);
 	}

@@ -13,6 +13,9 @@ import pl.travelapi.shared.security.RestSecurityExceptionHandler;
 @Configuration
 public class SecurityConfig {
 
+	/** BCrypt work factor (log2 of the number of rounds); raise it as hardware gets faster. */
+	static final int BCRYPT_STRENGTH = 12;
+
 	private static final String[] PUBLIC_PATHS = {
 		"/v3/api-docs/**",
 		"/swagger-ui/**",
@@ -22,7 +25,7 @@ public class SecurityConfig {
 
 	@Bean
 	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder(BCRYPT_STRENGTH);
 	}
 
 	@Bean

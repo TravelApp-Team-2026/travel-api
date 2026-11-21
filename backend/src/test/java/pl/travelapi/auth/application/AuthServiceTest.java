@@ -8,6 +8,9 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
 import org.junit.jupiter.api.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +23,10 @@ class AuthServiceTest {
 
 	private final UserRepository userRepository = mock(UserRepository.class);
 	private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-	private final AuthService authService = new AuthService(userRepository, passwordEncoder);
+	private static final Instant NOW = Instant.parse("2026-01-01T10:00:00Z");
+
+	private final Clock clock = Clock.fixed(NOW, ZoneOffset.UTC);
+	private final AuthService authService = new AuthService(userRepository, passwordEncoder, clock);
 
 	@Test
 	void shouldHashPasswordAndNormalizeEmailAndName() {
@@ -32,7 +38,7 @@ class AuthServiceTest {
 		assertThat(result.getDisplayName()).isEqualTo("Anna");
 		assertThat(result.getPasswordHash()).isNotEqualTo("secret-password");
 		assertThat(passwordEncoder.matches("secret-password", result.getPasswordHash())).isTrue();
-		assertThat(result.getCreatedAt()).isNotNull();
+		assertThat(result.getCreatedAt()).isEqualTo(NOW);
 		assertThat(result.isPublicProfile()).isFalse();
 	}
 
