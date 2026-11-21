@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import pl.travelapi.shared.security.RestSecurityExceptionHandler;
 
 @Configuration
 public class SecurityConfig {
@@ -18,10 +19,14 @@ public class SecurityConfig {
 	};
 
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain securityFilterChain(HttpSecurity http, RestSecurityExceptionHandler securityErrors)
+			throws Exception {
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.exceptionHandling(errors -> errors
+				.authenticationEntryPoint(securityErrors)
+				.accessDeniedHandler(securityErrors))
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers(PUBLIC_PATHS).permitAll()
 				.anyRequest().authenticated());
