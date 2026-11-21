@@ -47,6 +47,30 @@ cd backend
 
 Swagger UI: `http://localhost:8080/swagger-ui.html`
 
+### API error format
+
+Every error is an RFC 9457 `ProblemDetail` (`application/problem+json`). `title` and `detail` are user-facing (Polish) and can be shown in the app as they are. Validation errors also carry `fieldErrors` (field name -> message).
+
+```json
+{
+  "type": "about:blank",
+  "title": "Nieprawidłowe żądanie",
+  "status": 400,
+  "detail": "Przesłane dane są nieprawidłowe.",
+  "instance": "/api/v1/auth/register",
+  "fieldErrors": { "email": "must be a well-formed email address" }
+}
+```
+
+| Status | When |
+|--------|------|
+| 400 | invalid or unreadable request body |
+| 401 | missing/invalid token or bad credentials |
+| 403 | authenticated but not allowed |
+| 404 | resource not found (`ResourceNotFoundException`) |
+| 409 | conflict, e.g. email already taken (`ConflictException`) |
+| 500 | unexpected error, generic message, no stack trace |
+
 ## UI mockups
 
 Mockups of the main screens, the color palette, the component sheet and the navigation map: [docs/mockups](docs/mockups/README.md).
