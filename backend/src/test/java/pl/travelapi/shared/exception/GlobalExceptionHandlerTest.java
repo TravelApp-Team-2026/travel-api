@@ -8,10 +8,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import jakarta.validation.Constraint;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.Payload;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -52,8 +60,8 @@ class GlobalExceptionHandlerTest {
 			.andExpect(jsonPath("$.status").value(400))
 			.andExpect(jsonPath("$.title").value("Nieprawidłowe żądanie"))
 			.andExpect(jsonPath("$.detail").value("Przesłane dane są nieprawidłowe."))
-			.andExpect(jsonPath("$.fieldErrors.email").exists())
-			.andExpect(jsonPath("$.fieldErrors.password").exists());
+			.andExpect(jsonPath("$.fieldErrors.email").value("Podaj poprawny adres e-mail."))
+			.andExpect(jsonPath("$.fieldErrors.password").value("Hasło musi mieć co najmniej 8 znaków."));
 	}
 
 	@Test
@@ -81,7 +89,7 @@ class GlobalExceptionHandlerTest {
 	void shouldReturn401WithCredentialsMessageForBadCredentials() throws Exception {
 		mockMvc.perform(get("/test-errors/bad-credentials").with(user("tester")))
 			.andExpect(status().isUnauthorized())
-			.andExpect(jsonPath("$.detail").value("Nieprawidłowy adres e-mail lub hasło."));
+			.andExpect(jsonPath("$.detail").value("Nieprawidłowy e-mail lub hasło"));
 	}
 
 	@Test
@@ -126,7 +134,75 @@ class GlobalExceptionHandlerTest {
 			.doesNotContain("stackTrace");
 	}
 
-	record TestRequest(@NotBlank @Email String email, @NotBlank @Size(min = 8) String password) {
+	@Test
+	void shouldUseMessageOfObjectLevelConstraintAsDetail() throws Exception {
+		mockMvc.perform(post("/test-errors/range")
+				.with(user("tester"))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"from\":5,\"to\":1}"))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.detail").value("Data końca nie może być wcześniejsza niż data początku."))
+			.andExpect(jsonPath("$.fieldErrors").isEmpty());
+	}
+
+	@Test
+	void shouldReturnPolishProblemForUnknownPath() throws Exception {
+		mockMvc.perform(get("/test-errors/nonexistent").with(user("tester")))
+			.andExpect(status().isNotFound())
+			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_PROBLEM_JSON))
+			.andExpect(jsonPath("$.status").value(404))
+			.andExpect(jsonPath("$.title").value("Nie znaleziono"))
+			.andExpect(jsonPath("$.detail").value("Nie znaleziono żądanego zasobu."));
+	}
+
+	@Test
+	void shouldReturnPolishProblemForWrongHttpMethod() throws Exception {
+		mockMvc.perform(post("/test-errors/secured").with(user("tester")))
+			.andExpect(status().isMethodNotAllowed())
+			.andExpect(jsonPath("$.status").value(405))
+			.andExpect(jsonPath("$.title").value("Metoda niedozwolona"))
+			.andExpect(jsonPath("$.detail").value("Ta metoda HTTP nie jest obsługiwana dla tego adresu."));
+	}
+
+	@Test
+	void shouldReturnPolishProblemForUnsupportedMediaType() throws Exception {
+		mockMvc.perform(post("/test-errors/validation")
+				.with(user("tester"))
+				.contentType(MediaType.TEXT_PLAIN)
+				.content("tekst"))
+			.andExpect(status().isUnsupportedMediaType())
+			.andExpect(jsonPath("$.status").value(415))
+			.andExpect(jsonPath("$.title").value("Nieobsługiwany typ danych"));
+	}
+
+	record TestRequest(
+			@NotBlank(message = "E-mail jest wymagany.") @Email(message = "Podaj poprawny adres e-mail.") String email,
+			@NotBlank(message = "Hasło jest wymagane.")
+			@Size(min = 8, message = "Hasło musi mieć co najmniej 8 znaków.") String password) {
+	}
+
+	@Target(ElementType.TYPE)
+	@Retention(RetentionPolicy.RUNTIME)
+	@Constraint(validatedBy = ValidRangeValidator.class)
+	@interface ValidRange {
+
+		String message() default "Data końca nie może być wcześniejsza niż data początku.";
+
+		Class<?>[] groups() default {};
+
+		Class<? extends Payload>[] payload() default {};
+	}
+
+	public static class ValidRangeValidator implements ConstraintValidator<ValidRange, RangeRequest> {
+
+		@Override
+		public boolean isValid(RangeRequest value, ConstraintValidatorContext context) {
+			return value == null || value.from() <= value.to();
+		}
+	}
+
+	@ValidRange
+	record RangeRequest(int from, int to) {
 	}
 
 	@RestController
@@ -135,6 +211,10 @@ class GlobalExceptionHandlerTest {
 
 		@PostMapping("/validation")
 		void validation(@Valid @RequestBody TestRequest request) {
+		}
+
+		@PostMapping("/range")
+		void range(@Valid @RequestBody RangeRequest request) {
 		}
 
 		@GetMapping("/secured")
