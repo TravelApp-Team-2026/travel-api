@@ -16,7 +16,7 @@ Docker Engine with Docker Compose v2.
 ## Start the database
 
 ```bash
-cp .env.example .env   # then set your own POSTGRES_PASSWORD in .env
+cp .env.example .env   # then set your own POSTGRES_PASSWORD and JWT_SECRET in .env
 docker compose up -d --wait
 ```
 
@@ -46,6 +46,20 @@ cd backend
 ```
 
 Swagger UI: `http://localhost:8080/swagger-ui.html`
+
+### Authentication
+
+The API is stateless and uses signed JWT access tokens (HS256). Send the token with every request except the public ones:
+
+```
+Authorization: Bearer <token>
+```
+
+- Public: `/api/v1/auth/**` and Swagger (`/swagger-ui.html`, `/v3/api-docs`). A token sent to a public path is ignored, so an expired token kept in the app never blocks login or registration.
+- Everything else requires a valid token; otherwise the response is `401` in the format below.
+- The token carries the user id in the `sub` claim and expires after `JWT_EXPIRATION` (default `24h`). There is no refresh token: after expiry the user logs in again.
+- `JWT_SECRET` (at least 32 bytes) must be set in `.env`; the application does not start without it. Tests use their own secret from `backend/src/test/resources/config/application.yml`.
+- In a controller: `@AuthenticationPrincipal Jwt jwt`, then `JwtTokenService.userId(jwt)`.
 
 ### API error format
 

@@ -1,0 +1,6 @@
+# Test-only settings. Files in classpath:/config/ take precedence over the main application.yml,
+# so tests do not need JWT_SECRET in .env or in CI.
+app:
+  jwt:
+    secret: test-only-secret-for-automated-tests-0123456789
+    expiration: 1h
