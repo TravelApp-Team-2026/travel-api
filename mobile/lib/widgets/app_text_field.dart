@@ -6,31 +6,38 @@ class AppTextField extends FormField<String> {
     required this.label,
     this.controller,
     this.hintText,
-    String? errorText,
+    this.errorText,
     this.obscureText = false,
     this.keyboardType,
     this.textInputAction,
     this.onChanged,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.helperText,
     super.validator,
     super.onSaved,
     super.autovalidateMode,
     String? initialValue,
     super.enabled,
-  }) : super(
+       }) : super(
          initialValue: controller?.text ?? initialValue ?? '',
-         forceErrorText: (errorText == null || errorText.isEmpty)
-             ? null
-             : errorText,
          builder: (field) => (field as _AppTextFieldState).buildField(),
        );
 
   final String label;
   final TextEditingController? controller;
   final String? hintText;
+
+  /// Message from outside the field, such as a backend error.
+  /// Shown like a validation error, but it does not take part in [Form.validate].
+  final String? errorText;
   final bool obscureText;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onChanged;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final String? helperText;
 
   @override
   FormFieldState<String> createState() => _AppTextFieldState();
@@ -98,12 +105,25 @@ class _AppTextFieldState extends FormFieldState<String> {
     }
   }
 
+  /// Backend message wins while it is set. Validation errors show once it is cleared.
+  String? get _displayedError {
+    final external = widget.errorText;
+    if (external != null && external.isNotEmpty) {
+      return external;
+    }
+    final validation = errorText;
+    if (validation != null && validation.isNotEmpty) {
+      return validation;
+    }
+    return null;
+  }
+
   Widget buildField() {
     final theme = Theme.of(context);
     final decoration = theme.inputDecorationTheme;
     final colors = theme.colorScheme;
-    final error = errorText;
-    final hasError = error != null && error.isNotEmpty;
+    final error = _displayedError;
+    final hasError = error != null;
     final border = hasError ? decoration.errorBorder : decoration.enabledBorder;
     final focusedBorder = hasError
         ? decoration.focusedErrorBorder
@@ -138,12 +158,25 @@ class _AppTextFieldState extends FormFieldState<String> {
             hintStyle: decoration.hintStyle,
             isDense: decoration.isDense,
             contentPadding: decoration.contentPadding,
+            prefixIcon: widget.prefixIcon,
+            suffixIcon: widget.suffixIcon,
             enabledBorder: border,
             focusedBorder: focusedBorder,
             disabledBorder: decoration.disabledBorder,
           ),
         ),
-        if (hasError) ...[
+        if (!hasError &&
+            widget.helperText != null &&
+            widget.helperText!.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          Text(
+            widget.helperText!,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: colors.onSurfaceVariant,
+            ),
+          ),
+        ],
+        if (error != null) ...[
           const SizedBox(height: 8),
           Semantics(
             liveRegion: true,

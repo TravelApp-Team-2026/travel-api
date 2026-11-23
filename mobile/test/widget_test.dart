@@ -3,9 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:travel_app/main.dart';
 
 void main() {
-  testWidgets('app starts on T-014_test', (WidgetTester tester) async {
+  testWidgets('app starts on the login screen', (WidgetTester tester) async {
     await tester.pumpWidget(const ProviderScope(child: TravelApp()));
 
-    expect(find.text('T-014_test'), findsOneWidget);
+    expect(find.text('Zaloguj się'), findsWidgets);
+    expect(find.text('E-mail'), findsOneWidget);
+    expect(find.text('Hasło'), findsOneWidget);
   });
 }
