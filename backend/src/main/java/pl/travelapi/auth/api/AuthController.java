@@ -68,4 +68,34 @@ public class AuthController {
 	public RegisterResponse register(@Valid @RequestBody RegisterRequest request) {
 		return RegisterResponse.from(authService.register(request.email(), request.password(), request.displayName()));
 	}
+
+	@Operation(
+			summary = "Logowanie",
+			description = "Zwraca token JWT do nagłówka `Authorization: Bearer <token>` oraz dane użytkownika. "
+					+ "Nieznany e-mail i błędne hasło dają ten sam błąd 401.")
+	@ApiResponse(responseCode = "200", description = "Zalogowano")
+	@ApiResponse(
+			responseCode = "400",
+			description = "Brak e-maila lub hasła; komunikaty w `fieldErrors`",
+			content = @Content(mediaType = "application/problem+json",
+					schema = @Schema(implementation = ProblemDetail.class)))
+	@ApiResponse(
+			responseCode = "401",
+			description = "Nieprawidłowy e-mail lub hasło",
+			content = @Content(
+					mediaType = "application/problem+json",
+					schema = @Schema(implementation = ProblemDetail.class),
+					examples = @ExampleObject(value = """
+							{
+							  "type": "about:blank",
+							  "title": "Brak autoryzacji",
+							  "status": 401,
+							  "detail": "Nieprawidłowy e-mail lub hasło",
+							  "instance": "/api/v1/auth/login"
+							}
+							""")))
+	@PostMapping("/login")
+	public LoginResponse login(@Valid @RequestBody LoginRequest request) {
+		return LoginResponse.from(authService.login(request.email(), request.password()));
+	}
 }

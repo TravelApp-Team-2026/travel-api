@@ -60,6 +60,18 @@ Authorization: Bearer <token>
 - The token carries the user id in the `sub` claim and expires after `JWT_EXPIRATION` (default `24h`). There is no refresh token: after expiry the user logs in again.
 - `JWT_SECRET` (at least 32 bytes) must be set in `.env`; the application does not start without it. Tests use their own secret from `backend/src/test/resources/config/application.yml`.
 - In a controller: `@AuthenticationPrincipal Jwt jwt`, then `JwtTokenService.userId(jwt)`.
+- Log in with `POST /api/v1/auth/login` (`email`, `password`). Response:
+
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9...",
+  "tokenType": "Bearer",
+  "expiresAt": "2026-11-24T19:00:00Z",
+  "user": { "id": 1, "email": "anna@example.com", "displayName": "Anna" }
+}
+```
+
+  An unknown e-mail and a wrong password return the same `401` ("Nieprawidłowy e-mail lub hasło").
 
 ### API error format
 
