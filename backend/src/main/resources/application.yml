@@ -11,3 +11,10 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+
+app:
+  jwt:
+    # Required, at least 32 bytes. Set JWT_SECRET in .env (see .env.example); never commit a real secret.
+    secret: ${JWT_SECRET:}
+    # How long an access token is valid, e.g. 30m, 24h, 7d.
+    expiration: ${JWT_EXPIRATION:24h}
