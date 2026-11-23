@@ -13,29 +13,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.postgresql.PostgreSQLContainer;
+import pl.travelapi.support.IntegrationTest;
 import pl.travelapi.user.domain.User;
 import pl.travelapi.user.infrastructure.UserRepository;
 
-@Testcontainers
-@SpringBootTest
-@AutoConfigureMockMvc
+@IntegrationTest
 class UserProfileIntegrationTest {
 
 	private static final String PROFILE_URL = "/api/v1/users/me";
-
-	@SuppressWarnings("resource")
-	@Container
-	@ServiceConnection
-	static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:18-alpine");
 
 	private final MockMvc mockMvc;
 	private final UserRepository userRepository;

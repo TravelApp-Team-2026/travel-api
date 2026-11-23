@@ -7,42 +7,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jayway.jsonpath.JsonPath;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.postgresql.PostgreSQLContainer;
+import pl.travelapi.support.IntegrationTest;
 import pl.travelapi.user.infrastructure.UserRepository;
 
-@Testcontainers
-@SpringBootTest
-@AutoConfigureMockMvc
+@IntegrationTest
 class AuthLoginIntegrationTest {
 
 	private static final String LOGIN_URL = "/api/v1/auth/login";
 	/** Any path outside /api/v1/auth needs a token. */
 	private static final String PROTECTED_URL = "/api/v1/users/me";
 
-	@SuppressWarnings("resource")
-	@Container
-	@ServiceConnection
-	static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:18-alpine");
-
 	private final MockMvc mockMvc;
 	private final UserRepository userRepository;
+	private final JwtDecoder jwtDecoder;
 
 	@Autowired
-	AuthLoginIntegrationTest(MockMvc mockMvc, UserRepository userRepository) {
+	AuthLoginIntegrationTest(MockMvc mockMvc, UserRepository userRepository, JwtDecoder jwtDecoder) {
 		this.mockMvc = mockMvc;
 		this.userRepository = userRepository;
+		this.jwtDecoder = jwtDecoder;
 	}
 
 	@BeforeEach
@@ -74,6 +68,15 @@ class AuthLoginIntegrationTest {
 			.getResponse()
 			.getContentAsString();
 		String token = JsonPath.read(response, "$.accessToken");
+
+		// a JWT signed by this application, issued for this user, valid until the returned expiresAt
+		long userId = userRepository.findByEmail("anna@example.com").orElseThrow().getId();
+		Jwt jwt = jwtDecoder.decode(token);
+		assertThat(jwt.getSubject()).isEqualTo(Long.toString(userId));
+		// the exp claim has whole seconds only
+		assertThat(jwt.getExpiresAt())
+			.isEqualTo(Instant.parse(JsonPath.<String>read(response, "$.expiresAt")).truncatedTo(ChronoUnit.SECONDS));
+		assertThat(((Number) JsonPath.read(response, "$.user.id")).longValue()).isEqualTo(userId);
 
 		// without a token: 401; with it: the profile of the logged-in user
 		mockMvc.perform(get(PROTECTED_URL)).andExpect(status().isUnauthorized());

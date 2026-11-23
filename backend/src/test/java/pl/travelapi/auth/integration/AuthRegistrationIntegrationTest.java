@@ -9,29 +9,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.postgresql.PostgreSQLContainer;
+import pl.travelapi.support.IntegrationTest;
 import pl.travelapi.user.domain.User;
 import pl.travelapi.user.infrastructure.UserRepository;
 
-@Testcontainers
-@SpringBootTest
-@AutoConfigureMockMvc
+@IntegrationTest
 class AuthRegistrationIntegrationTest {
 
 	private static final String REGISTER_URL = "/api/v1/auth/register";
-
-	@SuppressWarnings("resource")
-	@Container
-	@ServiceConnection
-	static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:18-alpine");
 
 	private final MockMvc mockMvc;
 	private final UserRepository userRepository;
@@ -78,6 +66,33 @@ class AuthRegistrationIntegrationTest {
 			.andExpect(jsonPath("$.detail").value("Konto z tym adresem e-mail już istnieje."));
 
 		assertThat(userRepository.count()).isEqualTo(1);
+	}
+
+	@Test
+	void shouldReturn400WithPolishMessagesAndSaveNothingForInvalidData() throws Exception {
+		mockMvc.perform(post(REGISTER_URL)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"email\":\"nie-email\",\"password\":\"krotkie\",\"displayName\":\" \"}"))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.title").value("Nieprawidłowe żądanie"))
+			.andExpect(jsonPath("$.fieldErrors.email").value("Podaj poprawny adres e-mail."))
+			.andExpect(jsonPath("$.fieldErrors.password").value("Hasło musi mieć od 8 do 64 znaków."))
+			.andExpect(jsonPath("$.fieldErrors.displayName").value("Nazwa wyświetlana jest wymagana."));
+
+		assertThat(userRepository.count()).isZero();
+	}
+
+	@Test
+	void shouldReturn400ForEmptyOrUnreadableBody() throws Exception {
+		mockMvc.perform(post(REGISTER_URL).contentType(MediaType.APPLICATION_JSON).content("{}"))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.fieldErrors.email").value("E-mail jest wymagany."))
+			.andExpect(jsonPath("$.fieldErrors.password").value("Hasło jest wymagane."));
+		mockMvc.perform(post(REGISTER_URL).contentType(MediaType.APPLICATION_JSON).content("{\"email\":"))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.detail").value("Nie można odczytać przesłanych danych. Sprawdź format żądania."));
+
+		assertThat(userRepository.count()).isZero();
 	}
 
 	@Test
