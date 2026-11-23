@@ -25,6 +25,27 @@ void main() {
       expect(result.message, 'Nieprawidłowe dane.');
     });
 
+    test('keeps field errors next to the message', () {
+      final exception = DioException(
+        requestOptions: RequestOptions(path: '/test'),
+        response: Response(
+          requestOptions: RequestOptions(path: '/test'),
+          data: {
+            'title': 'Nieprawidłowe żądanie',
+            'detail': 'Przesłane dane są nieprawidłowe.',
+            'fieldErrors': {'email': 'Podaj poprawny adres e-mail.'},
+          },
+          statusCode: 400,
+        ),
+        type: DioExceptionType.badResponse,
+      );
+
+      final result = ApiException.fromDioException(exception);
+
+      expect(result.message, 'Przesłane dane są nieprawidłowe.');
+      expect(result.fieldErrors['email'], 'Podaj poprawny adres e-mail.');
+    });
+
     test('returns title when detail is missing', () {
       final exception = DioException(
         requestOptions: RequestOptions(path: '/test'),
