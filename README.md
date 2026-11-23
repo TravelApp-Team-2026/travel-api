@@ -72,6 +72,32 @@ Authorization: Bearer <token>
 ```
 
   An unknown e-mail and a wrong password return the same `401` ("Nieprawidłowy e-mail lub hasło").
+- In Swagger UI, click **Authorize** and paste the `accessToken` to call protected endpoints.
+
+### Profile
+
+Profile of the logged-in user (token required). There is no id in the path: everyone reads and edits only their own profile.
+
+`GET /api/v1/users/me`:
+
+```json
+{
+  "id": 1,
+  "email": "anna@example.com",
+  "displayName": "Anna",
+  "bio": null,
+  "isPublic": false
+}
+```
+
+`PATCH /api/v1/users/me` changes `displayName`, `bio` and `isPublic` and returns the updated profile (same shape as above). It is a partial update:
+
+- an omitted field or `null` is left unchanged, so e.g. `{"isPublic": true}` only switches visibility;
+- `displayName`: 1-50 characters, not blank; `bio`: at most 300 characters; both are trimmed;
+- `"bio": ""` removes the bio (it becomes `null`);
+- the e-mail cannot be changed (an `email` field is ignored).
+
+Invalid data returns `400` with `fieldErrors` (e.g. `"displayName": "Nazwa wyświetlana nie może być pusta."`); nothing is saved then. If the account no longer exists while the token is still valid, the response is `404`.
 
 ### API error format
 

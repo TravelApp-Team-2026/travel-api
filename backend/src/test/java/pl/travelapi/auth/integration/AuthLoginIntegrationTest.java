@@ -28,7 +28,7 @@ import pl.travelapi.user.infrastructure.UserRepository;
 class AuthLoginIntegrationTest {
 
 	private static final String LOGIN_URL = "/api/v1/auth/login";
-	/** Any path outside /api/v1/auth needs a token; this one has no controller yet. */
+	/** Any path outside /api/v1/auth needs a token. */
 	private static final String PROTECTED_URL = "/api/v1/users/me";
 
 	@SuppressWarnings("resource")
@@ -75,10 +75,11 @@ class AuthLoginIntegrationTest {
 			.getContentAsString();
 		String token = JsonPath.read(response, "$.accessToken");
 
-		// without a token: 401; with it: authenticated, and 404 only because the endpoint comes in T-011
+		// without a token: 401; with it: the profile of the logged-in user
 		mockMvc.perform(get(PROTECTED_URL)).andExpect(status().isUnauthorized());
 		mockMvc.perform(get(PROTECTED_URL).header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-			.andExpect(status().isNotFound());
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.email").value("anna@example.com"));
 	}
 
 	@Test

@@ -48,6 +48,13 @@ public class User {
 		return new User(email, passwordHash, displayName, createdAt);
 	}
 
+	/** Replaces the editable profile data; the caller passes already normalized values. */
+	public void updateProfile(String displayName, String bio, boolean publicProfile) {
+		this.displayName = displayName;
+		this.bio = bio;
+		this.publicProfile = publicProfile;
+	}
+
 	public Long getId() {
 		return id;
 	}
