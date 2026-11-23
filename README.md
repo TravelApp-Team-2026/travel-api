@@ -63,7 +63,7 @@ Authorization: Bearer <token>
 
 ### API error format
 
-Every error is an RFC 9457 `ProblemDetail` (`application/problem+json`). `title` and `detail` are user-facing (Polish) and can be shown in the app as they are. Validation errors also carry `fieldErrors` (field name -> message).
+Every error is an RFC 9457 `ProblemDetail` (`application/problem+json`). `title` and `detail` are user-facing (Polish) and can be shown in the app as they are. Validation errors also carry `fieldErrors` (field name -> message). Messages come straight from the validation annotations, so **request DTOs must define Polish `message`s** (e.g. `@Email(message = "Podaj poprawny adres e-mail.")`). An error of the whole object (class-level constraint) has no field; its message is returned as `detail`. Standard Spring errors (unknown path, wrong HTTP method, unsupported media type) are returned in the same format with Polish texts.
 
 ```json
 {
@@ -72,7 +72,7 @@ Every error is an RFC 9457 `ProblemDetail` (`application/problem+json`). `title`
   "status": 400,
   "detail": "Przesłane dane są nieprawidłowe.",
   "instance": "/api/v1/auth/register",
-  "fieldErrors": { "email": "must be a well-formed email address" }
+  "fieldErrors": { "email": "Podaj poprawny adres e-mail." }
 }
 ```
 
@@ -81,7 +81,8 @@ Every error is an RFC 9457 `ProblemDetail` (`application/problem+json`). `title`
 | 400 | invalid or unreadable request body |
 | 401 | missing/invalid token or bad credentials |
 | 403 | authenticated but not allowed |
-| 404 | resource not found (`ResourceNotFoundException`) |
+| 404 | resource not found (`ResourceNotFoundException`) or unknown path |
+| 405 / 415 | wrong HTTP method / unsupported media type |
 | 409 | conflict, e.g. email already taken (`ConflictException`) |
 | 500 | unexpected error, generic message, no stack trace |
 

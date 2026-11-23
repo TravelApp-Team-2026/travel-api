@@ -2,6 +2,7 @@ package pl.travelapi.shared.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -24,7 +26,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 /**
  * One error format for the whole API: RFC 9457 {@link ProblemDetail}.
  * {@code title} and {@code detail} are user-facing (Polish), the mobile app displays them directly.
- * Validation errors additionally carry {@code fieldErrors} (field name -> message).
+ * Validation errors additionally carry {@code fieldErrors} (field name -> message); the validation
+ * annotations of request DTOs must therefore define Polish {@code message}s. Errors of the whole object
+ * (class-level constraints) have no field, so their messages become the {@code detail}.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -39,8 +43,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			String message = error.getDefaultMessage() != null ? error.getDefaultMessage() : "Nieprawidłowa wartość.";
 			fieldErrors.putIfAbsent(error.getField(), message);
 		}
-		ProblemDetail problem = problem(HttpStatus.BAD_REQUEST, "Nieprawidłowe żądanie",
-				"Przesłane dane są nieprawidłowe.");
+		List<String> globalMessages = ex.getBindingResult().getGlobalErrors().stream()
+			.map(ObjectError::getDefaultMessage)
+			.filter(message -> message != null && !message.isBlank())
+			.toList();
+		String detail = globalMessages.isEmpty() ? "Przesłane dane są nieprawidłowe." : String.join(" ", globalMessages);
+		ProblemDetail problem = problem(HttpStatus.BAD_REQUEST, "Nieprawidłowe żądanie", detail);
 		problem.setProperty("fieldErrors", fieldErrors);
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
@@ -51,6 +59,50 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemDetail problem = problem(HttpStatus.BAD_REQUEST, "Nieprawidłowe żądanie",
 				"Nie można odczytać przesłanych danych. Sprawdź format żądania.");
 		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+
+	/**
+	 * Standard Spring MVC errors (unknown path, wrong HTTP method, unsupported media type, ...) are
+	 * produced by {@link ResponseEntityExceptionHandler} with English texts. Handlers in this class pass
+	 * their own body, so only the ones created by Spring (body == null) are translated here.
+	 */
+	@Override
+	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
+			HttpStatusCode statusCode, WebRequest request) {
+		ResponseEntity<Object> response = super.handleExceptionInternal(ex, body, headers, statusCode, request);
+		if (body == null && response != null && response.getBody() instanceof ProblemDetail problem) {
+			localize(problem, statusCode.value());
+		}
+		return response;
+	}
+
+	private static void localize(ProblemDetail problem, int status) {
+		switch (status) {
+			case 400 -> {
+				problem.setTitle("Nieprawidłowe żądanie");
+				problem.setDetail("Żądanie jest nieprawidłowe lub brakuje wymaganych danych.");
+			}
+			case 404 -> {
+				problem.setTitle("Nie znaleziono");
+				problem.setDetail("Nie znaleziono żądanego zasobu.");
+			}
+			case 405 -> {
+				problem.setTitle("Metoda niedozwolona");
+				problem.setDetail("Ta metoda HTTP nie jest obsługiwana dla tego adresu.");
+			}
+			case 406 -> {
+				problem.setTitle("Nieobsługiwany format odpowiedzi");
+				problem.setDetail("Nie można zwrócić odpowiedzi w żądanym formacie.");
+			}
+			case 415 -> {
+				problem.setTitle("Nieobsługiwany typ danych");
+				problem.setDetail("Ten typ danych nie jest obsługiwany. Wyślij dane w formacie JSON.");
+			}
+			default -> {
+				problem.setTitle("Błąd żądania");
+				problem.setDetail("Nie można przetworzyć żądania.");
+			}
+		}
 	}
 
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -65,7 +117,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(BadCredentialsException.class)
 	ProblemDetail handleBadCredentials(BadCredentialsException ex) {
-		return problem(HttpStatus.UNAUTHORIZED, "Brak autoryzacji", "Nieprawidłowy adres e-mail lub hasło.");
+		return problem(HttpStatus.UNAUTHORIZED, "Brak autoryzacji", "Nieprawidłowy e-mail lub hasło");
 	}
 
 	@ExceptionHandler(AuthenticationException.class)
