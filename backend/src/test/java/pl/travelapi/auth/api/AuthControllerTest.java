@@ -17,7 +17,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.authentication.BadCredentialsException;
 import pl.travelapi.auth.application.AuthService;
+import pl.travelapi.auth.application.AuthService.LoginResult;
+import pl.travelapi.shared.security.AccessToken;
 import pl.travelapi.shared.config.SecurityConfig;
 import pl.travelapi.shared.exception.ConflictException;
 import pl.travelapi.shared.exception.GlobalExceptionHandler;
@@ -161,6 +164,52 @@ class AuthControllerTest {
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.fieldErrors.password")
 				.value("Hasło jest zbyt długie. Skróć je lub użyj mniej znaków specjalnych i polskich liter."));
+
+		verifyNoInteractions(authService);
+	}
+
+	private static final String LOGIN_URL = "/api/v1/auth/login";
+
+	private static String loginBody(String email, String password) {
+		return "{\"email\":\"%s\",\"password\":\"%s\"}".formatted(email, password);
+	}
+
+	@Test
+	void shouldReturn200WithTokenAndUserOnLogin() throws Exception {
+		AccessToken token = new AccessToken("jwt-value", Instant.parse("2026-01-02T10:00:00Z"));
+		when(authService.login("anna@example.com", "secret-password")).thenReturn(new LoginResult(savedUser(), token));
+
+		mockMvc.perform(post(LOGIN_URL)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(loginBody("anna@example.com", "secret-password")))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.accessToken").value("jwt-value"))
+			.andExpect(jsonPath("$.tokenType").value("Bearer"))
+			.andExpect(jsonPath("$.expiresAt").value("2026-01-02T10:00:00Z"))
+			.andExpect(jsonPath("$.user.id").value(1))
+			.andExpect(jsonPath("$.user.email").value("anna@example.com"))
+			.andExpect(jsonPath("$.user.displayName").value("Anna"))
+			.andExpect(jsonPath("$.user.passwordHash").doesNotExist());
+	}
+
+	@Test
+	void shouldReturn401WithMockupMessageForBadCredentials() throws Exception {
+		when(authService.login(anyString(), anyString())).thenThrow(new BadCredentialsException("Bad credentials"));
+
+		mockMvc.perform(post(LOGIN_URL)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(loginBody("anna@example.com", "wrong-password")))
+			.andExpect(status().isUnauthorized())
+			.andExpect(jsonPath("$.status").value(401))
+			.andExpect(jsonPath("$.detail").value("Nieprawidłowy e-mail lub hasło"));
+	}
+
+	@Test
+	void shouldReturn400WhenLoginFieldsAreMissing() throws Exception {
+		mockMvc.perform(post(LOGIN_URL).contentType(MediaType.APPLICATION_JSON).content("{}"))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.fieldErrors.email").value("E-mail jest wymagany."))
+			.andExpect(jsonPath("$.fieldErrors.password").value("Hasło jest wymagane."));
 
 		verifyNoInteractions(authService);
 	}
