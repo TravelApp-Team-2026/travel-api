@@ -1,22 +1,46 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:travel_app/screens/profile_screen.dart';
+import 'package:travel_app/services/profile_edit_guard.dart';
 import 'package:travel_app/theme/app_palette.dart';
 
 /// Bottom navigation from the mockups: Podróże, Mapa, Statystyki, Profil.
 /// Tab bodies are placeholders for later milestones.
-class MainShell extends StatelessWidget {
+class MainShell extends ConsumerWidget {
   const MainShell({super.key, required this.shell});
 
   final StatefulNavigationShell shell;
 
+  Future<void> _openBranch(
+    BuildContext context,
+    WidgetRef ref,
+    int index,
+  ) async {
+    if (shell.currentIndex == profileBranchIndex &&
+        index != shell.currentIndex) {
+      final guard = ref.read(profileEditGuardProvider);
+      if (guard != null && guard.dirty) {
+        final leave = await confirmDiscardProfileChanges(context);
+        if (!leave || !context.mounted) {
+          return;
+        }
+        guard.discard();
+      }
+    }
+    shell.goBranch(index, initialLocation: index == shell.currentIndex);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: shell,
       bottomNavigationBar: _NavBar(
         currentIndex: shell.currentIndex,
         onSelected: (index) {
-          shell.goBranch(index, initialLocation: index == shell.currentIndex);
+          unawaited(_openBranch(context, ref, index));
         },
       ),
     );

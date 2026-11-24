@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/login_screen.dart';
 import 'package:travel_app/screens/main_shell.dart';
+import 'package:travel_app/screens/profile_screen.dart';
 import 'package:travel_app/screens/register_screen.dart';
 import 'package:travel_app/screens/t014_test_screen.dart';
 import 'package:travel_app/services/auth_session.dart';
@@ -78,8 +79,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/profile',
-                builder: (context, state) =>
-                    const SectionPlaceholder(title: 'Profil'),
+                builder: (context, state) => const ProfileScreen(),
               ),
             ],
           ),
