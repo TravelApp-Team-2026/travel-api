@@ -119,6 +119,25 @@ class GlobalExceptionHandlerTest {
 	}
 
 	@Test
+	void shouldReturn400WithFieldErrorForInvalidRequestException() throws Exception {
+		mockMvc.perform(get("/test-errors/invalid-request").with(user("tester")))
+			.andExpect(status().isBadRequest())
+			.andExpect(jsonPath("$.status").value(400))
+			.andExpect(jsonPath("$.title").value("Nieprawidłowe żądanie"))
+			.andExpect(jsonPath("$.detail").value("Przesłane dane są nieprawidłowe."))
+			.andExpect(jsonPath("$.fieldErrors.q").value("Wpisz nazwę miejsca."));
+	}
+
+	@Test
+	void shouldReturn503ForServiceUnavailable() throws Exception {
+		mockMvc.perform(get("/test-errors/unavailable").with(user("tester")))
+			.andExpect(status().isServiceUnavailable())
+			.andExpect(jsonPath("$.status").value(503))
+			.andExpect(jsonPath("$.title").value("Usługa niedostępna"))
+			.andExpect(jsonPath("$.detail").value("Usługa chwilowo niedostępna."));
+	}
+
+	@Test
 	void shouldReturn500WithoutLeakingInternals() throws Exception {
 		MvcResult result = mockMvc.perform(get("/test-errors/unexpected").with(user("tester")))
 			.andExpect(status().isInternalServerError())
@@ -240,6 +259,16 @@ class GlobalExceptionHandlerTest {
 		@GetMapping("/conflict")
 		void conflict() {
 			throw new ConflictException("Ten adres e-mail jest już zajęty.");
+		}
+
+		@GetMapping("/invalid-request")
+		void invalidRequest() {
+			throw new InvalidRequestException("q", "Wpisz nazwę miejsca.");
+		}
+
+		@GetMapping("/unavailable")
+		void unavailable() {
+			throw new ServiceUnavailableException("Usługa chwilowo niedostępna.");
 		}
 
 		@GetMapping("/unexpected")

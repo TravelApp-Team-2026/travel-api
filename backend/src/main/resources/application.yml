@@ -11,6 +11,10 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+  http:
+    clients:
+      connect-timeout: 2s
+      read-timeout: 4s
 
 app:
   jwt:
@@ -18,3 +22,13 @@ app:
     secret: ${JWT_SECRET:}
     # How long an access token is valid, e.g. 30m, 24h, 7d.
     expiration: ${JWT_EXPIRATION:24h}
+  geocoding:
+    base-url: https://nominatim.openstreetmap.org
+    user-agent: "TravelApi/1.0 (+https://github.com/TravelApp-Team-2026/travel-api)"
+    # Nominatim allows at most 1 request per second; a small margin is added.
+    min-request-interval: 1100ms
+    # How long a search may wait for its turn before it is rejected with 503.
+    max-queue-wait: 2s
+    cache-ttl: 24h
+    cache-max-entries: 1000
+    result-limit: 5

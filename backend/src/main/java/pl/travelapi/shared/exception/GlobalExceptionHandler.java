@@ -115,6 +115,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return problem(HttpStatus.CONFLICT, "Konflikt", ex.getMessage());
 	}
 
+	@ExceptionHandler(InvalidRequestException.class)
+	ProblemDetail handleInvalidRequest(InvalidRequestException ex) {
+		ProblemDetail problem = problem(HttpStatus.BAD_REQUEST, "Nieprawidłowe żądanie",
+				"Przesłane dane są nieprawidłowe.");
+		problem.setProperty("fieldErrors", Map.of(ex.field(), ex.getMessage()));
+		return problem;
+	}
+
+	@ExceptionHandler(ServiceUnavailableException.class)
+	ProblemDetail handleServiceUnavailable(ServiceUnavailableException ex) {
+		return problem(HttpStatus.SERVICE_UNAVAILABLE, "Usługa niedostępna", ex.getMessage());
+	}
+
 	@ExceptionHandler(BadCredentialsException.class)
 	ProblemDetail handleBadCredentials(BadCredentialsException ex) {
 		return problem(HttpStatus.UNAUTHORIZED, "Brak autoryzacji", "Nieprawidłowy e-mail lub hasło");
