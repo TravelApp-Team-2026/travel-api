@@ -81,6 +81,20 @@ public class Trip {
 		segments.add(new TripSegment(this, segmentOrder, transportMode, distanceKm, geometryJson));
 	}
 
+	public void updateDetails(String title, String description, LocalDate startDate, LocalDate endDate) {
+		this.title = title;
+		this.description = description;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
+	/** Removes all stops and legs; the distance falls back to zero until it is calculated again. */
+	public void clearRoute() {
+		waypoints.clear();
+		segments.clear();
+		totalDistanceKm = NO_DISTANCE;
+	}
+
 	public Long getId() {
 		return id;
 	}
