@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:travel_app/screens/login_screen.dart';
+import 'package:travel_app/screens/main_shell.dart';
+import 'package:travel_app/screens/register_screen.dart';
+import 'package:travel_app/screens/t014_test_screen.dart';
+import 'package:travel_app/services/auth_session.dart';
+
+final goRouterProvider = Provider<GoRouter>((ref) {
+  final refresh = ValueNotifier<int>(0);
+  ref.listen(authSessionProvider, (_, _) {
+    refresh.value++;
+  });
+
+  final router = GoRouter(
+    refreshListenable: refresh,
+    initialLocation: ref.read(authSessionProvider) == AuthStatus.signedIn
+        ? '/trips'
+        : '/login',
+    redirect: (context, state) {
+      final status = ref.read(authSessionProvider);
+      if (status == AuthStatus.unknown) {
+        return null;
+      }
+
+      final location = state.matchedLocation;
+      final isPublic = location == '/login' || location == '/register';
+      if (status == AuthStatus.signedOut) {
+        return isPublic ? null : '/login';
+      }
+      if (isPublic) {
+        return '/trips';
+      }
+      return null;
+    },
+    routes: [
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => const RegisterScreen(),
+      ),
+      GoRoute(
+        path: '/t014-test',
+        builder: (context, state) => const T014TestScreen(),
+      ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, shell) => MainShell(shell: shell),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/trips',
+                builder: (context, state) =>
+                    const SectionPlaceholder(title: 'Moje podróże'),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/map',
+                builder: (context, state) =>
+                    const SectionPlaceholder(title: 'Mapa'),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/statistics',
+                builder: (context, state) =>
+                    const SectionPlaceholder(title: 'Statystyki'),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/profile',
+                builder: (context, state) =>
+                    const SectionPlaceholder(title: 'Profil'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
+
+  ref.onDispose(() {
+    router.dispose();
+    refresh.dispose();
+  });
+  return router;
+});
