@@ -8,25 +8,15 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.postgresql.PostgreSQLContainer;
+import pl.travelapi.support.IntegrationTest;
 import pl.travelapi.user.domain.User;
 
-@Testcontainers
-@SpringBootTest
+@IntegrationTest
 class UserRepositoryIntegrationTest {
 
 	private static final String EMAIL = "anna@example.com";
 	private static final Instant CREATED_AT = Instant.parse("2026-01-01T10:00:00Z");
-
-	@SuppressWarnings("resource")
-	@Container
-	@ServiceConnection
-	static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:18-alpine");
 
 	private final UserRepository userRepository;
 
