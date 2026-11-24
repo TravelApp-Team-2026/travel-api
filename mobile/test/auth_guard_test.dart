@@ -1,0 +1,80 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:travel_app/main.dart';
+import 'package:travel_app/services/auth_session.dart';
+import 'package:travel_app/services/token_storage.dart';
+
+import 'memory_token_storage.dart';
+
+void main() {
+  testWidgets('stored token opens the main screen', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
+        ],
+        child: const TravelApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Moje podróże'), findsOneWidget);
+    expect(find.text('Podróże'), findsOneWidget);
+    expect(find.text('Mapa'), findsOneWidget);
+    expect(find.text('Statystyki'), findsOneWidget);
+    expect(find.text('Profil'), findsOneWidget);
+    expect(find.text('Zaloguj się'), findsNothing);
+  });
+
+  testWidgets('bottom navigation switches placeholder tabs', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
+        ],
+        child: const TravelApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Mapa'));
+    await tester.pumpAndSettle();
+    expect(find.text('Mapa'), findsNWidgets(2));
+    expect(find.text('Moje podróże'), findsNothing);
+
+    await tester.tap(find.text('Statystyki').first);
+    await tester.pumpAndSettle();
+    expect(find.text('Statystyki'), findsNWidgets(2));
+
+    await tester.tap(find.text('Profil').first);
+    await tester.pumpAndSettle();
+    expect(find.text('Profil'), findsNWidgets(2));
+
+    await tester.tap(find.text('Podróże'));
+    await tester.pumpAndSettle();
+    expect(find.text('Moje podróże'), findsOneWidget);
+  });
+
+  testWidgets('signing out clears the token and returns to login', (tester) async {
+    final storage = MemoryTokenStorage('jwt');
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          tokenStorageProvider.overrideWithValue(storage),
+        ],
+        child: const TravelApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final context = tester.element(find.text('Moje podróże'));
+    await ProviderScope.containerOf(context)
+        .read(authSessionProvider.notifier)
+        .signOut();
+    await tester.pumpAndSettle();
+
+    expect(storage.token, isNull);
+    expect(find.text('Zaloguj się'), findsWidgets);
+    expect(find.text('Moje podróże'), findsNothing);
+  });
+}

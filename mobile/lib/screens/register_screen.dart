@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/auth_validators.dart';
 import 'package:travel_app/services/api_exception.dart';
 import 'package:travel_app/services/auth_api.dart';
+import 'package:travel_app/services/auth_session.dart';
 import 'package:travel_app/services/token_storage.dart';
 import 'package:travel_app/theme/app_palette.dart';
 import 'package:travel_app/widgets/app_button.dart';
@@ -64,8 +65,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         password: _password.text,
       );
       await ref.read(tokenStorageProvider).saveToken(token);
+      ref.read(authSessionProvider.notifier).markSignedIn();
       if (mounted) {
-        context.go('/');
+        context.go('/trips');
       }
     } on ApiException catch (error) {
       if (!mounted) {

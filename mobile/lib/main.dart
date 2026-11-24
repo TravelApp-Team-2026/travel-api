@@ -1,47 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:travel_app/screens/home_screen.dart';
-import 'package:travel_app/screens/login_screen.dart';
-import 'package:travel_app/screens/register_screen.dart';
-import 'package:travel_app/screens/t014_test_screen.dart';
+import 'package:travel_app/router.dart';
+import 'package:travel_app/services/auth_session.dart';
 import 'package:travel_app/theme/app_theme.dart';
 
 void main() {
   runApp(const ProviderScope(child: TravelApp()));
 }
 
-final GoRouter appRouter = GoRouter(
-  initialLocation: '/login',
-  routes: [
-    GoRoute(
-      path: '/login',
-      builder: (context, state) => const LoginScreen(),
-    ),
-    GoRoute(
-      path: '/register',
-      builder: (context, state) => const RegisterScreen(),
-    ),
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const HomeScreen(),
-    ),
-    GoRoute(
-      path: '/t014-test',
-      builder: (context, state) => const T014TestScreen(),
-    ),
-  ],
-);
-
-class TravelApp extends StatelessWidget {
+class TravelApp extends ConsumerWidget {
   const TravelApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final status = ref.watch(authSessionProvider);
+    if (status == AuthStatus.unknown) {
+      return MaterialApp(
+        title: 'Travel',
+        theme: AppTheme.light,
+        home: const Scaffold(body: SizedBox.expand()),
+      );
+    }
+
     return MaterialApp.router(
       title: 'Travel',
       theme: AppTheme.light,
-      routerConfig: appRouter,
+      routerConfig: ref.watch(goRouterProvider),
     );
   }
 }

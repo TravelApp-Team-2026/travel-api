@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_app/services/api_config.dart';
 import 'package:travel_app/services/api_exception.dart';
+import 'package:travel_app/services/auth_session.dart';
 import 'package:travel_app/services/token_storage.dart';
 
 class ApiClient {
@@ -45,6 +46,36 @@ class ApiClient {
   }
 }
 
+/// Attaches the bearer token and, on HTTP 401, runs [onUnauthorized].
+void addAuthInterceptor(
+  Dio dio, {
+  required Future<String?> Function() readToken,
+  required Future<void> Function() onUnauthorized,
+}) {
+  dio.interceptors.add(
+    InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        final token = await readToken();
+        if (token != null && token.isNotEmpty) {
+          options.headers['Authorization'] = 'Bearer $token';
+        } else {
+          options.headers.remove('Authorization');
+        }
+        handler.next(options);
+      },
+      onError: (error, handler) async {
+        try {
+          if (error.response?.statusCode == 401) {
+            await onUnauthorized();
+          }
+        } finally {
+          handler.next(error);
+        }
+      },
+    ),
+  );
+}
+
 final apiClientProvider = Provider<ApiClient>((ref) {
   final tokenStorage = ref.watch(tokenStorageProvider);
 
@@ -58,20 +89,15 @@ final apiClientProvider = Provider<ApiClient>((ref) {
     ),
   );
 
-  dio.interceptors.add(
-    InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        final token = await tokenStorage.getToken();
-
-        if (token != null && token.isNotEmpty) {
-          options.headers['Authorization'] = 'Bearer $token';
-        } else {
-          options.headers.remove('Authorization');
-        }
-
-        handler.next(options);
-      },
-    ),
+  addAuthInterceptor(
+    dio,
+    readToken: tokenStorage.getToken,
+    onUnauthorized: () async {
+      if (!ref.mounted) {
+        return;
+      }
+      await ref.read(authSessionProvider.notifier).signOut();
+    },
   );
 
   ref.onDispose(() {
