@@ -2,8 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:travel_app/main.dart';
 import 'package:travel_app/services/auth_session.dart';
+import 'package:travel_app/services/profile_api.dart';
 import 'package:travel_app/services/token_storage.dart';
 
+import 'fake_profile_api.dart';
 import 'memory_token_storage.dart';
 
 void main() {
@@ -31,6 +33,17 @@ void main() {
       ProviderScope(
         overrides: [
           tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
+          profileApiProvider.overrideWithValue(
+            FakeProfileApi(
+              const UserProfile(
+                id: 1,
+                email: 'jan.kowalski@example.com',
+                displayName: 'Jan Kowalski',
+                bio: null,
+                isPublic: false,
+              ),
+            ),
+          ),
         ],
         child: const TravelApp(),
       ),
