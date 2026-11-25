@@ -1,6 +1,7 @@
 package pl.travelapi.trip.integration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -10,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jayway.jsonpath.JsonPath;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.AfterEach;
@@ -85,6 +87,37 @@ class TripCrudIntegrationTest {
 	}
 
 	@Test
+	void shouldSaveAndReturnLegDistancesGeometryAndTotal() throws Exception {
+		long id = createTrip(bearer,
+				body("Trasy", "2026-05-01", List.of(KRAKOW, BERLIN, PARIS), List.of("CAR", "PLANE")));
+
+		String details = mockMvc.perform(get(TRIPS_URL + "/" + id).header(HttpHeaders.AUTHORIZATION, bearer))
+			.andExpect(status().isOk())
+			// OSRM is unreachable in tests, so the car leg is a straight line.
+			.andExpect(jsonPath("$.segments[0].geometry.length()").value(2))
+			.andExpect(jsonPath("$.segments[0].geometry[0].latitude").value(50.06))
+			.andExpect(jsonPath("$.segments[0].geometry[0].longitude").value(19.94))
+			.andExpect(jsonPath("$.segments[0].geometry[1].latitude").value(52.52))
+			.andExpect(jsonPath("$.segments[1].geometry.length()").value(greaterThan(2)))
+			.andReturn()
+			.getResponse()
+			.getContentAsString();
+
+		BigDecimal firstLeg = decimalAt(details, "$.segments[0].distanceKm");
+		BigDecimal secondLeg = decimalAt(details, "$.segments[1].distanceKm");
+		assertThat(firstLeg).isPositive();
+		assertThat(secondLeg).isPositive();
+		assertThat(decimalAt(details, "$.totalDistanceKm")).isEqualByComparingTo(firstLeg.add(secondLeg));
+
+		String list = mockMvc.perform(get(TRIPS_URL).header(HttpHeaders.AUTHORIZATION, bearer))
+			.andExpect(status().isOk())
+			.andReturn()
+			.getResponse()
+			.getContentAsString();
+		assertThat(decimalAt(list, "$[0].totalDistanceKm")).isEqualByComparingTo(firstLeg.add(secondLeg));
+	}
+
+	@Test
 	void shouldListOnlyOwnTripsNewestFirst() throws Exception {
 		createTrip(bearer, body("Older", "2026-01-10", List.of(KRAKOW, BERLIN), List.of("CAR")));
 		createTrip(bearer, body("Newer", "2026-06-01", List.of(KRAKOW, BERLIN, PARIS), List.of("CAR", "CAR")));
@@ -124,7 +157,9 @@ class TripCrudIntegrationTest {
 			.andExpect(jsonPath("$.waypoints.length()").value(3))
 			.andExpect(jsonPath("$.waypoints[0].placeName").value("Paryż"))
 			.andExpect(jsonPath("$.segments.length()").value(2))
-			.andExpect(jsonPath("$.segments[0].transportMode").value("CAR"));
+			.andExpect(jsonPath("$.segments[0].transportMode").value("CAR"))
+			.andExpect(jsonPath("$.segments[0].geometry.length()").value(2))
+			.andExpect(jsonPath("$.totalDistanceKm").value(greaterThan(0.0)));
 	}
 
 	@Test
@@ -224,7 +259,10 @@ class TripCrudIntegrationTest {
 			.andExpect(jsonPath("$.paths['/api/v1/trips'].post.responses['400']").exists())
 			.andExpect(jsonPath("$.paths['/api/v1/trips/{id}'].get.responses['404']").exists())
 			.andExpect(jsonPath("$.components.schemas.SaveTripRequest.properties.waypoints").exists())
-			.andExpect(jsonPath("$.components.schemas.TripResponse.properties.segments").exists());
+			.andExpect(jsonPath("$.components.schemas.TripResponse.properties.segments").exists())
+			.andExpect(jsonPath("$.components.schemas.SegmentResponse.properties.geometry").exists())
+			.andExpect(jsonPath("$.components.schemas.GeometryPointResponse.properties.latitude").exists())
+			.andExpect(jsonPath("$.components.schemas.GeometryPointResponse.properties.longitude").exists());
 	}
 
 	private long createTrip(String authorization, String body) throws Exception {
@@ -239,6 +277,11 @@ class TripCrudIntegrationTest {
 	private static long idOf(MvcResult result) throws Exception {
 		Number id = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
 		return id.longValue();
+	}
+
+	private static BigDecimal decimalAt(String json, String path) {
+		Number value = JsonPath.read(json, path);
+		return new BigDecimal(value.toString());
 	}
 
 	private String registerAndLogIn(String email, String displayName) throws Exception {

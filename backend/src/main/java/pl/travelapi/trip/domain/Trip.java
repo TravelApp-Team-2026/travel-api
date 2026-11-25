@@ -76,9 +76,13 @@ public class Trip {
 		waypoints.add(new Waypoint(this, stopOrder, placeName, latitude, longitude, countryCode, countryName));
 	}
 
-	/** The segment with order {@code i} connects the waypoint with order {@code i} to the one with order {@code i + 1}. */
+	/**
+	 * The segment with order {@code i} connects the waypoint with order {@code i} to the one with order
+	 * {@code i + 1}. Its distance is added to the total, so the total is always the sum of the legs.
+	 */
 	public void addSegment(int segmentOrder, TransportMode transportMode, BigDecimal distanceKm, String geometryJson) {
 		segments.add(new TripSegment(this, segmentOrder, transportMode, distanceKm, geometryJson));
+		totalDistanceKm = totalDistanceKm.add(distanceKm);
 	}
 
 	public void updateDetails(String title, String description, LocalDate startDate, LocalDate endDate) {
@@ -88,7 +92,7 @@ public class Trip {
 		this.endDate = endDate;
 	}
 
-	/** Removes all stops and legs; the distance falls back to zero until it is calculated again. */
+	/** Removes all stops and legs, so the total distance goes back to zero. */
 	public void clearRoute() {
 		waypoints.clear();
 		segments.clear();

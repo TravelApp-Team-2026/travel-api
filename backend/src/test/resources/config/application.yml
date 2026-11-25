@@ -4,3 +4,9 @@ app:
   jwt:
     secret: test-only-secret-for-automated-tests-0123456789
     expiration: 1h
+  routing:
+    osrm:
+      # Tests must never call the real OSRM server. Nothing listens here, so every car leg
+      # saved by an integration test falls back to a straight line at once.
+      base-url: http://localhost:1
+      min-request-interval: 0ms

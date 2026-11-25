@@ -50,7 +50,11 @@ public class TripController {
 			summary = "Dodanie podróży",
 			description = "Przystanki i odcinki są numerowane od 0 w kolejności z listy; odcinek `i` łączy przystanek `i` "
 					+ "z `i + 1`. Podróż ma od 2 do 50 przystanków i dokładnie o 1 mniej odcinków. "
-					+ "Odległości są na razie równe 0.00.")
+					+ "Serwer liczy długość i geometrię każdego odcinka. Odcinki CAR są liczone po kolei, najwyżej "
+					+ "jeden na ok. 1,1 s, więc odpowiedź może przyjść po kilku sekundach, a przy wielu odcinkach "
+					+ "CAR lub niedostępnej usłudze tras nawet po kilku minutach. Klient powinien ustawić długi "
+					+ "limit czasu i nie wysyłać żądania ponownie, bo powstanie druga podróż. Niedostępna usługa "
+					+ "tras nie blokuje zapisu: odcinek dostaje linię prostą.")
 	@ApiResponse(responseCode = "201", description = "Podróż utworzona; nagłówek `Location` wskazuje jej adres")
 	@ApiResponse(
 			responseCode = "400",
@@ -78,7 +82,10 @@ public class TripController {
 		return tripService.list(JwtTokenService.userId(jwt));
 	}
 
-	@Operation(summary = "Szczegóły podróży", description = "Zwraca przystanki i odcinki w kolejności podróży.")
+	@Operation(
+			summary = "Szczegóły podróży",
+			description = "Zwraca przystanki i odcinki w kolejności podróży; każdy odcinek ma długość `distanceKm` "
+					+ "i linię `geometry` (lista punktów z polami `latitude` i `longitude`).")
 	@ApiResponse(responseCode = "200", description = "Podróż")
 	@ApiResponse(
 			responseCode = "404",
@@ -92,7 +99,10 @@ public class TripController {
 
 	@Operation(
 			summary = "Zastąpienie podróży",
-			description = "Zastępuje szczegóły, przystanki i odcinki treścią żądania (jak przy dodawaniu).")
+			description = "Zastępuje szczegóły, przystanki i odcinki treścią żądania (jak przy dodawaniu). Odcinek "
+					+ "o tych samych współrzędnych początku i końca oraz tym samym środku transportu zachowuje "
+					+ "zapisaną trasę (także linię prostą); pozostałe są liczone od nowa, z tymi samymi czasami "
+					+ "odpowiedzi co przy dodawaniu.")
 	@ApiResponse(responseCode = "200", description = "Podróż po zmianie")
 	@ApiResponse(
 			responseCode = "400",
