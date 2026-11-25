@@ -32,3 +32,14 @@ app:
     cache-ttl: 24h
     cache-max-entries: 1000
     result-limit: 5
+  routing:
+    osrm:
+      # Public OSRM demo server (non-commercial use). Set OSRM_BASE_URL to use another server.
+      base-url: ${OSRM_BASE_URL:https://router.project-osrm.org}
+      user-agent: "TravelApi/1.0 (+https://github.com/TravelApp-Team-2026/travel-api)"
+      # The demo server allows at most 1 request per second; a small margin is added.
+      min-request-interval: 1100ms
+      # How long a request may wait for its turn before the leg becomes a straight line.
+      max-queue-wait: 5s
+      # A stop farther than this from the nearest road counts as "no route".
+      max-snap-distance-meters: 10000

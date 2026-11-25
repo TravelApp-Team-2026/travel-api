@@ -13,6 +13,7 @@ import org.springframework.web.client.RestClientException;
 import pl.travelapi.geo.domain.GeocodingProvider;
 import pl.travelapi.geo.domain.GeocodingUnavailableException;
 import pl.travelapi.geo.domain.Place;
+import pl.travelapi.shared.http.RequestSpacer;
 
 /**
  * Geocoding through the public Nominatim server. Its usage policy requires an identifying

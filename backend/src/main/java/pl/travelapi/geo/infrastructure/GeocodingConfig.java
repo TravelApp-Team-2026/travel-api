@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.travelapi.shared.http.RequestSpacer;
 
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(GeocodingProperties.class)
