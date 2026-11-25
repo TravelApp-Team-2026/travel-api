@@ -1,4 +1,4 @@
-package pl.travelapi.geo.infrastructure;
+package pl.travelapi.shared.http;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

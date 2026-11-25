@@ -22,6 +22,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestClient;
 import pl.travelapi.geo.domain.GeocodingUnavailableException;
 import pl.travelapi.geo.domain.Place;
+import pl.travelapi.shared.http.RequestSpacer;
 
 class NominatimGeocodingProviderTest {
 

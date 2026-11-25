@@ -1,4 +1,4 @@
-package pl.travelapi.geo.infrastructure;
+package pl.travelapi.shared.http;
 
 import java.time.Duration;
 import java.util.function.LongSupplier;
