@@ -6,9 +6,11 @@ import 'package:travel_app/screens/profile_screen.dart';
 import 'package:travel_app/services/api_exception.dart';
 import 'package:travel_app/services/profile_api.dart';
 import 'package:travel_app/services/token_storage.dart';
+import 'package:travel_app/services/trips_api.dart';
 import 'package:travel_app/theme/app_theme.dart';
 
 import 'fake_profile_api.dart';
+import 'fake_trips_api.dart';
 import 'memory_token_storage.dart';
 
 void main() {
@@ -145,6 +147,7 @@ void main() {
         overrides: [
           tokenStorageProvider.overrideWithValue(storage),
           profileApiProvider.overrideWithValue(api),
+          tripsApiProvider.overrideWithValue(FakeTripsApi()),
         ],
         child: const TravelApp(),
       ),
@@ -191,6 +194,7 @@ void main() {
         overrides: [
           tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
           profileApiProvider.overrideWithValue(api),
+          tripsApiProvider.overrideWithValue(FakeTripsApi()),
         ],
         child: const TravelApp(),
       ),

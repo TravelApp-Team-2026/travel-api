@@ -6,15 +6,31 @@ import 'package:travel_app/screens/main_shell.dart';
 import 'package:travel_app/screens/profile_screen.dart';
 import 'package:travel_app/screens/register_screen.dart';
 import 'package:travel_app/screens/t014_test_screen.dart';
+import 'package:travel_app/screens/trip_details_screen.dart';
+import 'package:travel_app/screens/trip_editor_screen.dart';
+import 'package:travel_app/screens/trips_screen.dart';
 import 'package:travel_app/services/auth_session.dart';
+import 'package:travel_app/services/trips_api.dart';
+
+String _tripDetailsTitle(Object? extra) {
+  if (extra is TripSummary) {
+    return extra.title;
+  }
+  if (extra is String && extra.isNotEmpty) {
+    return extra;
+  }
+  return 'Szczegóły podróży';
+}
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier<int>(0);
+  final rootKey = GlobalKey<NavigatorState>();
   ref.listen(authSessionProvider, (_, _) {
     refresh.value++;
   });
 
   final router = GoRouter(
+    navigatorKey: rootKey,
     refreshListenable: refresh,
     initialLocation: ref.read(authSessionProvider) == AuthStatus.signedIn
         ? '/trips'
@@ -52,8 +68,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/trips',
-                builder: (context, state) =>
-                    const SectionPlaceholder(title: 'Moje podróże'),
+                builder: (context, state) => const TripsScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'new',
+                    parentNavigatorKey: rootKey,
+                    builder: (context, state) => const TripEditorScreen(),
+                  ),
+                  GoRoute(
+                    path: ':id',
+                    parentNavigatorKey: rootKey,
+                    builder: (context, state) => TripDetailsScreen(
+                      title: _tripDetailsTitle(state.extra),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
