@@ -4,8 +4,10 @@ import 'package:travel_app/main.dart';
 import 'package:travel_app/services/auth_session.dart';
 import 'package:travel_app/services/profile_api.dart';
 import 'package:travel_app/services/token_storage.dart';
+import 'package:travel_app/services/trips_api.dart';
 
 import 'fake_profile_api.dart';
+import 'fake_trips_api.dart';
 import 'memory_token_storage.dart';
 
 void main() {
@@ -14,6 +16,7 @@ void main() {
       ProviderScope(
         overrides: [
           tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
+          tripsApiProvider.overrideWithValue(FakeTripsApi()),
         ],
         child: const TravelApp(),
       ),
@@ -33,6 +36,7 @@ void main() {
       ProviderScope(
         overrides: [
           tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
+          tripsApiProvider.overrideWithValue(FakeTripsApi()),
           profileApiProvider.overrideWithValue(
             FakeProfileApi(
               const UserProfile(
@@ -74,6 +78,7 @@ void main() {
       ProviderScope(
         overrides: [
           tokenStorageProvider.overrideWithValue(storage),
+          tripsApiProvider.overrideWithValue(FakeTripsApi()),
         ],
         child: const TravelApp(),
       ),
