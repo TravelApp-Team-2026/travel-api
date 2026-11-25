@@ -99,6 +99,24 @@ Profile of the logged-in user (token required). There is no id in the path: ever
 
 Invalid data returns `400` with `fieldErrors` (e.g. `"displayName": "Nazwa wyświetlana nie może być pusta."`); nothing is saved then. If the account no longer exists while the token is still valid, the response is `404`.
 
+### Visited countries
+
+`GET /api/v1/countries/visited` (token required) returns the countries of the logged-in user, derived automatically from trip stops:
+
+```json
+[
+  { "code": "PL", "name": "Polska", "tripCount": 3 },
+  { "code": "CZ", "name": "Czechy", "tripCount": 2 },
+  { "code": "AT", "name": "Austria", "tripCount": 1 }
+]
+```
+
+- A country counts as visited when a trip has at least one stop in it. `tripCount` is the number of different trips with a stop there; several stops in one country in the same trip count once.
+- `code` is ISO 3166-1 alpha-2, `name` is the Polish name from the stops.
+- Order: most trips first, ties by name in Polish alphabetical order (as in the `statistics_countries` mockup). The app can display the list as is; its length is the number of visited countries.
+- Optional `?year=YYYY` (1900-2100) counts only trips that **start** in that year. Without it, the whole history is used.
+- No trips (or none in the year) returns `[]`. An invalid year returns `400` with `"fieldErrors": {"year": "Rok musi być liczbą od 1900 do 2100."}`.
+
 ### API error format
 
 Every error is an RFC 9457 `ProblemDetail` (`application/problem+json`). `title` and `detail` are user-facing (Polish) and can be shown in the app as they are. Validation errors also carry `fieldErrors` (field name -> message). Messages come straight from the validation annotations, so **request DTOs must define Polish `message`s** (e.g. `@Email(message = "Podaj poprawny adres e-mail.")`). An error of the whole object (class-level constraint) has no field; its message is returned as `detail`. Standard Spring errors (unknown path, wrong HTTP method, unsupported media type) are returned in the same format with Polish texts.
