@@ -12,7 +12,7 @@ public record TripResponse(
 		@Schema(nullable = true) String description,
 		LocalDate startDate,
 		@Schema(nullable = true) LocalDate endDate,
-		@Schema(description = "Suma odległości odcinków w km; do czasu obliczania tras zawsze 0.00")
+		@Schema(description = "Suma długości odcinków (`segments[].distanceKm`) w km.")
 		BigDecimal totalDistanceKm,
 		List<WaypointResponse> waypoints,
 		List<SegmentResponse> segments) {

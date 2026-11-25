@@ -69,7 +69,7 @@ class TripRepositoryIntegrationTest {
 			assertThat(found.getSegments().get(0).getTransportMode()).isEqualTo(TransportMode.TRAIN);
 			assertThat(found.getSegments().get(0).getDistanceKm()).isEqualByComparingTo("250.50");
 			assertThat(found.getSegments().get(0).getGeometryJson()).isNull();
-			assertThat(found.getTotalDistanceKm()).isEqualByComparingTo("0");
+			assertThat(found.getTotalDistanceKm()).isEqualByComparingTo("250.50");
 			assertThat(found.getDescription()).isNull();
 			assertThat(found.getEndDate()).isNull();
 		});
