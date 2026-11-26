@@ -83,6 +83,13 @@ DateTime _parseDate(String value) {
   return date;
 }
 
+class TripLeg {
+  const TripLeg({required this.mode, this.distanceKm = 0});
+
+  final TransportMode mode;
+  final double distanceKm;
+}
+
 class TripDetails {
   const TripDetails({
     required this.id,
@@ -92,7 +99,7 @@ class TripDetails {
     this.endDate,
     required this.totalDistanceKm,
     required this.waypoints,
-    required this.modes,
+    required this.legs,
   });
 
   final int id;
@@ -102,7 +109,9 @@ class TripDetails {
   final DateTime? endDate;
   final double totalDistanceKm;
   final List<Place> waypoints;
-  final List<TransportMode> modes;
+  final List<TripLeg> legs;
+
+  List<TransportMode> get modes => [for (final leg in legs) leg.mode];
 
   factory TripDetails.fromJson(Object? data) {
     if (data is! Map) {
@@ -127,8 +136,8 @@ class TripDetails {
       throw const ApiException('Serwer zwrócił nieprawidłową podróż.');
     }
     final places = [for (final item in waypoints) Place.fromJson(item)];
-    final modes = [for (final item in segments) _modeFromSegment(item)];
-    if (places.length < 2 || modes.length != places.length - 1) {
+    final legs = [for (final item in segments) _legFromSegment(item)];
+    if (places.length < 2 || legs.length != places.length - 1) {
       throw const ApiException('Serwer zwrócił nieprawidłową podróż.');
     }
     return TripDetails(
@@ -139,24 +148,25 @@ class TripDetails {
       endDate: endDate == null ? null : _parseDate(endDate as String),
       totalDistanceKm: totalDistanceKm.toDouble(),
       waypoints: places,
-      modes: modes,
+      legs: legs,
     );
   }
 }
 
-TransportMode _modeFromSegment(Object? data) {
+TripLeg _legFromSegment(Object? data) {
   if (data is! Map) {
     throw const ApiException('Serwer zwrócił nieprawidłowy odcinek.');
   }
   final value = data['transportMode'];
-  if (value is! String) {
+  final km = data['distanceKm'];
+  if (value is! String || km is! num) {
     throw const ApiException('Serwer zwrócił nieprawidłowy odcinek.');
   }
   final mode = TransportMode.tryParse(value);
   if (mode == null) {
     throw const ApiException('Serwer zwrócił nieprawidłowy odcinek.');
   }
-  return mode;
+  return TripLeg(mode: mode, distanceKm: km.toDouble());
 }
 
 class SaveTrip {
@@ -237,6 +247,10 @@ class TripsApi {
     );
     return TripDetails.fromJson(response.data);
   }
+
+  Future<void> deleteTrip(int id) async {
+    await _client.delete('/api/v1/trips/$id');
+  }
 }
 
 final tripsApiProvider = Provider<TripsApi>(
@@ -265,9 +279,17 @@ String formatTripDateRange(DateTime start, DateTime? end) {
   return '${_dayMonthYear(start)}–${_dayMonthYear(end)}';
 }
 
-String formatStopCount(int count) {
-  return '$count ${_plural(count, 'przystanek', 'przystanki', 'przystanków')}';
+String formatStopNoun(int count) {
+  return _plural(count, 'przystanek', 'przystanki', 'przystanków');
 }
+
+String formatStopCount(int count) => '$count ${formatStopNoun(count)}';
+
+String formatSegmentNoun(int count) {
+  return _plural(count, 'odcinek', 'odcinki', 'odcinków');
+}
+
+String formatSegmentCount(int count) => '$count ${formatSegmentNoun(count)}';
 
 String formatDistanceKm(num km) {
   return '${_grouped(km.round())} km';

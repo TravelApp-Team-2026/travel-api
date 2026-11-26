@@ -14,8 +14,10 @@ class FakeTripsApi extends TripsApi {
   TripDetails? details;
   ApiException? detailsError;
   ApiException? saveError;
+  ApiException? deleteError;
   SaveTrip? lastSaved;
   int? lastSavedId;
+  int? lastDeletedId;
   Duration saveDelay = Duration.zero;
 
   @override
@@ -76,7 +78,24 @@ class FakeTripsApi extends TripsApi {
         else
           existing,
     ];
-    return _fromDraft(id, trip);
+    final updated = _fromDraft(id, trip);
+    details = updated;
+    return updated;
+  }
+
+  @override
+  Future<void> deleteTrip(int id) async {
+    lastDeletedId = id;
+    if (deleteError != null) {
+      throw deleteError!;
+    }
+    trips = [
+      for (final existing in trips)
+        if (existing.id != id) existing,
+    ];
+    if (details?.id == id) {
+      details = null;
+    }
   }
 
   static TripDetails _fromDraft(int id, SaveTrip trip) {
@@ -88,7 +107,7 @@ class FakeTripsApi extends TripsApi {
       endDate: trip.endDate,
       totalDistanceKm: 0,
       waypoints: trip.waypoints,
-      modes: trip.modes,
+      legs: [for (final mode in trip.modes) TripLeg(mode: mode)],
     );
   }
 }
