@@ -4,7 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:travel_app/main.dart';
 import 'package:travel_app/services/api_exception.dart';
 import 'package:travel_app/services/token_storage.dart';
+import 'package:travel_app/services/place_search_api.dart';
 import 'package:travel_app/services/trips_api.dart';
+import 'package:travel_app/theme/transport_mode.dart';
 
 import 'fake_trips_api.dart';
 import 'memory_token_storage.dart';
@@ -91,7 +93,11 @@ void main() {
     expect(api.lists, 1);
 
     api.trips = [_mallorca];
-    await tester.fling(find.byType(RefreshIndicator), const Offset(0, 400), 1000);
+    await tester.fling(
+      find.byType(RefreshIndicator),
+      const Offset(0, 400),
+      1000,
+    );
     await tester.pumpAndSettle();
 
     expect(api.lists, 2);
@@ -118,6 +124,48 @@ void main() {
     expect(find.text('Majorka — lato 2026'), findsOneWidget);
     expect(find.text('Weekend w Pradze'), findsNothing);
     expect(find.byIcon(Icons.arrow_back), findsOneWidget);
+  });
+
+  testWidgets('editing from details reloads the trips list', (tester) async {
+    const legnica = Place(
+      placeName: 'Legnica',
+      latitude: 51.21,
+      longitude: 16.16,
+      countryName: 'Polska',
+      countryCode: 'PL',
+    );
+    const berlin = Place(
+      placeName: 'Berlin',
+      latitude: 52.52,
+      longitude: 13.40,
+      countryName: 'Niemcy',
+      countryCode: 'DE',
+    );
+    final api = FakeTripsApi([_mallorca])
+      ..details = TripDetails(
+        id: 1,
+        title: 'Majorka — lato 2026',
+        startDate: DateTime(2026, 8, 12),
+        endDate: DateTime(2026, 8, 19),
+        totalDistanceKm: 4183,
+        waypoints: const [legnica, berlin],
+        modes: const [TransportMode.car],
+      );
+
+    await _pumpTrips(tester, api);
+    await tester.tap(find.byKey(const Key('trip-card-1')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('edit-trip')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField).first, 'Majorka — poprawka');
+    await tester.tap(find.text('Zapisz podróż'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Majorka — poprawka'), findsOneWidget);
+    expect(find.text('Majorka — lato 2026'), findsNothing);
   });
 }
 

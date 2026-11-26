@@ -32,7 +32,9 @@ class AppButton extends StatelessWidget {
         textStyle: context.textRoles.button,
         isLoading: isLoading,
       ),
-      child: isLoading ? _loadingChild(theme.colorScheme.onPrimary) : Text(label),
+      child: isLoading
+          ? _loadingChild(theme.colorScheme.onPrimary)
+          : Text(label),
     );
 
     return LayoutBuilder(
@@ -48,7 +50,6 @@ class AppButton extends StatelessWidget {
   Widget _loadingChild(Color color) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
           width: 16,
@@ -56,7 +57,13 @@ class AppButton extends StatelessWidget {
           child: CircularProgressIndicator(strokeWidth: 2.4, color: color),
         ),
         const SizedBox(width: 8),
-        Text(loadingLabel ?? label),
+        Flexible(
+          child: Text(
+            loadingLabel ?? label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     );
   }

@@ -21,17 +21,33 @@ class ApiClient {
     }
   }
 
-  Future<Response<T>> post<T>(String path, {Object? data}) async {
+  Future<Response<T>> post<T>(
+    String path, {
+    Object? data,
+    Duration? receiveTimeout,
+  }) async {
     try {
-      return await _dio.post<T>(path, data: data);
+      return await _dio.post<T>(
+        path,
+        data: data,
+        options: _timeout(receiveTimeout),
+      );
     } on DioException catch (e) {
       throw ApiException.fromDioException(e);
     }
   }
 
-  Future<Response<T>> put<T>(String path, {Object? data}) async {
+  Future<Response<T>> put<T>(
+    String path, {
+    Object? data,
+    Duration? receiveTimeout,
+  }) async {
     try {
-      return await _dio.put<T>(path, data: data);
+      return await _dio.put<T>(
+        path,
+        data: data,
+        options: _timeout(receiveTimeout),
+      );
     } on DioException catch (e) {
       throw ApiException.fromDioException(e);
     }
@@ -43,6 +59,13 @@ class ApiClient {
     } on DioException catch (e) {
       throw ApiException.fromDioException(e);
     }
+  }
+
+  Options? _timeout(Duration? receiveTimeout) {
+    if (receiveTimeout == null) {
+      return null;
+    }
+    return Options(receiveTimeout: receiveTimeout, sendTimeout: receiveTimeout);
   }
 
   Future<Response<T>> delete<T>(String path) async {

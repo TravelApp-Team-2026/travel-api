@@ -11,6 +11,7 @@ class AppTextField extends FormField<String> {
     this.keyboardType,
     this.textInputAction,
     this.onChanged,
+    this.onTap,
     this.prefixIcon,
     this.suffixIcon,
     this.helperText,
@@ -25,7 +26,7 @@ class AppTextField extends FormField<String> {
     super.autovalidateMode,
     String? initialValue,
     super.enabled,
-       }) : super(
+  }) : super(
          initialValue: controller?.text ?? initialValue ?? '',
          builder: (field) => (field as _AppTextFieldState).buildField(),
        );
@@ -41,6 +42,7 @@ class AppTextField extends FormField<String> {
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onChanged;
+  final VoidCallback? onTap;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final String? helperText;
@@ -147,7 +149,9 @@ class _AppTextFieldState extends FormFieldState<String> {
       controller: _controller,
       enabled: widget.enabled,
       readOnly: widget.readOnly,
-      canRequestFocus: widget.enabled && !widget.readOnly,
+      canRequestFocus:
+          widget.enabled && (!widget.readOnly || widget.onTap != null),
+      onTap: widget.onTap,
       obscureText: widget.obscureText,
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,

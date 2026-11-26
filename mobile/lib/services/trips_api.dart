@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_app/services/api_client.dart';
 import 'package:travel_app/services/api_exception.dart';
+import 'package:travel_app/services/place_search_api.dart';
+import 'package:travel_app/theme/transport_mode.dart';
 
 const _months = [
   'sty',
@@ -81,10 +83,128 @@ DateTime _parseDate(String value) {
   return date;
 }
 
+class TripDetails {
+  const TripDetails({
+    required this.id,
+    required this.title,
+    this.description,
+    required this.startDate,
+    this.endDate,
+    required this.totalDistanceKm,
+    required this.waypoints,
+    required this.modes,
+  });
+
+  final int id;
+  final String title;
+  final String? description;
+  final DateTime startDate;
+  final DateTime? endDate;
+  final double totalDistanceKm;
+  final List<Place> waypoints;
+  final List<TransportMode> modes;
+
+  factory TripDetails.fromJson(Object? data) {
+    if (data is! Map) {
+      throw const ApiException('Serwer zwrócił nieprawidłową podróż.');
+    }
+    final id = data['id'];
+    final title = data['title'];
+    final description = data['description'];
+    final startDate = data['startDate'];
+    final endDate = data['endDate'];
+    final totalDistanceKm = data['totalDistanceKm'];
+    final waypoints = data['waypoints'];
+    final segments = data['segments'];
+    if (id is! num ||
+        title is! String ||
+        startDate is! String ||
+        totalDistanceKm is! num ||
+        waypoints is! List ||
+        segments is! List ||
+        (description != null && description is! String) ||
+        (endDate != null && endDate is! String)) {
+      throw const ApiException('Serwer zwrócił nieprawidłową podróż.');
+    }
+    final places = [for (final item in waypoints) Place.fromJson(item)];
+    final modes = [for (final item in segments) _modeFromSegment(item)];
+    if (places.length < 2 || modes.length != places.length - 1) {
+      throw const ApiException('Serwer zwrócił nieprawidłową podróż.');
+    }
+    return TripDetails(
+      id: id.toInt(),
+      title: title,
+      description: description as String?,
+      startDate: _parseDate(startDate),
+      endDate: endDate == null ? null : _parseDate(endDate as String),
+      totalDistanceKm: totalDistanceKm.toDouble(),
+      waypoints: places,
+      modes: modes,
+    );
+  }
+}
+
+TransportMode _modeFromSegment(Object? data) {
+  if (data is! Map) {
+    throw const ApiException('Serwer zwrócił nieprawidłowy odcinek.');
+  }
+  final value = data['transportMode'];
+  if (value is! String) {
+    throw const ApiException('Serwer zwrócił nieprawidłowy odcinek.');
+  }
+  final mode = TransportMode.tryParse(value);
+  if (mode == null) {
+    throw const ApiException('Serwer zwrócił nieprawidłowy odcinek.');
+  }
+  return mode;
+}
+
+class SaveTrip {
+  const SaveTrip({
+    required this.title,
+    this.description,
+    required this.startDate,
+    this.endDate,
+    required this.waypoints,
+    required this.modes,
+  });
+
+  final String title;
+  final String? description;
+  final DateTime startDate;
+  final DateTime? endDate;
+  final List<Place> waypoints;
+  final List<TransportMode> modes;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
+      'startDate': formatIsoDate(startDate),
+      'endDate': endDate == null ? null : formatIsoDate(endDate!),
+      'waypoints': [
+        for (final place in waypoints)
+          {
+            'placeName': place.placeName,
+            'latitude': place.latitude,
+            'longitude': place.longitude,
+            'countryCode': place.countryCode,
+            'countryName': place.countryName,
+          },
+      ],
+      'segments': [
+        for (final mode in modes) {'transportMode': mode.apiName},
+      ],
+    };
+  }
+}
+
 class TripsApi {
   TripsApi(this._client);
 
   final ApiClient _client;
+
+  static const saveTimeout = Duration(minutes: 5);
 
   Future<List<TripSummary>> listTrips() async {
     final response = await _client.get<dynamic>('/api/v1/trips');
@@ -94,11 +214,43 @@ class TripsApi {
     }
     return [for (final item in data) TripSummary.fromJson(item)];
   }
+
+  Future<TripDetails> getTrip(int id) async {
+    final response = await _client.get<dynamic>('/api/v1/trips/$id');
+    return TripDetails.fromJson(response.data);
+  }
+
+  Future<TripDetails> createTrip(SaveTrip trip) async {
+    final response = await _client.post<dynamic>(
+      '/api/v1/trips',
+      data: trip.toJson(),
+      receiveTimeout: saveTimeout,
+    );
+    return TripDetails.fromJson(response.data);
+  }
+
+  Future<TripDetails> updateTrip(int id, SaveTrip trip) async {
+    final response = await _client.put<dynamic>(
+      '/api/v1/trips/$id',
+      data: trip.toJson(),
+      receiveTimeout: saveTimeout,
+    );
+    return TripDetails.fromJson(response.data);
+  }
 }
 
 final tripsApiProvider = Provider<TripsApi>(
   (ref) => TripsApi(ref.watch(apiClientProvider)),
 );
+
+String formatTripDay(DateTime date) => _dayMonthYear(date);
+
+String formatIsoDate(DateTime date) {
+  final year = date.year.toString().padLeft(4, '0');
+  final month = date.month.toString().padLeft(2, '0');
+  final day = date.day.toString().padLeft(2, '0');
+  return '$year-$month-$day';
+}
 
 String formatTripDateRange(DateTime start, DateTime? end) {
   if (end == null || _sameDay(start, end)) {
