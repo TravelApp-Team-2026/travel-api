@@ -11,17 +11,6 @@ import 'package:travel_app/screens/trip_details_screen.dart';
 import 'package:travel_app/screens/trip_editor_screen.dart';
 import 'package:travel_app/screens/trips_screen.dart';
 import 'package:travel_app/services/auth_session.dart';
-import 'package:travel_app/services/trips_api.dart';
-
-String _tripDetailsTitle(Object? extra) {
-  if (extra is TripSummary) {
-    return extra.title;
-  }
-  if (extra is String && extra.isNotEmpty) {
-    return extra;
-  }
-  return 'Szczegóły podróży';
-}
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier<int>(0);
@@ -94,10 +83,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     parentNavigatorKey: rootKey,
                     builder: (context, state) {
                       final id = int.tryParse(state.pathParameters['id'] ?? '');
-                      return TripDetailsScreen(
-                        tripId: id,
-                        title: _tripDetailsTitle(state.extra),
-                      );
+                      return TripDetailsScreen(tripId: id);
                     },
                   ),
                 ],

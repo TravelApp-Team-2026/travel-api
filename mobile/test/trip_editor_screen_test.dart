@@ -59,12 +59,12 @@ final _mallorca = TripDetails(
   endDate: DateTime(2026, 8, 19),
   totalDistanceKm: 4183,
   waypoints: const [_legnica, _berlin, _palma, _valldemossa, _berlin, _legnica],
-  modes: const [
-    TransportMode.car,
-    TransportMode.plane,
-    TransportMode.car,
-    TransportMode.plane,
-    TransportMode.car,
+  legs: const [
+    TripLeg(mode: TransportMode.car),
+    TripLeg(mode: TransportMode.plane),
+    TripLeg(mode: TransportMode.car),
+    TripLeg(mode: TransportMode.plane),
+    TripLeg(mode: TransportMode.car),
   ],
 );
 
@@ -174,7 +174,10 @@ void main() {
           startDate: DateTime(2026, 5, 1),
           totalDistanceKm: 0,
           waypoints: const [_krakow, _berlin, _palma],
-          modes: const [TransportMode.car, TransportMode.plane],
+          legs: const [
+            TripLeg(mode: TransportMode.car),
+            TripLeg(mode: TransportMode.plane),
+          ],
         ),
       tripId: 2,
     );
