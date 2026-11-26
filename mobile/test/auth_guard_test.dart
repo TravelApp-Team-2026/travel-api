@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:travel_app/main.dart';
 import 'package:travel_app/services/auth_session.dart';
 import 'package:travel_app/services/profile_api.dart';
@@ -9,12 +10,14 @@ import 'package:travel_app/services/trips_api.dart';
 import 'fake_profile_api.dart';
 import 'fake_trips_api.dart';
 import 'memory_token_storage.dart';
+import 'silent_map_tile_provider.dart';
 
 void main() {
   testWidgets('stored token opens the main screen', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          silentMapTilesOverride,
           tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
           tripsApiProvider.overrideWithValue(FakeTripsApi()),
         ],
@@ -35,6 +38,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          silentMapTilesOverride,
           tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
           tripsApiProvider.overrideWithValue(FakeTripsApi()),
           profileApiProvider.overrideWithValue(
@@ -56,7 +60,8 @@ void main() {
 
     await tester.tap(find.text('Mapa'));
     await tester.pumpAndSettle();
-    expect(find.text('Mapa'), findsNWidgets(2));
+    expect(find.text('Mapa'), findsOneWidget);
+    expect(find.byType(FlutterMap), findsOneWidget);
     expect(find.text('Moje podróże'), findsNothing);
 
     await tester.tap(find.text('Statystyki').first);
@@ -72,11 +77,14 @@ void main() {
     expect(find.text('Moje podróże'), findsOneWidget);
   });
 
-  testWidgets('signing out clears the token and returns to login', (tester) async {
+  testWidgets('signing out clears the token and returns to login', (
+    tester,
+  ) async {
     final storage = MemoryTokenStorage('jwt');
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          silentMapTilesOverride,
           tokenStorageProvider.overrideWithValue(storage),
           tripsApiProvider.overrideWithValue(FakeTripsApi()),
         ],
@@ -86,9 +94,9 @@ void main() {
     await tester.pumpAndSettle();
 
     final context = tester.element(find.text('Moje podróże'));
-    await ProviderScope.containerOf(context)
-        .read(authSessionProvider.notifier)
-        .signOut();
+    await ProviderScope.containerOf(
+      context,
+    ).read(authSessionProvider.notifier).signOut();
     await tester.pumpAndSettle();
 
     expect(storage.token, isNull);

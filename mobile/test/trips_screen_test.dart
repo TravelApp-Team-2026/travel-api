@@ -10,6 +10,7 @@ import 'package:travel_app/theme/transport_mode.dart';
 
 import 'fake_trips_api.dart';
 import 'memory_token_storage.dart';
+import 'silent_map_tile_provider.dart';
 
 final _mallorca = TripSummary(
   id: 1,
@@ -210,6 +211,7 @@ Future<void> _pumpTrips(WidgetTester tester, FakeTripsApi api) {
       .pumpWidget(
         ProviderScope(
           overrides: [
+            silentMapTilesOverride,
             tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
             tripsApiProvider.overrideWithValue(api),
           ],

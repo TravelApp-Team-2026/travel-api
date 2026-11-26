@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/login_screen.dart';
+import 'package:travel_app/screens/map_screen.dart';
 import 'package:travel_app/screens/main_shell.dart';
 import 'package:travel_app/screens/place_search_screen.dart';
 import 'package:travel_app/screens/profile_screen.dart';
@@ -94,8 +95,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/map',
-                builder: (context, state) =>
-                    const SectionPlaceholder(title: 'Mapa'),
+                builder: (context, state) => const MapScreen(),
               ),
             ],
           ),

@@ -8,7 +8,6 @@ import 'package:travel_app/services/profile_edit_guard.dart';
 import 'package:travel_app/theme/app_palette.dart';
 
 /// Bottom navigation from the mockups: Podróże, Mapa, Statystyki, Profil.
-/// Tab bodies are placeholders for later milestones.
 class MainShell extends ConsumerWidget {
   const MainShell({super.key, required this.shell});
 
@@ -61,7 +60,10 @@ class SectionPlaceholder extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-            child: Text(title, style: Theme.of(context).textTheme.headlineMedium),
+            child: Text(
+              title,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
           ),
         ),
       ),
@@ -136,7 +138,9 @@ class _NavButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final color = selected ? context.palette.primaryPressed : colors.onSurfaceVariant;
+    final color = selected
+        ? context.palette.primaryPressed
+        : colors.onSurfaceVariant;
 
     return Semantics(
       button: true,

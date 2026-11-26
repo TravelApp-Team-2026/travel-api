@@ -12,6 +12,7 @@ import 'package:travel_app/theme/app_theme.dart';
 import 'fake_profile_api.dart';
 import 'fake_trips_api.dart';
 import 'memory_token_storage.dart';
+import 'silent_map_tile_provider.dart';
 
 void main() {
   const profile = UserProfile(
@@ -86,7 +87,9 @@ void main() {
     expect(find.text('Zmiany zapisane!'), findsNothing);
   });
 
-  testWidgets('save does nothing when the profile is unchanged', (tester) async {
+  testWidgets('save does nothing when the profile is unchanged', (
+    tester,
+  ) async {
     final api = FakeProfileApi(profile);
     await _pumpProfile(tester, api);
 
@@ -111,7 +114,9 @@ void main() {
     expect(find.text('Nazwa wyświetlana nie może być pusta.'), findsOneWidget);
   });
 
-  testWidgets('a field error from the server stays on the name', (tester) async {
+  testWidgets('a field error from the server stays on the name', (
+    tester,
+  ) async {
     final api = FakeProfileApi(profile)
       ..updateError = const ApiException(
         'Przesłane dane są nieprawidłowe.',
@@ -145,6 +150,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          silentMapTilesOverride,
           tokenStorageProvider.overrideWithValue(storage),
           profileApiProvider.overrideWithValue(api),
           tripsApiProvider.overrideWithValue(FakeTripsApi()),
@@ -192,6 +198,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          silentMapTilesOverride,
           tokenStorageProvider.overrideWithValue(MemoryTokenStorage('jwt')),
           profileApiProvider.overrideWithValue(api),
           tripsApiProvider.overrideWithValue(FakeTripsApi()),
@@ -220,25 +227,19 @@ void main() {
 
     expect(find.text('Masz niezapisane zmiany'), findsNothing);
     expect(find.text('Konto i prywatność'), findsOneWidget);
-    expect(
-      find.widgetWithText(TextField, 'Anna Nowak'),
-      findsOneWidget,
-    );
+    expect(find.widgetWithText(TextField, 'Anna Nowak'), findsOneWidget);
 
     await tester.tap(find.text('Mapa'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Tak'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Mapa'), findsNWidgets(2));
+    expect(find.text('Mapa'), findsOneWidget);
     expect(find.text('Konto i prywatność'), findsNothing);
 
     await tester.tap(find.text('Profil').first);
     await tester.pumpAndSettle();
-    expect(
-      find.widgetWithText(TextField, 'Jan Kowalski'),
-      findsOneWidget,
-    );
+    expect(find.widgetWithText(TextField, 'Jan Kowalski'), findsOneWidget);
     expect(api.updates, 0);
   });
 }
@@ -252,10 +253,15 @@ void _useView(WidgetTester tester, Size size) {
 
 Future<void> _pumpProfile(WidgetTester tester, FakeProfileApi api) {
   _useView(tester, const Size(360, 1200));
-  return tester.pumpWidget(
-    ProviderScope(
-      overrides: [profileApiProvider.overrideWithValue(api)],
-      child: MaterialApp(theme: AppTheme.light, home: const ProfileScreen()),
-    ),
-  ).then((_) => tester.pumpAndSettle());
+  return tester
+      .pumpWidget(
+        ProviderScope(
+          overrides: [profileApiProvider.overrideWithValue(api)],
+          child: MaterialApp(
+            theme: AppTheme.light,
+            home: const ProfileScreen(),
+          ),
+        ),
+      )
+      .then((_) => tester.pumpAndSettle());
 }

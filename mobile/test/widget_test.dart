@@ -4,12 +4,14 @@ import 'package:travel_app/main.dart';
 import 'package:travel_app/services/token_storage.dart';
 
 import 'memory_token_storage.dart';
+import 'silent_map_tile_provider.dart';
 
 void main() {
   testWidgets('app starts on the login screen', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          silentMapTilesOverride,
           tokenStorageProvider.overrideWithValue(MemoryTokenStorage()),
         ],
         child: const TravelApp(),
