@@ -116,14 +116,42 @@ void main() {
   });
 
   testWidgets('tapping a card opens trip details', (tester) async {
-    await _pumpTrips(tester, FakeTripsApi([_mallorca, _prague]));
+    await _pumpTrips(
+      tester,
+      FakeTripsApi([_mallorca, _prague])
+        ..details = TripDetails(
+          id: 1,
+          title: 'Majorka — lato 2026',
+          startDate: DateTime(2026, 8, 12),
+          endDate: DateTime(2026, 8, 19),
+          totalDistanceKm: 4183,
+          waypoints: const [
+            Place(
+              placeName: 'Legnica',
+              latitude: 51.21,
+              longitude: 16.16,
+              countryName: 'Polska',
+              countryCode: 'PL',
+            ),
+            Place(
+              placeName: 'Berlin',
+              latitude: 52.52,
+              longitude: 13.40,
+              countryName: 'Niemcy',
+              countryCode: 'DE',
+            ),
+          ],
+          legs: const [TripLeg(mode: TransportMode.car, distanceKm: 340)],
+        ),
+    );
 
     await tester.tap(find.byKey(const Key('trip-card-1')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Majorka — lato 2026'), findsOneWidget);
+    expect(find.text('Majorka — lato 2026'), findsWidgets);
     expect(find.text('Weekend w Pradze'), findsNothing);
     expect(find.byIcon(Icons.arrow_back), findsOneWidget);
+    expect(find.text('Odcinki'), findsOneWidget);
   });
 
   testWidgets('editing from details reloads the trips list', (tester) async {
@@ -149,7 +177,7 @@ void main() {
         endDate: DateTime(2026, 8, 19),
         totalDistanceKm: 4183,
         waypoints: const [legnica, berlin],
-        modes: const [TransportMode.car],
+        legs: const [TripLeg(mode: TransportMode.car)],
       );
 
     await _pumpTrips(tester, api);

@@ -12,8 +12,7 @@ void main() {
   test('list reads GET /api/v1/trips', () async {
     final dio = Dio();
     RequestOptions? seen;
-    dio.httpClientAdapter = _JsonAdapter(
-      '''
+    dio.httpClientAdapter = _JsonAdapter('''
       [
         {
           "id": 1,
@@ -24,9 +23,7 @@ void main() {
           "totalDistanceKm": 4183.00
         }
       ]
-      ''',
-      onRequest: (options) => seen = options,
-    );
+      ''', onRequest: (options) => seen = options);
 
     final trips = await TripsApi(ApiClient(dio)).listTrips();
 
@@ -51,9 +48,18 @@ void main() {
       '4–6 lip 2026',
     );
     expect(formatTripDateRange(DateTime(2026, 2, 14), null), '14 lut 2026');
+    expect(formatStopNoun(1), 'przystanek');
+    expect(formatStopNoun(3), 'przystanki');
+    expect(formatStopNoun(6), 'przystanków');
     expect(formatStopCount(1), '1 przystanek');
     expect(formatStopCount(3), '3 przystanki');
     expect(formatStopCount(6), '6 przystanków');
+    expect(formatSegmentNoun(1), 'odcinek');
+    expect(formatSegmentNoun(2), 'odcinki');
+    expect(formatSegmentNoun(5), 'odcinków');
+    expect(formatSegmentCount(1), '1 odcinek');
+    expect(formatSegmentCount(2), '2 odcinki');
+    expect(formatSegmentCount(5), '5 odcinków');
     expect(formatDistanceKm(4183), '4 183 km');
     expect(formatDistanceKm(640), '640 km');
     expect(formatTripsSubtitle(4, 11628), '4 podróże · 11 628 km łącznie');
@@ -87,6 +93,25 @@ void main() {
       TransportMode.plane,
       TransportMode.car,
     ]);
+    expect(
+      [for (final leg in trip.legs) leg.distanceKm],
+      [340, 1742, 21, 1741, 339],
+    );
+  });
+
+  test('deleteTrip sends DELETE /api/v1/trips/{id}', () async {
+    final dio = Dio();
+    RequestOptions? seen;
+    dio.httpClientAdapter = _JsonAdapter(
+      '',
+      statusCode: 204,
+      onRequest: (o) => seen = o,
+    );
+
+    await TripsApi(ApiClient(dio)).deleteTrip(7);
+
+    expect(seen?.method, 'DELETE');
+    expect(seen?.path, '/api/v1/trips/7');
   });
 
   test('createTrip posts SaveTrip JSON', () async {
@@ -163,10 +188,7 @@ void main() {
       ]
       ''');
 
-    expect(
-      TripsApi(ApiClient(dio)).listTrips(),
-      throwsA(isA<ApiException>()),
-    );
+    expect(TripsApi(ApiClient(dio)).listTrips(), throwsA(isA<ApiException>()));
   });
 }
 
@@ -187,19 +209,20 @@ const _tripBody = '''
     {"order": 5, "placeName": "Legnica", "latitude": 51.21, "longitude": 16.16, "countryCode": "PL", "countryName": "Polska"}
   ],
   "segments": [
-    {"order": 0, "transportMode": "CAR", "distanceKm": 1, "geometry": []},
-    {"order": 1, "transportMode": "PLANE", "distanceKm": 1, "geometry": []},
-    {"order": 2, "transportMode": "CAR", "distanceKm": 1, "geometry": []},
-    {"order": 3, "transportMode": "PLANE", "distanceKm": 1, "geometry": []},
-    {"order": 4, "transportMode": "CAR", "distanceKm": 1, "geometry": []}
+    {"order": 0, "transportMode": "CAR", "distanceKm": 340, "geometry": []},
+    {"order": 1, "transportMode": "PLANE", "distanceKm": 1742, "geometry": []},
+    {"order": 2, "transportMode": "CAR", "distanceKm": 21, "geometry": []},
+    {"order": 3, "transportMode": "PLANE", "distanceKm": 1741, "geometry": []},
+    {"order": 4, "transportMode": "CAR", "distanceKm": 339, "geometry": []}
   ]
 }
 ''';
 
 class _JsonAdapter implements HttpClientAdapter {
-  _JsonAdapter(this.body, {this.onRequest});
+  _JsonAdapter(this.body, {this.onRequest, this.statusCode = 200});
 
   final String body;
+  final int statusCode;
   final void Function(RequestOptions options)? onRequest;
 
   @override
@@ -211,7 +234,7 @@ class _JsonAdapter implements HttpClientAdapter {
     onRequest?.call(options);
     return ResponseBody.fromString(
       body,
-      200,
+      statusCode,
       headers: {
         Headers.contentTypeHeader: ['application/json'],
       },
