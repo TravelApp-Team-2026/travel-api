@@ -82,11 +82,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                     builder: (context, state) => const TripEditorScreen(),
                   ),
                   GoRoute(
+                    path: ':id/edit',
+                    parentNavigatorKey: rootKey,
+                    builder: (context, state) {
+                      final id = int.tryParse(state.pathParameters['id'] ?? '');
+                      return TripEditorScreen(tripId: id);
+                    },
+                  ),
+                  GoRoute(
                     path: ':id',
                     parentNavigatorKey: rootKey,
-                    builder: (context, state) => TripDetailsScreen(
-                      title: _tripDetailsTitle(state.extra),
-                    ),
+                    builder: (context, state) {
+                      final id = int.tryParse(state.pathParameters['id'] ?? '');
+                      return TripDetailsScreen(
+                        tripId: id,
+                        title: _tripDetailsTitle(state.extra),
+                      );
+                    },
                   ),
                 ],
               ),

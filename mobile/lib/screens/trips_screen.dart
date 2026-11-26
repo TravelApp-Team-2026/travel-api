@@ -72,8 +72,11 @@ class _TripsScreenState extends ConsumerState<TripsScreen> {
     }
   }
 
-  void _openDetails(TripSummary trip) {
-    context.push('/trips/${trip.id}', extra: trip);
+  Future<void> _openDetails(TripSummary trip) async {
+    await context.push('/trips/${trip.id}', extra: trip);
+    if (mounted) {
+      await _load(fromRefresh: true);
+    }
   }
 
   @override
@@ -150,7 +153,10 @@ class _TripsScreenState extends ConsumerState<TripsScreen> {
             separatorBuilder: (context, index) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
               final trip = _trips[index];
-              return _TripCard(trip: trip, onTap: () => _openDetails(trip));
+              return _TripCard(
+                trip: trip,
+                onTap: () => unawaited(_openDetails(trip)),
+              );
             },
           ),
         );
@@ -253,11 +259,7 @@ class _Header extends StatelessWidget {
 }
 
 class _Meta extends StatelessWidget {
-  const _Meta({
-    required this.icon,
-    required this.label,
-    required this.color,
-  });
+  const _Meta({required this.icon, required this.label, required this.color});
 
   final IconData icon;
   final String label;

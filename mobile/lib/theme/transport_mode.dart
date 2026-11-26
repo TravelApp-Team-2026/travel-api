@@ -30,6 +30,7 @@ class TransportStroke {
 enum TransportMode {
   car(
     label: 'Samochód',
+    hint: 'Trasa po rzeczywistej sieci dróg',
     color: Color(0xFF458588),
     onColor: Color(0xFF2E6A6D),
     icon: Icons.directions_car_outlined,
@@ -37,6 +38,7 @@ enum TransportMode {
   ),
   plane(
     label: 'Samolot',
+    hint: 'Połączenie jako łuk na mapie',
     color: Color(0xFF98971A),
     onColor: Color(0xFF6B6A0F),
     icon: Icons.flight,
@@ -44,6 +46,7 @@ enum TransportMode {
   ),
   train(
     label: 'Pociąg',
+    hint: 'Prosta linia między miejscami',
     color: Color(0xFFD79921),
     onColor: Color(0xFF8A5A00),
     icon: Icons.train_outlined,
@@ -51,6 +54,7 @@ enum TransportMode {
   ),
   other(
     label: 'Inne',
+    hint: 'Uproszczone, przerywane połączenie',
     color: Color(0xFFB16286),
     onColor: Color(0xFF8F3F68),
     icon: Icons.more_horiz,
@@ -62,6 +66,7 @@ enum TransportMode {
 
   const TransportMode({
     required this.label,
+    required this.hint,
     required this.color,
     required this.onColor,
     required this.icon,
@@ -69,10 +74,22 @@ enum TransportMode {
   });
 
   final String label;
+  final String hint;
   final Color color;
   final Color onColor;
   final IconData icon;
   final TransportStroke stroke;
+
+  String get apiName => name.toUpperCase();
+
+  static TransportMode? tryParse(String value) {
+    for (final mode in values) {
+      if (mode.apiName == value) {
+        return mode;
+      }
+    }
+    return null;
+  }
 
   TransportLineStyle get lineStyle => stroke.style;
 }
