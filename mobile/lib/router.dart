@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:travel_app/screens/login_screen.dart';
 import 'package:travel_app/screens/main_shell.dart';
+import 'package:travel_app/screens/place_search_screen.dart';
 import 'package:travel_app/screens/profile_screen.dart';
 import 'package:travel_app/screens/register_screen.dart';
 import 'package:travel_app/screens/t014_test_screen.dart';
@@ -60,6 +61,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/t014-test',
         builder: (context, state) => const T014TestScreen(),
+      ),
+      GoRoute(
+        path: '/place-search',
+        parentNavigatorKey: rootKey,
+        builder: (context, state) => const PlaceSearchScreen(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => MainShell(shell: shell),
