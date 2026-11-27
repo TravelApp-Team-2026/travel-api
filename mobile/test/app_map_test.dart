@@ -128,10 +128,9 @@ void main() {
     const berlin = LatLng(52.52, 13.40);
 
     final fit = fitMapToBounds([legnica, berlin]);
-    expect(fit, isA<FitBounds>());
-    final bounds = (fit as FitBounds).bounds;
-    expect(bounds.contains(legnica), isTrue);
-    expect(bounds.contains(berlin), isTrue);
+    expect(fit, isA<FitCoordinates>());
+    final coordinates = (fit as FitCoordinates).coordinates;
+    expect(coordinates, containsAll([legnica, berlin]));
 
     final single = fitMapToBounds([legnica]);
     expect(single, isA<FitCoordinates>());
