@@ -10,10 +10,19 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withTooManyRequests;
 
+import com.sun.net.httpserver.HttpServer;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.SocketTimeoutException;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
+import java.util.zip.GZIPOutputStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -77,11 +86,53 @@ class OsrmCarRouteProviderTest {
 				+ "/route/v1/driving/17.0385,51.1079;13.405,52.52?overview=simplified&geometries=geojson"))
 			.andExpect(method(HttpMethod.GET))
 			.andExpect(header(HttpHeaders.USER_AGENT, USER_AGENT))
+			.andExpect(header(HttpHeaders.ACCEPT_ENCODING, "identity"))
 			.andRespond(withSuccess(routeJson(12.3, 4.5), MediaType.APPLICATION_JSON));
 
 		provider.findRoute(WROCLAW, BERLIN);
 
 		server.verify();
+	}
+
+	// MockRestServiceServer skips the real HTTP client, so this test uses a local server and the JDK client.
+	@Test
+	void shouldReadRouteFromServerThatSendsGzipLabelledAsDeflate() throws IOException {
+		HttpServer osrm = HttpServer.create(new InetSocketAddress(InetAddress.getLoopbackAddress(), 0), 0);
+		osrm.createContext("/", exchange -> {
+			byte[] body = routeJson(12.3, 4.5).getBytes(StandardCharsets.UTF_8);
+			List<String> accepted = exchange.getRequestHeaders()
+				.getOrDefault(HttpHeaders.ACCEPT_ENCODING, List.of());
+			if (accepted.stream().anyMatch(value -> value.contains("deflate"))) {
+				exchange.getResponseHeaders().set(HttpHeaders.CONTENT_ENCODING, "deflate");
+				body = gzip(body);
+			}
+			exchange.getResponseHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+			exchange.sendResponseHeaders(200, body.length);
+			try (OutputStream out = exchange.getResponseBody()) {
+				out.write(body);
+			}
+		});
+		osrm.start();
+		try {
+			OsrmProperties properties = new OsrmProperties("http://127.0.0.1:" + osrm.getAddress().getPort(),
+					USER_AGENT, Duration.ZERO, Duration.ZERO, MAX_SNAP_METERS);
+			OsrmCarRouteProvider realClientProvider = new OsrmCarRouteProvider(RestClient.builder(), properties,
+					new RequestSpacer(Duration.ZERO, Duration.ZERO, () -> 0L, nanos -> { }));
+
+			assertThat(realClientProvider.findRoute(WROCLAW, BERLIN))
+				.hasValueSatisfying(route -> assertThat(route.geometry()).hasSize(3));
+		}
+		finally {
+			osrm.stop(0);
+		}
+	}
+
+	private static byte[] gzip(byte[] data) throws IOException {
+		ByteArrayOutputStream compressed = new ByteArrayOutputStream();
+		try (GZIPOutputStream out = new GZIPOutputStream(compressed)) {
+			out.write(data);
+		}
+		return compressed.toByteArray();
 	}
 
 	@Test
