@@ -19,15 +19,21 @@ const appMapDefaultCenter = LatLng(52.069167, 19.480556);
 
 const appMapDefaultZoom = 6.0;
 
-/// Hard zoom cap. Street-level 19 floods OSM during a fast pinch.
-const appMapMaxZoom = 17.0;
+/// Camera zoom cap. Native OSM tiles stop earlier and are stretched past that
+/// so a close zoom does not request a new z17 grid on every pan.
+const appMapMaxZoom = 16.0;
 
+const appMapMaxNativeZoom = 14;
+
+/// After the last pan/zoom event, wait this long before loading tiles.
+/// Loading on every wheel/trackpad tick floods OSM and freezes the UI.
 const appMapTileThrottle = Duration(milliseconds: 150);
 
 /// One HTTP client per map. [TileLayer] disposes it; do not share across maps.
 NetworkTileProvider createOsmTileProvider() {
   return NetworkTileProvider(
     cachingProvider: BuiltInMapCachingProvider.getOrCreateInstance(),
+    silenceExceptions: true,
   );
 }
 
@@ -77,7 +83,7 @@ class _AppMapState extends ConsumerState<AppMap> {
     super.initState();
     _tileProvider =
         widget.tileProvider ?? ref.read(mapTileProviderFactoryProvider)();
-    _tileUpdates = TileUpdateTransformers.throttle(appMapTileThrottle);
+    _tileUpdates = TileUpdateTransformers.debounce(appMapTileThrottle);
   }
 
   @override
@@ -94,7 +100,6 @@ class _AppMapState extends ConsumerState<AppMap> {
         interactionOptions: const InteractionOptions(
           flags:
               InteractiveFlag.drag |
-              InteractiveFlag.flingAnimation |
               InteractiveFlag.pinchMove |
               InteractiveFlag.pinchZoom |
               InteractiveFlag.doubleTapZoom |
@@ -106,10 +111,10 @@ class _AppMapState extends ConsumerState<AppMap> {
         TileLayer(
           urlTemplate: osmTileUrlTemplate,
           userAgentPackageName: osmUserAgentPackageName,
-          maxNativeZoom: appMapMaxZoom.toInt(),
-          panBuffer: 0,
+          maxNativeZoom: appMapMaxNativeZoom,
+          panBuffer: 1,
+          keepBuffer: 2,
           tileUpdateTransformer: _tileUpdates,
-          tileDisplay: const TileDisplay.instantaneous(),
           tileProvider: _tileProvider,
         ),
         ...widget.children,

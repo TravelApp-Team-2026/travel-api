@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:travel_app/theme/app_colors.dart';
 import 'package:travel_app/theme/app_palette.dart';
+import 'package:travel_app/theme/transport_line.dart';
 import 'package:travel_app/theme/transport_mode.dart';
 import 'package:travel_app/widgets/app_button.dart';
 import 'package:travel_app/widgets/app_text_field.dart';
@@ -154,7 +155,10 @@ class _T014TestScreenState extends State<T014TestScreen> {
           ),
           const _Section(
             title: 'Ładowanie',
-            child: SizedBox(height: 120, child: LoadingView(message: 'SZUKAM…')),
+            child: SizedBox(
+              height: 120,
+              child: LoadingView(message: 'SZUKAM…'),
+            ),
           ),
           const _Section(
             title: 'Błąd',
@@ -242,8 +246,8 @@ class _Swatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onColor = ThemeData.estimateBrightnessForColor(color) ==
-            Brightness.dark
+    final onColor =
+        ThemeData.estimateBrightnessForColor(color) == Brightness.dark
         ? AppColors.onPrimary
         : AppColors.text;
     return Container(
@@ -280,9 +284,9 @@ class _TransportRow extends StatelessWidget {
             children: [
               Text(
                 mode.label,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: mode.onColor,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelLarge?.copyWith(color: mode.onColor),
               ),
               Text(
                 mode.lineStyle.name,
@@ -295,106 +299,9 @@ class _TransportRow extends StatelessWidget {
         ),
         CustomPaint(
           size: const Size(120, 36),
-          painter: _TransportLinePainter(mode),
+          painter: TransportLinePainter(mode),
         ),
       ],
     );
-  }
-}
-
-class _TransportLinePainter extends CustomPainter {
-  _TransportLinePainter(this.mode);
-
-  final TransportMode mode;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final stroke = mode.stroke;
-    final paint = Paint()
-      ..color = mode.color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = stroke.width
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round;
-
-    final start = Offset(0, size.height * 0.7);
-    final end = Offset(size.width, size.height * 0.7);
-
-    switch (stroke.style) {
-      case TransportLineStyle.solid:
-        canvas.drawLine(start, end, paint);
-      case TransportLineStyle.arc:
-        final path = Path()
-          ..moveTo(start.dx, start.dy)
-          ..quadraticBezierTo(
-            size.width / 2,
-            size.height * 0.15,
-            end.dx,
-            end.dy,
-          );
-        canvas.drawPath(path, paint);
-      case TransportLineStyle.dashed:
-        _drawDashed(canvas, start, end, paint, stroke.dashPattern);
-      case TransportLineStyle.ticked:
-        canvas.drawLine(start, end, paint);
-        final tickPaint = Paint()
-          ..color = mode.color
-          ..strokeWidth = stroke.tickWidth
-          ..strokeCap = StrokeCap.round;
-        final count = (size.width / stroke.tickSpacing).floor();
-        for (var i = 0; i <= count; i++) {
-          final x = i * stroke.tickSpacing;
-          if (x > size.width) {
-            break;
-          }
-          final y = start.dy;
-          canvas.drawLine(
-            Offset(x, y - stroke.tickLength / 2),
-            Offset(x, y + stroke.tickLength / 2),
-            tickPaint,
-          );
-        }
-    }
-  }
-
-  void _drawDashed(
-    Canvas canvas,
-    Offset start,
-    Offset end,
-    Paint paint,
-    List<double> pattern,
-  ) {
-    if (pattern.isEmpty) {
-      canvas.drawLine(start, end, paint);
-      return;
-    }
-    final delta = end - start;
-    final total = delta.distance;
-    if (total == 0) {
-      return;
-    }
-    final direction = delta / total;
-    var distance = 0.0;
-    var draw = true;
-    var index = 0;
-    while (distance < total) {
-      final length = pattern[index % pattern.length];
-      final next = distance + length > total ? total : distance + length;
-      if (draw) {
-        canvas.drawLine(
-          start + direction * distance,
-          start + direction * next,
-          paint,
-        );
-      }
-      draw = !draw;
-      distance = next;
-      index++;
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _TransportLinePainter oldDelegate) {
-    return oldDelegate.mode != mode;
   }
 }
