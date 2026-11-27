@@ -34,7 +34,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final visible = TickerMode.of(context);
+    final visible = TickerMode.valuesOf(context).enabled;
     if (visible == _visible) {
       return;
     }
@@ -100,10 +100,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     final results = await Future.wait([
       for (final trip in summaries) _tryGetTrip(api, trip.id),
     ]);
-    return [
-      for (final trip in results)
-        if (trip != null) trip,
-    ];
+    return [for (final trip in results) ?trip];
   }
 
   Future<TripDetails?> _tryGetTrip(TripsApi api, int id) async {
