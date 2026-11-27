@@ -32,6 +32,9 @@ public class OsrmCarRouteProvider implements CarRouteProvider {
 		this.restClient = builder
 			.baseUrl(properties.baseUrl())
 			.defaultHeader(HttpHeaders.USER_AGENT, properties.userAgent())
+			// The JDK client asks for "gzip, deflate" by default. OSRM then answers "Content-Encoding: deflate"
+			// with a gzip body, which cannot be read. The response is small, so it is requested uncompressed.
+			.defaultHeader(HttpHeaders.ACCEPT_ENCODING, "identity")
 			.build();
 		this.requestSpacer = requestSpacer;
 		this.maxSnapDistanceMeters = properties.maxSnapDistanceMeters();
