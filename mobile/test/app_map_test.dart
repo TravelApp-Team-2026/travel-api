@@ -49,10 +49,15 @@ void main() {
       isTrue,
     );
     expect(map.options.maxZoom, appMapMaxZoom);
+    expect(
+      InteractiveFlag.hasFlingAnimation(map.options.interactionOptions.flags),
+      isFalse,
+    );
 
     final layer = tester.widget<TileLayer>(find.byType(TileLayer));
-    expect(layer.maxNativeZoom, appMapMaxZoom.toInt());
-    expect(layer.panBuffer, 0);
+    expect(layer.maxNativeZoom, appMapMaxNativeZoom);
+    expect(layer.panBuffer, 1);
+    expect(layer.keepBuffer, 2);
     expect(layer.urlTemplate, osmTileUrlTemplate);
     expect(layer.tileProvider, isA<SilentMapTileProvider>());
     expect(

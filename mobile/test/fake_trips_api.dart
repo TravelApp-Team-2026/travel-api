@@ -12,6 +12,7 @@ class FakeTripsApi extends TripsApi {
   int lists = 0;
   ApiException? listError;
   TripDetails? details;
+  List<TripDetails> detailsById = const [];
   ApiException? detailsError;
   ApiException? saveError;
   ApiException? deleteError;
@@ -33,6 +34,11 @@ class FakeTripsApi extends TripsApi {
   Future<TripDetails> getTrip(int id) async {
     if (detailsError != null) {
       throw detailsError!;
+    }
+    for (final trip in detailsById) {
+      if (trip.id == id) {
+        return trip;
+      }
     }
     final trip = details;
     if (trip == null || trip.id != id) {
@@ -80,6 +86,13 @@ class FakeTripsApi extends TripsApi {
     ];
     final updated = _fromDraft(id, trip);
     details = updated;
+    detailsById = [
+      for (final existing in detailsById)
+        if (existing.id == id) updated else existing,
+    ];
+    if (!detailsById.any((trip) => trip.id == id)) {
+      detailsById = [...detailsById, updated];
+    }
     return updated;
   }
 
@@ -96,6 +109,10 @@ class FakeTripsApi extends TripsApi {
     if (details?.id == id) {
       details = null;
     }
+    detailsById = [
+      for (final existing in detailsById)
+        if (existing.id != id) existing,
+    ];
   }
 
   static TripDetails _fromDraft(int id, SaveTrip trip) {

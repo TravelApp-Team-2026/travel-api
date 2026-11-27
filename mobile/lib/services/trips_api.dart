@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:travel_app/services/api_client.dart';
 import 'package:travel_app/services/api_exception.dart';
 import 'package:travel_app/services/place_search_api.dart';
@@ -84,10 +85,15 @@ DateTime _parseDate(String value) {
 }
 
 class TripLeg {
-  const TripLeg({required this.mode, this.distanceKm = 0});
+  const TripLeg({
+    required this.mode,
+    this.distanceKm = 0,
+    this.geometry = const [],
+  });
 
   final TransportMode mode;
   final double distanceKm;
+  final List<LatLng> geometry;
 }
 
 class TripDetails {
@@ -166,7 +172,33 @@ TripLeg _legFromSegment(Object? data) {
   if (mode == null) {
     throw const ApiException('Serwer zwrócił nieprawidłowy odcinek.');
   }
-  return TripLeg(mode: mode, distanceKm: km.toDouble());
+  return TripLeg(
+    mode: mode,
+    distanceKm: km.toDouble(),
+    geometry: _geometryFrom(data['geometry']),
+  );
+}
+
+List<LatLng> _geometryFrom(Object? data) {
+  if (data == null) {
+    return const [];
+  }
+  if (data is! List) {
+    throw const ApiException('Serwer zwrócił nieprawidłową trasę odcinka.');
+  }
+  return [for (final item in data) _geometryPoint(item)];
+}
+
+LatLng _geometryPoint(Object? data) {
+  if (data is! Map) {
+    throw const ApiException('Serwer zwrócił nieprawidłową trasę odcinka.');
+  }
+  final latitude = data['latitude'];
+  final longitude = data['longitude'];
+  if (latitude is! num || longitude is! num) {
+    throw const ApiException('Serwer zwrócił nieprawidłową trasę odcinka.');
+  }
+  return LatLng(latitude.toDouble(), longitude.toDouble());
 }
 
 class SaveTrip {

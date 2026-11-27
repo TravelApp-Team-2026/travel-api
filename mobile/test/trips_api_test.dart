@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:travel_app/services/api_client.dart';
 import 'package:travel_app/services/api_exception.dart';
 import 'package:travel_app/services/place_search_api.dart';
@@ -97,6 +98,20 @@ void main() {
       [for (final leg in trip.legs) leg.distanceKm],
       [340, 1742, 21, 1741, 339],
     );
+    expect(trip.legs.first.geometry, isEmpty);
+  });
+
+  test('getTrip reads segment geometry', () async {
+    final dio = Dio();
+    dio.httpClientAdapter = _JsonAdapter(_tripBodyWithGeometry);
+
+    final trip = await TripsApi(ApiClient(dio)).getTrip(7);
+
+    expect(trip.legs.first.geometry, [
+      const LatLng(51.21, 16.16),
+      const LatLng(51.9, 15.2),
+      const LatLng(52.52, 13.40),
+    ]);
   });
 
   test('deleteTrip sends DELETE /api/v1/trips/{id}', () async {
@@ -210,6 +225,36 @@ const _tripBody = '''
   ],
   "segments": [
     {"order": 0, "transportMode": "CAR", "distanceKm": 340, "geometry": []},
+    {"order": 1, "transportMode": "PLANE", "distanceKm": 1742, "geometry": []},
+    {"order": 2, "transportMode": "CAR", "distanceKm": 21, "geometry": []},
+    {"order": 3, "transportMode": "PLANE", "distanceKm": 1741, "geometry": []},
+    {"order": 4, "transportMode": "CAR", "distanceKm": 339, "geometry": []}
+  ]
+}
+''';
+
+const _tripBodyWithGeometry = '''
+{
+  "id": 7,
+  "title": "Majorka — lato 2026",
+  "description": null,
+  "startDate": "2026-08-12",
+  "endDate": "2026-08-19",
+  "totalDistanceKm": 4183.00,
+  "waypoints": [
+    {"order": 0, "placeName": "Legnica", "latitude": 51.21, "longitude": 16.16, "countryCode": "PL", "countryName": "Polska"},
+    {"order": 1, "placeName": "Berlin", "latitude": 52.52, "longitude": 13.40, "countryCode": "DE", "countryName": "Niemcy"},
+    {"order": 2, "placeName": "Palma de Mallorca", "latitude": 39.57, "longitude": 2.65, "countryCode": "ES", "countryName": "Hiszpania"},
+    {"order": 3, "placeName": "Valldemossa", "latitude": 39.71, "longitude": 2.62, "countryCode": "ES", "countryName": "Hiszpania"},
+    {"order": 4, "placeName": "Berlin", "latitude": 52.52, "longitude": 13.40, "countryCode": "DE", "countryName": "Niemcy"},
+    {"order": 5, "placeName": "Legnica", "latitude": 51.21, "longitude": 16.16, "countryCode": "PL", "countryName": "Polska"}
+  ],
+  "segments": [
+    {"order": 0, "transportMode": "CAR", "distanceKm": 340, "geometry": [
+      {"latitude": 51.21, "longitude": 16.16},
+      {"latitude": 51.9, "longitude": 15.2},
+      {"latitude": 52.52, "longitude": 13.40}
+    ]},
     {"order": 1, "transportMode": "PLANE", "distanceKm": 1742, "geometry": []},
     {"order": 2, "transportMode": "CAR", "distanceKm": 21, "geometry": []},
     {"order": 3, "transportMode": "PLANE", "distanceKm": 1741, "geometry": []},
