@@ -1,13 +1,17 @@
 import 'dart:math' as math;
 
 import 'package:latlong2/latlong.dart';
+import 'package:travel_app/services/place_search_api.dart';
 import 'package:travel_app/services/trips_api.dart';
 import 'package:travel_app/theme/transport_mode.dart';
 
-const earthRadiusKm = 6371.0088;
-const planeArcKmPerSegment = 100.0;
-const planeArcMaxSegments = 64;
-const _minSinAngle = 1e-9;
+/// Enough points that a short hop still looks like a curve when zoomed out.
+const planeArcSegments = 48;
+
+/// Control-point offset as a fraction of the chord. Quadratic sagitta is half
+/// of this, so ~0.2 of the straight distance — the same visual angle on a
+/// short hop and a transatlantic flight.
+const planeArcBulge = 0.4;
 
 /// ~30 m. OSRM can emit a point every few metres; the map cannot paint that.
 const _lineSimplifyEpsilonDeg = 0.0003;
@@ -21,9 +25,59 @@ class MapLeg {
   final List<LatLng> points;
 }
 
+/// A stop on the trip-details map. Repeat visits to the same coordinates share
+/// one marker, labelled with every order (e.g. `1·6`).
+class NumberedStop {
+  const NumberedStop({
+    required this.point,
+    required this.placeName,
+    required this.label,
+    required this.orders,
+  });
+
+  final LatLng point;
+  final String placeName;
+  final String label;
+  final List<int> orders;
+}
+
+/// Groups waypoints that sit on the same coordinates. Orders are 1-based.
+List<NumberedStop> numberedStopsFromTrip(TripDetails trip) {
+  final groups = <String, _StopGroup>{};
+  final order = <String>[];
+  for (var i = 0; i < trip.waypoints.length; i++) {
+    final place = trip.waypoints[i];
+    final key = '${place.latitude},${place.longitude}';
+    final group = groups.putIfAbsent(key, () {
+      order.add(key);
+      return _StopGroup(place);
+    });
+    group.orders.add(i + 1);
+  }
+  return [
+    for (final key in order)
+      NumberedStop(
+        point: LatLng(
+          groups[key]!.place.latitude,
+          groups[key]!.place.longitude,
+        ),
+        placeName: groups[key]!.place.placeName,
+        label: groups[key]!.orders.join('·'),
+        orders: List.unmodifiable(groups[key]!.orders),
+      ),
+  ];
+}
+
+class _StopGroup {
+  _StopGroup(this.place);
+
+  final Place place;
+  final orders = <int>[];
+}
+
 /// Turns saved trip segments into map lines. API geometry is the source of
-/// truth. Plane without a stored line gets a great-circle arc from the
-/// endpoints. Train and other fall back to a straight pair.
+/// truth for roads. Plane always gets a display arc from the endpoints so the
+/// bulge stays visible. Train and other fall back to a straight pair.
 List<MapLeg> mapLegsFromTrip(TripDetails trip) {
   final legs = <MapLeg>[];
   for (var i = 0; i < trip.legs.length; i++) {
@@ -47,9 +101,6 @@ List<LatLng> _pointsFor(TripLeg leg, LatLng from, LatLng to) {
     case TransportMode.car:
       return simplifyLine(geometry.length >= 2 ? geometry : [from, to]);
     case TransportMode.plane:
-      if (geometry.length >= 2) {
-        return geometry;
-      }
       return planeArc(from, to);
     case TransportMode.train:
     case TransportMode.other:
@@ -124,62 +175,56 @@ double _perpDistance(LatLng point, LatLng start, LatLng end) {
   );
 }
 
-/// Great-circle arc matching the backend `FlightRouteStrategy`.
+/// Quadratic display arc in map-shaped (lon·cos φ, lat) space so the curve is
+/// symmetric on Mercator. The peak always sits north of the chord — a bulge
+/// toward the top of the map, never a dip.
 List<LatLng> planeArc(LatLng from, LatLng to) {
-  final distanceKm = greatCircleDistanceKm(from, to);
-  final segments = math.min(
-    planeArcMaxSegments,
-    math.max(1, (distanceKm / planeArcKmPerSegment).ceil()),
-  );
-  return _arc(from, to, segments);
-}
-
-double greatCircleDistanceKm(LatLng from, LatLng to) {
-  return earthRadiusKm * _centralAngle(from, to);
-}
-
-List<LatLng> _arc(LatLng from, LatLng to, int segments) {
-  final angle = _centralAngle(from, to);
-  final sinAngle = math.sin(angle);
-  if (sinAngle < _minSinAngle) {
+  final lon2 = _unwrap(to.longitude, from.longitude);
+  final midLat = (from.latitude + to.latitude) / 2;
+  final cosLat = math.cos(_rad(midLat)).clamp(0.2, 1.0);
+  final x1 = from.longitude * cosLat;
+  final y1 = from.latitude;
+  final x2 = lon2 * cosLat;
+  final y2 = to.latitude;
+  final dx = x2 - x1;
+  final dy = y2 - y1;
+  final chord = math.sqrt(dx * dx + dy * dy);
+  if (chord < 1e-9) {
     return [from, to];
   }
-
-  final lat1 = _rad(from.latitude);
-  final lon1 = _rad(from.longitude);
-  final lat2 = _rad(to.latitude);
-  final lon2 = _rad(to.longitude);
+  var nx = -dy / chord;
+  var ny = dx / chord;
+  if (ny < 0) {
+    nx = -nx;
+    ny = -ny;
+  }
+  final cx = (x1 + x2) / 2 + nx * planeArcBulge * chord;
+  final cy = ((y1 + y2) / 2 + ny * planeArcBulge * chord).clamp(-85.0, 85.0);
   final points = <LatLng>[from];
   var previousLon = from.longitude;
-  for (var i = 1; i < segments; i++) {
-    final fraction = i / segments;
-    final a = math.sin((1 - fraction) * angle) / sinAngle;
-    final b = math.sin(fraction * angle) / sinAngle;
-    final x =
-        a * math.cos(lat1) * math.cos(lon1) +
-        b * math.cos(lat2) * math.cos(lon2);
-    final y =
-        a * math.cos(lat1) * math.sin(lon1) +
-        b * math.cos(lat2) * math.sin(lon2);
-    final z = a * math.sin(lat1) + b * math.sin(lat2);
-    final latitude = _deg(math.atan2(z, math.sqrt(x * x + y * y)));
-    final longitude = _unwrap(_deg(math.atan2(y, x)), previousLon);
-    points.add(LatLng(latitude, longitude));
+  for (var i = 1; i < planeArcSegments; i++) {
+    final t = i / planeArcSegments;
+    final u = 1 - t;
+    final x = u * u * x1 + 2 * u * t * cx + t * t * x2;
+    final y = u * u * y1 + 2 * u * t * cy + t * t * y2;
+    final longitude = _unwrap(x / cosLat, previousLon);
+    points.add(LatLng(y, longitude));
     previousLon = longitude;
   }
-  points.add(LatLng(to.latitude, _unwrap(to.longitude, previousLon)));
+  points.add(LatLng(to.latitude, _unwrap(lon2, previousLon)));
   return points;
 }
 
-double _centralAngle(LatLng from, LatLng to) {
-  final lat1 = _rad(from.latitude);
-  final lat2 = _rad(to.latitude);
-  final sinHalfLat = math.sin((lat2 - lat1) / 2);
-  final sinHalfLon = math.sin(_rad(to.longitude - from.longitude) / 2);
-  final h =
-      sinHalfLat * sinHalfLat +
-      math.cos(lat1) * math.cos(lat2) * sinHalfLon * sinHalfLon;
-  return 2 * math.asin(math.min(1, math.sqrt(h)));
+/// Keeps a longitude in (-180, 180]. Pacific arcs stay unwrapped when drawn
+/// so the line takes the short ocean path; wrap only for bounds / equality.
+double wrapLongitude(double longitude) {
+  var wrapped = longitude % 360;
+  if (wrapped > 180) {
+    wrapped -= 360;
+  } else if (wrapped <= -180) {
+    wrapped += 360;
+  }
+  return wrapped;
 }
 
 double _unwrap(double longitude, double previous) {
@@ -208,5 +253,3 @@ double _rint(double value) {
 }
 
 double _rad(double degrees) => degrees * math.pi / 180;
-
-double _deg(double radians) => radians * 180 / math.pi;

@@ -9,41 +9,80 @@ const mapTrainTicksKey = Key('map-train-ticks');
 
 /// Polylines and train ticks as separate [FlutterMap] children — not a nested
 /// stack, so each layer participates in the map the way flutter_map expects.
-List<Widget> mapRouteChildren(List<MapLeg> legs) {
-  return [
-    IgnorePointer(
-      child: PolylineLayer(
-        simplificationTolerance: 1,
-        drawInSingleWorld: true,
-        polylines: [for (final leg in legs) polylineFor(leg)],
-      ),
-    ),
-    MapTrainTickLayer(legs: legs),
-  ];
+List<Widget> mapRouteChildren(
+  List<MapLeg> legs, {
+  int? selectedIndex,
+  LayerHitNotifier<int>? hitNotifier,
+}) {
+  final selected =
+      selectedIndex != null && selectedIndex >= 0 && selectedIndex < legs.length
+      ? selectedIndex
+      : null;
+  Widget layer = PolylineLayer<int>(
+    simplificationTolerance: 0,
+    cullingMargin: null,
+    drawInSingleWorld: true,
+    hitNotifier: hitNotifier,
+    polylines: [
+      if (selected != null)
+        Polyline(
+          points: legs[selected].points,
+          color: AppColors.primary.withValues(alpha: 0.28),
+          strokeWidth: 16,
+          strokeCap: StrokeCap.round,
+          strokeJoin: StrokeJoin.round,
+          hitValue: selected,
+        ),
+      for (var i = 0; i < legs.length; i++)
+        polylineFor(
+          legs[i],
+          hitValue: i,
+          selected: selected == i,
+          dimmed: selected != null && selected != i,
+        ),
+    ],
+  );
+  if (hitNotifier == null) {
+    layer = IgnorePointer(child: layer);
+  }
+  return [layer, MapTrainTickLayer(legs: legs, selectedIndex: selected)];
 }
 
-Polyline polylineFor(MapLeg leg) {
+Polyline<int> polylineFor(
+  MapLeg leg, {
+  int? hitValue,
+  bool selected = false,
+  bool dimmed = false,
+}) {
   final stroke = leg.mode.stroke;
+  var color = leg.mode.color;
+  var border = AppColors.routeHalo;
+  if (dimmed) {
+    color = color.withValues(alpha: 0.45);
+    border = border.withValues(alpha: 0.45);
+  }
   return Polyline(
     points: leg.points,
-    color: leg.mode.color,
-    strokeWidth: stroke.width,
-    borderStrokeWidth: 2,
-    borderColor: AppColors.routeHalo,
+    color: color,
+    strokeWidth: selected ? 5.5 : stroke.width,
+    borderStrokeWidth: selected ? 2.75 : 2,
+    borderColor: border,
     pattern: stroke.style == TransportLineStyle.dashed
         ? StrokePattern.dashed(segments: stroke.dashPattern)
         : const StrokePattern.solid(),
     strokeCap: StrokeCap.round,
     strokeJoin: StrokeJoin.round,
+    hitValue: hitValue,
   );
 }
 
 /// Screen-space ticks on train legs. Ignores pointers so pan/zoom and later
 /// route taps reach the map.
 class MapTrainTickLayer extends StatelessWidget {
-  const MapTrainTickLayer({super.key, required this.legs});
+  const MapTrainTickLayer({super.key, required this.legs, this.selectedIndex});
 
   final List<MapLeg> legs;
+  final int? selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +94,12 @@ class MapTrainTickLayer extends StatelessWidget {
         painter: _TrainTickPainter(
           camera: camera,
           legs: [
-            for (final leg in legs)
-              if (leg.mode == TransportMode.train) leg,
+            for (var i = 0; i < legs.length; i++)
+              if (legs[i].mode == TransportMode.train)
+                (
+                  leg: legs[i],
+                  dimmed: selectedIndex != null && selectedIndex != i,
+                ),
           ],
         ),
       ),
@@ -68,18 +111,19 @@ class _TrainTickPainter extends CustomPainter {
   _TrainTickPainter({required this.camera, required this.legs});
 
   final MapCamera camera;
-  final List<MapLeg> legs;
+  final List<({MapLeg leg, bool dimmed})> legs;
 
   @override
   void paint(Canvas canvas, Size size) {
     final stroke = TransportMode.train.stroke;
-    final paint = Paint()
-      ..color = TransportMode.train.color
-      ..strokeWidth = stroke.tickWidth
-      ..strokeCap = StrokeCap.round;
-
-    for (final leg in legs) {
-      _paintTicks(canvas, _screenPoints(leg.points), stroke, paint);
+    for (final item in legs) {
+      final paint = Paint()
+        ..color = item.dimmed
+            ? TransportMode.train.color.withValues(alpha: 0.45)
+            : TransportMode.train.color
+        ..strokeWidth = stroke.tickWidth
+        ..strokeCap = StrokeCap.round;
+      _paintTicks(canvas, _screenPoints(item.leg.points), stroke, paint);
     }
   }
 

@@ -124,7 +124,9 @@ void main() {
     expect(find.text('Pociąg'), findsOneWidget);
     expect(find.text('Inne'), findsOneWidget);
 
-    final layer = tester.widget<PolylineLayer>(find.byType(PolylineLayer));
+    final layer = tester.widget<PolylineLayer<int>>(
+      find.byType(PolylineLayer<int>),
+    );
     expect(layer.polylines, hasLength(4));
     expect(layer.polylines[0].points, hasLength(3));
     expect(layer.polylines[0].color, TransportMode.car.color);
@@ -171,7 +173,9 @@ void main() {
     await _settleMap(tester);
 
     expect(find.byType(ErrorView), findsNothing);
-    final layer = tester.widget<PolylineLayer>(find.byType(PolylineLayer));
+    final layer = tester.widget<PolylineLayer<int>>(
+      find.byType(PolylineLayer<int>),
+    );
     expect(layer.polylines, hasLength(4));
   });
 
@@ -182,7 +186,9 @@ void main() {
     await _settleMap(tester);
     expect(api.lists, 1);
     expect(
-      tester.widget<PolylineLayer>(find.byType(PolylineLayer)).polylines,
+      tester
+          .widget<PolylineLayer<int>>(find.byType(PolylineLayer<int>))
+          .polylines,
       isEmpty,
     );
 
@@ -197,7 +203,9 @@ void main() {
 
     expect(api.lists, 2);
     expect(
-      tester.widget<PolylineLayer>(find.byType(PolylineLayer)).polylines,
+      tester
+          .widget<PolylineLayer<int>>(find.byType(PolylineLayer<int>))
+          .polylines,
       hasLength(4),
     );
   });
@@ -208,7 +216,9 @@ void main() {
     await tester.pumpWidget(_mapApp(api));
     await _settleMap(tester);
     expect(
-      tester.widget<PolylineLayer>(find.byType(PolylineLayer)).polylines,
+      tester
+          .widget<PolylineLayer<int>>(find.byType(PolylineLayer<int>))
+          .polylines,
       hasLength(4),
     );
 
@@ -221,7 +231,9 @@ void main() {
 
     expect(find.byType(ErrorView), findsNothing);
     expect(
-      tester.widget<PolylineLayer>(find.byType(PolylineLayer)).polylines,
+      tester
+          .widget<PolylineLayer<int>>(find.byType(PolylineLayer<int>))
+          .polylines,
       hasLength(4),
     );
   });

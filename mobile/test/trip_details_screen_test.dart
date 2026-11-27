@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:travel_app/main.dart';
 import 'package:travel_app/services/api_exception.dart';
 import 'package:travel_app/services/place_search_api.dart';
 import 'package:travel_app/services/token_storage.dart';
 import 'package:travel_app/services/trips_api.dart';
 import 'package:travel_app/theme/transport_mode.dart';
+import 'package:travel_app/widgets/app_map.dart';
+import 'package:travel_app/widgets/map_legend.dart';
 
 import 'fake_trips_api.dart';
 import 'memory_token_storage.dart';
@@ -104,8 +108,8 @@ void main() {
     expect(find.text('Palma de Mallorca → Valldemossa'), findsOneWidget);
     expect(find.text('Valldemossa → Berlin'), findsOneWidget);
     expect(find.text('Berlin → Legnica'), findsOneWidget);
-    expect(find.text('Samochód'), findsNWidgets(3));
-    expect(find.text('Samolot'), findsNWidgets(2));
+    expect(find.text('Samochód'), findsAtLeastNWidgets(3));
+    expect(find.text('Samolot'), findsAtLeastNWidgets(2));
     expect(find.text('340 km'), findsOneWidget);
     expect(find.text('1 742 km'), findsOneWidget);
     expect(find.text('21 km'), findsOneWidget);
@@ -117,7 +121,7 @@ void main() {
     await _openDetails(tester);
 
     await tester.tap(find.byKey(const Key('edit-trip')));
-    await tester.pumpAndSettle();
+    await _settleDetails(tester);
 
     expect(find.text('Edytuj podróż'), findsOneWidget);
     expect(find.text('Nazwa podróży'), findsOneWidget);
@@ -128,7 +132,7 @@ void main() {
         matching: find.byIcon(Icons.close),
       ),
     );
-    await tester.pumpAndSettle();
+    await _settleDetails(tester);
 
     expect(find.text('Odcinki'), findsOneWidget);
     expect(find.text('Edytuj podróż'), findsNothing);
@@ -140,7 +144,7 @@ void main() {
     final api = await _openDetails(tester);
 
     await tester.tap(find.byKey(const Key('delete-trip')));
-    await tester.pumpAndSettle();
+    await _settleDetails(tester);
 
     expect(find.text('Usunąć podróż?'), findsOneWidget);
     expect(
@@ -152,14 +156,14 @@ void main() {
     );
 
     await tester.tap(find.text('Anuluj'));
-    await tester.pumpAndSettle();
+    await _settleDetails(tester);
     expect(find.text('Odcinki'), findsOneWidget);
     expect(api.lastDeletedId, isNull);
 
     await tester.tap(find.byKey(const Key('delete-trip')));
-    await tester.pumpAndSettle();
+    await _settleDetails(tester);
     await tester.tap(find.text('Usuń'));
-    await tester.pumpAndSettle();
+    await _settleDetails(tester);
 
     expect(api.lastDeletedId, 1);
     expect(find.text('Moje podróże'), findsOneWidget);
@@ -174,7 +178,7 @@ void main() {
       );
     await _pumpTrips(tester, api);
     await tester.tap(find.byKey(const Key('trip-card-1')));
-    await tester.pumpAndSettle();
+    await _settleDetails(tester);
 
     expect(find.text('Nie udało się wczytać podróży'), findsOneWidget);
     expect(find.text('Spróbuj ponownie'), findsOneWidget);
@@ -184,9 +188,107 @@ void main() {
     api.detailsError = null;
     api.details = _mallorca;
     await tester.tap(find.text('Spróbuj ponownie'));
-    await tester.pumpAndSettle();
+    await _settleDetails(tester);
 
     expect(find.text('Odcinki'), findsOneWidget);
+  });
+
+  testWidgets('shows numbered stops, T-032 legs and a fitted map', (
+    tester,
+  ) async {
+    await _openDetails(tester);
+
+    expect(find.byKey(const Key('trip-details-map')), findsOneWidget);
+    expect(find.byType(MapLegend), findsOneWidget);
+    expect(find.byKey(const Key('trip-stop-1·6')), findsOneWidget);
+    expect(find.byKey(const Key('trip-stop-2·5')), findsOneWidget);
+    expect(find.byKey(const Key('trip-stop-3')), findsOneWidget);
+    expect(find.byKey(const Key('trip-stop-4')), findsOneWidget);
+    expect(find.text('1·6'), findsOneWidget);
+    expect(find.text('3'), findsOneWidget);
+
+    final layer = tester.widget<PolylineLayer<int>>(
+      find.byType(PolylineLayer<int>),
+    );
+    expect(layer.polylines.length, greaterThanOrEqualTo(5));
+  });
+
+  testWidgets('tapping a numbered stop shows the place name', (tester) async {
+    await _openDetails(tester);
+
+    await _tapMapLatLng(tester, const LatLng(39.57, 2.65));
+
+    expect(find.byKey(const Key('trip-map-tooltip')), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('trip-map-tooltip')),
+        matching: find.text('Palma de Mallorca'),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('tapping a map leg shows transport mode and distance', (
+    tester,
+  ) async {
+    await _openDetails(tester);
+
+    final layer = tester.widget<PolylineLayer<int>>(
+      find.byType(PolylineLayer<int>),
+    );
+    final plane = layer.polylines.firstWhere(
+      (line) => line.color == TransportMode.plane.color,
+    );
+    await _tapMapLatLng(tester, plane.points[plane.points.length ~/ 2]);
+
+    expect(find.byKey(const Key('trip-map-tooltip')), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('trip-map-tooltip')),
+        matching: find.textContaining('Samolot ·'),
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('tapping a list row selects that leg', (tester) async {
+    await _openDetails(tester);
+
+    await tester.tap(find.text('Berlin → Palma de Mallorca'));
+    await tester.pump();
+
+    expect(find.byKey(const Key('trip-map-tooltip')), findsOneWidget);
+    expect(find.text('Samolot · 1 742 km'), findsOneWidget);
+  });
+
+  testWidgets('sheet handle collapses to a bar and expands again', (
+    tester,
+  ) async {
+    await _openDetails(tester);
+
+    final expanded = tester.getSize(
+      find.byKey(const Key('trip-details-sheet')),
+    );
+    expect(expanded.height, greaterThan(400));
+
+    await tester.tap(find.byKey(const Key('trip-sheet-handle')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+
+    final collapsed = tester.getSize(
+      find.byKey(const Key('trip-details-sheet')),
+    );
+    expect(collapsed.height, lessThan(100));
+    expect(find.byKey(const Key('trip-sheet-handle')), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('trip-sheet-handle')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(
+      tester.getSize(find.byKey(const Key('trip-details-sheet'))).height,
+      greaterThan(400),
+    );
   });
 }
 
@@ -194,8 +296,23 @@ Future<FakeTripsApi> _openDetails(WidgetTester tester) async {
   final api = FakeTripsApi([_mallorcaSummary, _prague])..details = _mallorca;
   await _pumpTrips(tester, api);
   await tester.tap(find.byKey(const Key('trip-card-1')));
-  await tester.pumpAndSettle();
+  await _settleDetails(tester);
   return api;
+}
+
+Future<void> _settleDetails(WidgetTester tester) async {
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 400));
+  await tester.pump(appMapTileThrottle);
+  await tester.pump(appMapTileThrottle);
+}
+
+Future<void> _tapMapLatLng(WidgetTester tester, LatLng point) async {
+  final camera = MapCamera.of(tester.element(find.byType(PolylineLayer<int>)));
+  final origin = tester.getTopLeft(find.byKey(const Key('trip-details-map')));
+  await tester.tapAt(origin + camera.latLngToScreenOffset(point));
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 250));
 }
 
 void _useView(WidgetTester tester) {

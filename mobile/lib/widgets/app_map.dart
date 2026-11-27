@@ -60,6 +60,9 @@ class AppMap extends ConsumerStatefulWidget {
     this.initialCameraFit,
     this.tileProvider,
     this.onMapReady,
+    this.onTap,
+    this.onPointerDown,
+    this.onPointerUp,
   });
 
   final MapController? mapController;
@@ -69,6 +72,9 @@ class AppMap extends ConsumerStatefulWidget {
   final CameraFit? initialCameraFit;
   final TileProvider? tileProvider;
   final VoidCallback? onMapReady;
+  final TapCallback? onTap;
+  final PointerDownCallback? onPointerDown;
+  final PointerUpCallback? onPointerUp;
 
   @override
   ConsumerState<AppMap> createState() => _AppMapState();
@@ -106,6 +112,9 @@ class _AppMapState extends ConsumerState<AppMap> {
               InteractiveFlag.scrollWheelZoom,
         ),
         onMapReady: widget.onMapReady,
+        onTap: widget.onTap,
+        onPointerDown: widget.onPointerDown,
+        onPointerUp: widget.onPointerUp,
       ),
       children: [
         TileLayer(
@@ -200,8 +209,11 @@ CameraFit fitMapToBounds(
   if (list.length == 1) {
     return CameraFit.coordinates(coordinates: list, minZoom: 12, maxZoom: 12);
   }
-  return CameraFit.bounds(
-    bounds: LatLngBounds.fromPoints(list),
+  // Pixel-space fit so an unwrapped Pacific arc (lon -221) stays on the short
+  // ocean path. LatLngBounds.fromPoints asserts outside [-180, 180] in debug
+  // and wrapping those points zooms to the long way around the world.
+  return CameraFit.coordinates(
+    coordinates: list,
     padding: padding,
     maxZoom: maxZoom,
   );
